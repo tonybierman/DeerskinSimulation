@@ -1,4 +1,5 @@
 ﻿using DeerskinSimulation.Resources;
+using System;
 
 namespace DeerskinSimulation.Models
 {
@@ -6,17 +7,23 @@ namespace DeerskinSimulation.Models
     {
         public Hunter(string name) : base(name, Constants.HunterStartingFunds) { }
 
-        public override string Hunt()
+        public string Hunt(int packhorses)
         {
-            if (Money < Constants.HuntingCost)
+            if (Money < Constants.HuntingCost + packhorses * Constants.PackhorseCost)
             {
                 return Strings.NotEnoughMoneyToHunt;
             }
 
-            RemoveMoney(Constants.HuntingCost);
-            int skinsGained = new Random().Next(200, 501); // Random skins between 200 and 500
+            if (packhorses < 1 || packhorses > Constants.MaxPackhorses)
+            {
+                return Strings.InvalidNumberOfPackhorses;
+            }
+
+            RemoveMoney(Constants.HuntingCost + packhorses * Constants.PackhorseCost);
+            int maxSkins = packhorses * Constants.PackhorseCapacity;
+            int skinsGained = new Random().Next(maxSkins / 2, maxSkins + 1); // Random skins between half and full capacity
             AddSkins(skinsGained);
-            return $"Hunted {skinsGained} skins. {ApplyRandomHuntingEvent()}";
+            return $"Hunted {skinsGained} skins with {packhorses} packhorses. {ApplyRandomHuntingEvent()}";
         }
 
         public string SellToTrader(Trader trader)

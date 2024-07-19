@@ -138,4 +138,7 @@
   <data name="NoSkinsToExport" xml:space="preserve">
     <value>No skins to export.</value>
   </data>
+  <data name="InvalidNumberOfPackhorses" xml:space="preserve">
+    <value>Invalid number of packhorses. Choose between 1 and 5.</value>
+  </data>
 </root>

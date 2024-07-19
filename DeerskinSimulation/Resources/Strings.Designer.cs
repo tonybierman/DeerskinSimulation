@@ -70,6 +70,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid number of packhorses. Choose between 1 and 5..
+        /// </summary>
+        public static string InvalidNumberOfPackhorses {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfPackhorses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No skins to export..
         /// </summary>
         public static string NoSkinsToExport {

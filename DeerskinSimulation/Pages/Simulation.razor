@@ -1,0 +1,107 @@
+﻿@page "/simulation"
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@using DeerskinSimulation.Resources
+@using DeerskinSimulation.Models
+
+<h3>Deerskin Simulation</h3>
+
+<div>
+    <button @onclick="Hunt">@UIStr.HuntButton</button>
+    <button @onclick="SellToTrader">@UIStr.SellToTraderButton</button>
+    <button @onclick="TransportToExporter">@UIStr.TransportToExporterButton</button>
+    <button @onclick="Export">@UIStr.ExportButton</button>
+</div>
+
+<h4>@UIStr.HunterTitle (@hunter.Name)</h4>
+<p>@UIStr.SkinsLabel @hunter.Skins</p>
+<p>@UIStr.MoneyLabel @hunter.Money</p>
+
+<h4>@UIStr.TraderTitle (@trader.Name)</h4>
+<p>@UIStr.SkinsLabel @trader.Skins</p>
+<p>@UIStr.MoneyLabel @trader.Money</p>
+
+<h4>@UIStr.ExporterTitle (@exporter.Name)</h4>
+<p>@UIStr.SkinsLabel @exporter.Skins</p>
+<p>@UIStr.MoneyLabel @exporter.Money</p>
+
+<div>
+    <h4>@UIStr.MessagesTitle</h4>
+    <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
+        @if (messages.Any())
+        {
+            @foreach (var message in messages)
+            {
+                <div style="color:@message.Color">@message.Message</div>
+            }
+        }
+        else
+        {
+            <p>@UIStr.NoMessagesLabel</p>
+        }
+    </div>
+</div>
+
+@code {
+    private Hunter hunter = new Hunter("Hunter1");
+    private Trader trader = new Trader("Trader1");
+    private Exporter exporter = new Exporter("Exporter1");
+    private List<NotificationEventArgs> messages = new List<NotificationEventArgs>();
+
+    protected override void OnInitialized()
+    {
+        hunter.OnNotification += HandleNotification;
+        trader.OnNotification += HandleNotification;
+        exporter.OnNotification += HandleNotification;
+    }
+
+    private async void Hunt()
+    {
+        var result = hunter.Hunt();
+        messages.Add(new NotificationEventArgs(result, "black"));
+        await ScrollToBottomAsync();
+    }
+
+    private async void SellToTrader()
+    {
+        var result = hunter.SellToTrader(trader);
+        messages.Add(new NotificationEventArgs(result, "black"));
+        await ScrollToBottomAsync();
+    }
+
+    private async void TransportToExporter()
+    {
+        var result = trader.TransportToExporter(exporter);
+        messages.Add(new NotificationEventArgs(result, "black"));
+        await ScrollToBottomAsync();
+    }
+
+    private async void Export()
+    {
+        var result = exporter.Export();
+        messages.Add(new NotificationEventArgs(result, "black"));
+        await ScrollToBottomAsync();
+    }
+
+    private async void HandleNotification(object sender, NotificationEventArgs e)
+    {
+        messages.Add(e);
+        StateHasChanged();
+        await ScrollToBottomAsync();
+    }
+
+    private async Task ScrollToBottomAsync()
+    {
+        await Task.Delay(100); // Give time for the UI to update
+        await JS.InvokeVoidAsync("scrollToBottom", "console");
+    }
+}
+
+<script>
+    window.scrollToBottom = function (elementId) {
+        var element = document.getElementById(elementId);
+        if (element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+</script>

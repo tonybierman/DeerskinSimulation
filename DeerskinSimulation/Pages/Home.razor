@@ -1,0 +1,15 @@
+﻿@page "/"
+
+<h3>Welcome to the Deerskin Simulation</h3>
+
+<button @onclick="NavigateToSimulation">Start Simulation</button>
+
+@code {
+    [Inject]
+    private NavigationManager Navigation { get; set; }
+
+    private void NavigateToSimulation()
+    {
+        Navigation.NavigateTo("/simulation");
+    }
+}

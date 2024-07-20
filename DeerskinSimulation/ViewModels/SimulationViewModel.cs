@@ -35,9 +35,9 @@
             await StateChanged?.Invoke();
         }
 
-        public async Task SellToTrader()
+        public async Task SellToTrader(int numberOfSkins)
         {
-            var result = HunterInstance.SellToTrader(TraderInstance);
+            var result = TraderInstance.BuySkins(HunterInstance, numberOfSkins);
             Messages.Add(new NotificationEventArgs(result, "black"));
             await StateChanged?.Invoke();
         }

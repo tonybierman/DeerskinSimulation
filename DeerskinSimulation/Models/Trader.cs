@@ -4,9 +4,9 @@
     {
         public Trader(string name) : base(name, Constants.TraderStartingFunds) { }
 
-        public string BuySkins(Hunter hunter)
+        public string BuySkins(Hunter hunter, int numberOfSkins)
         {
-            return hunter.SellToTrader(this);
+            return hunter.SellToTrader(this, numberOfSkins);
         }
 
         public string TransportToExporter(Exporter exporter)

@@ -141,4 +141,13 @@
   <data name="InvalidNumberOfPackhorses" xml:space="preserve">
     <value>Invalid number of packhorses. Choose between 1 and 5.</value>
   </data>
+  <data name="HuntedSkins" xml:space="preserve">
+    <value>Hunted skins:</value>
+  </data>
+  <data name="NotEnoughSkinsToSell" xml:space="preserve">
+    <value>Not enough skins to sell.</value>
+  </data>
+  <data name="SoldSkins" xml:space="preserve">
+    <value>Sold skins:</value>
+  </data>
 </root>

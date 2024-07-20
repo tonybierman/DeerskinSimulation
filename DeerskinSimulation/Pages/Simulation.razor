@@ -20,8 +20,15 @@
                     <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
                     <div>
+                        <label for="packhorses">Number of Packhorses:</label>
+                        <select id="packhorses" class="form-control" @bind="viewModel.SelectedPackhorses">
+                            @for (int i = 1; i <= Constants.MaxPackhorses; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
                         <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
-                        <button class="btn btn-secondary mt-2" @onclick="viewModel.SellToTrader">@UIStr.SellToTraderButton</button>
+                        <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
                     </div>
                 </div>
             </div>
@@ -87,9 +94,15 @@
     <HuntOptions OnHuntConfirmed="ConfirmHunt" OnHuntCancelled="CancelHunt" />
 }
 
+@if (showSellOptions)
+{
+    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" />
+}
+
 @code {
     private SimulationViewModel viewModel = new SimulationViewModel();
     private bool showHuntOptions = false;
+    private bool showSellOptions = false;
 
     protected override void OnInitialized()
     {
@@ -123,6 +136,22 @@
         showHuntOptions = false;
         viewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
         await viewModel.Hunt();
+    }
+
+    private void ShowSellOptions()
+    {
+        showSellOptions = true;
+    }
+
+    private void CancelSell()
+    {
+        showSellOptions = false;
+    }
+
+    private async Task ConfirmSell(SellOptionsViewModel sellOptions)
+    {
+        showSellOptions = false;
+        await viewModel.SellToTrader(sellOptions.NumberOfSkins);
     }
 
     public void Dispose()

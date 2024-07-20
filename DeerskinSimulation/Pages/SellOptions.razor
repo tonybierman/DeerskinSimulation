@@ -1,0 +1,39 @@
+﻿@using DeerskinSimulation.ViewModels
+@code {
+    [Parameter] public EventCallback<SellOptionsViewModel> OnSellConfirmed { get; set; }
+    [Parameter] public EventCallback OnSellCancelled { get; set; }
+
+    private SellOptionsViewModel sellOptionsViewModel = new SellOptionsViewModel();
+
+    private void ConfirmSell()
+    {
+        OnSellConfirmed.InvokeAsync(sellOptionsViewModel);
+    }
+
+    private void CancelSell()
+    {
+        OnSellCancelled.InvokeAsync();
+    }
+}
+
+<div class="sell-options">
+    <h5>Sell Options</h5>
+    <label for="numberOfSkins">Number of Skins:</label>
+    <input type="number" id="numberOfSkins" class="form-control" @bind="sellOptionsViewModel.NumberOfSkins" min="1" />
+    <button class="btn btn-success mt-2" @onclick="ConfirmSell">Confirm</button>
+    <button class="btn btn-secondary mt-2" @onclick="CancelSell">Cancel</button>
+</div>
+
+<style>
+    .sell-options {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+</style>

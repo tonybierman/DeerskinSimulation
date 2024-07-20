@@ -10,10 +10,11 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var hunter = new Hunter("Hunter1");
+            int packhorses = 3; // Assuming the hunter uses 3 packhorses for the hunt
 
             // Act
             var initialMoney = hunter.Money;
-            hunter.Hunt();
+            hunter.Hunt(packhorses);
 
             // Assert
             Assert.True(hunter.Skins > 0);
@@ -26,16 +27,17 @@ namespace DeerskinSimulation.Tests
             // Arrange
             var hunter = new Hunter("Hunter1");
             var trader = new Trader("Trader1");
-            hunter.AddSkins(100);
+            int skinsToSell = 100;
+            hunter.AddSkins(skinsToSell);
 
             // Act
-            var result = hunter.SellToTrader(trader);
+            var result = hunter.SellToTrader(trader, skinsToSell);
 
             // Assert
             Assert.Equal(0, hunter.Skins);
-            Assert.Equal(100, trader.Skins);
+            Assert.Equal(skinsToSell, trader.Skins);
             Assert.True(hunter.Money > 0);
-            Assert.Contains("Sold 100 skins", result);
+            Assert.Contains($"Sold {skinsToSell} skins", result);
         }
     }
 }

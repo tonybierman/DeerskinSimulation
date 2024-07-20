@@ -70,6 +70,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hunted skins:.
+        /// </summary>
+        public static string HuntedSkins {
+            get {
+                return ResourceManager.GetString("HuntedSkins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid number of packhorses. Choose between 1 and 5..
         /// </summary>
         public static string InvalidNumberOfPackhorses {
@@ -115,6 +124,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not enough skins to sell..
+        /// </summary>
+        public static string NotEnoughSkinsToSell {
+            get {
+                return ResourceManager.GetString("NotEnoughSkinsToSell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough skins to transport..
         /// </summary>
         public static string NotEnoughSkinsToTransport {
@@ -129,6 +147,15 @@ namespace DeerskinSimulation.Resources {
         public static string RecipientCannotAffordSkins {
             get {
                 return ResourceManager.GetString("RecipientCannotAffordSkins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sold skins:.
+        /// </summary>
+        public static string SoldSkins {
+            get {
+                return ResourceManager.GetString("SoldSkins", resourceCulture);
             }
         }
     }

@@ -20,13 +20,6 @@
                     <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
                     <div>
-                        <label for="packhorses">Number of Packhorses:</label>
-                        <select id="packhorses" class="form-control" @bind="viewModel.SelectedPackhorses">
-                            @for (int i = 1; i <= Constants.MaxPackhorses; i++)
-                            {
-                                <option value="@i">@i</option>
-                            }
-                        </select>
                         <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
                         <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
                     </div>

@@ -17,9 +17,9 @@
 
         public SimulationViewModel()
         {
-            HunterInstance = new Hunter("Hunter1");
-            TraderInstance = new Trader("Trader1");
-            ExporterInstance = new Exporter("Exporter1");
+            HunterInstance = new Hunter("Mansker");
+            TraderInstance = new Trader("Moravians");
+            ExporterInstance = new Exporter("Charleston");
             Messages = new List<NotificationEventArgs>();
             SelectedPackhorses = 1;
 

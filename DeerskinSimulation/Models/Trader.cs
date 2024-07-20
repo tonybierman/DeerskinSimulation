@@ -9,9 +9,9 @@
             return hunter.SellToTrader(this, numberOfSkins);
         }
 
-        public string TransportToExporter(Exporter exporter)
+        public string TransportToExporter(Exporter exporter, int numberOfSkins)
         {
-            return TransportSkins(exporter, Constants.RegionalTransportCost, Constants.DeerSkinPrice, Constants.TraderMarkup);
+            return TransportSkins(exporter, numberOfSkins, Constants.RegionalTransportCost, Constants.DeerSkinPrice, Constants.TraderMarkup);
         }
     }
 }

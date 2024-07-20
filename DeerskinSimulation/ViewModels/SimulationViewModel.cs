@@ -37,24 +37,25 @@
 
         public async Task SellToTrader(int numberOfSkins)
         {
-            var result = TraderInstance.BuySkins(HunterInstance, numberOfSkins);
+            var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
             Messages.Add(new NotificationEventArgs(result, "black"));
             await StateChanged?.Invoke();
         }
 
-        public async Task TransportToExporter()
+        public async Task TransportToExporter(int numberOfSkins)
         {
-            var result = TraderInstance.TransportToExporter(ExporterInstance);
+            var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
             Messages.Add(new NotificationEventArgs(result, "black"));
             await StateChanged?.Invoke();
         }
 
-        public async Task Export()
+        public async Task Export(int numberOfSkins)
         {
-            var result = ExporterInstance.Export();
+            var result = ExporterInstance.Export(numberOfSkins);
             Messages.Add(new NotificationEventArgs(result, "black"));
             await StateChanged?.Invoke();
         }
+
 
         private async void HandleNotification(object sender, NotificationEventArgs e)
         {

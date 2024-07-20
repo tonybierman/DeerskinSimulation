@@ -89,37 +89,36 @@ namespace DeerskinSimulation.Models
             return ApplyRandomEvent(_exportingEventStrategy);
         }
 
-        public virtual string Hunt()
+        public virtual string Hunt(int packhorses)
         {
             return Strings.NotEnoughMoneyToHunt;
         }
 
-        public virtual string SellSkins(Participant buyer, double pricePerSkin)
+        public virtual string SellSkins(Participant buyer, int numberOfSkins)
         {
-            if (_skins == 0)
+            if (_skins < numberOfSkins)
             {
                 return Strings.NoSkinsToSell;
             }
 
-            double cost = CalculateTransactionCost(_skins, pricePerSkin);
+            double cost = CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPrice);
             if (buyer.Money < cost)
             {
                 return Strings.BuyerCannotAffordSkins;
             }
 
-            int skinsSold = _skins;
-            ProcessTransaction(buyer, cost, skinsSold, AddMoney, AddSkins, RemoveSkins);
-            return $"Sold {skinsSold} skins. {ApplyRandomTradingEvent()}";
+            ProcessTransaction(buyer, cost, numberOfSkins, AddMoney, AddSkins, RemoveSkins);
+            return $"Sold {numberOfSkins} skins. {ApplyRandomTradingEvent()}";
         }
 
-        public virtual string TransportSkins(Participant recipient, double transportCost, double pricePerSkin, double markup)
+        public virtual string TransportSkins(Participant recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
         {
-            if (_skins < Constants.MinimumSkinsToTransport)
+            if (_skins < numberOfSkins)
             {
                 return Strings.NotEnoughSkinsToTransport;
             }
 
-            double principal = CalculateTransactionCost(_skins, pricePerSkin);
+            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
             double totalCost = principal + transportCost;
             double sellingPrice = CalculateSellingPrice(totalCost, markup);
 
@@ -128,19 +127,18 @@ namespace DeerskinSimulation.Models
                 return Strings.RecipientCannotAffordSkins;
             }
 
-            int skinsToTransport = _skins;
-            ProcessTransaction(recipient, sellingPrice, skinsToTransport, AddMoney, AddSkins, RemoveSkins, totalCost * markup);
-            return $"Transported {skinsToTransport} skins. {ApplyRandomTransportingEvent()}";
+            ProcessTransaction(recipient, sellingPrice, numberOfSkins, AddMoney, AddSkins, RemoveSkins, totalCost * markup);
+            return $"Transported {numberOfSkins} skins. {ApplyRandomTransportingEvent()}";
         }
 
-        public virtual string ExportSkins(double exportCost, double duty, double pricePerSkin, double markup)
+        public virtual string ExportSkins(int numberOfSkins, double exportCost, double duty, double pricePerSkin, double markup)
         {
-            if (_skins == 0)
+            if (_skins < numberOfSkins)
             {
                 return Strings.NoSkinsToExport;
             }
 
-            double principal = CalculateTransactionCost(_skins, pricePerSkin);
+            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
             double totalCost = CalculateTotalCost(principal, exportCost, duty);
             double sellingPrice = CalculateSellingPrice(principal + totalCost, markup);
 
@@ -149,12 +147,11 @@ namespace DeerskinSimulation.Models
                 return Strings.NotEnoughMoneyToExport;
             }
 
-            int skinsExported = _skins;
             RemoveMoney(totalCost);
             AddMoney(sellingPrice);
-            RemoveSkins(skinsExported);
+            RemoveSkins(numberOfSkins);
 
-            return $"Exported {skinsExported} skins. {ApplyRandomExportingEvent()}";
+            return $"Exported {numberOfSkins} skins. {ApplyRandomExportingEvent()}";
         }
 
         private double CalculateTransactionCost(int skins, double pricePerSkin)

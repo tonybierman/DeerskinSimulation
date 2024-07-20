@@ -1,0 +1,39 @@
+﻿@using DeerskinSimulation.ViewModels
+@code {
+    [Parameter] public EventCallback<TransportOptionsViewModel> OnTransportConfirmed { get; set; }
+    [Parameter] public EventCallback OnTransportCancelled { get; set; }
+
+    private TransportOptionsViewModel transportOptionsViewModel = new TransportOptionsViewModel();
+
+    private void ConfirmTransport()
+    {
+        OnTransportConfirmed.InvokeAsync(transportOptionsViewModel);
+    }
+
+    private void CancelTransport()
+    {
+        OnTransportCancelled.InvokeAsync();
+    }
+}
+
+<div class="transport-options">
+    <h5>Transport Options</h5>
+    <label for="numberOfSkins">Number of Skins:</label>
+    <input type="number" id="numberOfSkins" class="form-control" @bind="transportOptionsViewModel.NumberOfSkins" min="1" />
+    <button class="btn btn-success mt-2" @onclick="ConfirmTransport">Confirm</button>
+    <button class="btn btn-secondary mt-2" @onclick="CancelTransport">Cancel</button>
+</div>
+
+<style>
+    .transport-options {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+</style>

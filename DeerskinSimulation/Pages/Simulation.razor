@@ -42,7 +42,7 @@
                     <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
                     <div>
-                        <button class="btn btn-secondary" @onclick="viewModel.TransportToExporter">@UIStr.TransportToExporterButton</button>
+                        <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
                     <div>
-                        <button class="btn btn-success" @onclick="viewModel.Export">@UIStr.ExportButton</button>
+                        <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
                     </div>
                 </div>
             </div>
@@ -99,10 +99,22 @@
     <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" />
 }
 
+@if (showTransportOptions)
+{
+    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" />
+}
+
+@if (showExportOptions)
+{
+    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" />
+}
+
 @code {
     private SimulationViewModel viewModel = new SimulationViewModel();
     private bool showHuntOptions = false;
     private bool showSellOptions = false;
+    private bool showTransportOptions = false;
+    private bool showExportOptions = false;
 
     protected override void OnInitialized()
     {
@@ -152,6 +164,38 @@
     {
         showSellOptions = false;
         await viewModel.SellToTrader(sellOptions.NumberOfSkins);
+    }
+
+    private void ShowTransportOptions()
+    {
+        showTransportOptions = true;
+    }
+
+    private void CancelTransport()
+    {
+        showTransportOptions = false;
+    }
+
+    private async Task ConfirmTransport(TransportOptionsViewModel transportOptions)
+    {
+        showTransportOptions = false;
+        await viewModel.TransportToExporter(transportOptions.NumberOfSkins);
+    }
+
+    private void ShowExportOptions()
+    {
+        showExportOptions = true;
+    }
+
+    private void CancelExport()
+    {
+        showExportOptions = false;
+    }
+
+    private async Task ConfirmExport(ExportOptionsViewModel exportOptions)
+    {
+        showExportOptions = false;
+        await viewModel.Export(exportOptions.NumberOfSkins);
     }
 
     public void Dispose()

@@ -34,7 +34,7 @@ namespace DeerskinSimulation.Tests
             trader.AddSkins(skinsToTransport);
 
             // Act
-            var result = trader.TransportToExporter(exporter);
+            var result = trader.TransportToExporter(exporter, skinsToTransport);
 
             // Assert
             Assert.Equal(0, trader.Skins);

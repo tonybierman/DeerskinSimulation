@@ -1,0 +1,31 @@
+﻿@using DeerskinSimulation.ViewModels
+@code {
+    [Parameter] public EventCallback<ExportOptionsViewModel> OnExportConfirmed { get; set; }
+    [Parameter] public EventCallback OnExportCancelled { get; set; }
+
+    private ExportOptionsViewModel exportOptions = new ExportOptionsViewModel();
+
+    private async Task ConfirmExport()
+    {
+        await OnExportConfirmed.InvokeAsync(exportOptions);
+    }
+
+    private async Task CancelExport()
+    {
+        await OnExportCancelled.InvokeAsync();
+    }
+}
+
+<div class="modal">
+    <div class="modal-content">
+        <h3>Export Options</h3>
+        <div>
+            <label>Number of Skins:</label>
+            <input type="number" @bind="exportOptions.NumberOfSkins" min="1" class="form-control" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" @onclick="ConfirmExport">Confirm</button>
+            <button class="btn btn-secondary" @onclick="CancelExport">Cancel</button>
+        </div>
+    </div>
+</div>

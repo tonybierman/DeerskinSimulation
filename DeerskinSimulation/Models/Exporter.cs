@@ -1,17 +1,19 @@
-﻿namespace DeerskinSimulation.Models
+﻿using DeerskinSimulation.Resources;
+
+namespace DeerskinSimulation.Models
 {
     public class Exporter : Participant
     {
         public Exporter(string name) : base(name, Constants.ExporterStartingFunds) { }
 
-        public override string ExportSkins(double exportCost, double duty, double pricePerSkin, double markup)
+        public string Export(int numberOfSkins)
         {
-            return base.ExportSkins(exportCost, duty, pricePerSkin, markup);
+            if (Skins < numberOfSkins)
+            {
+                return Strings.NotEnoughSkinsToExport;
+            }
+            return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPrice, Constants.ExporterMarkup);
         }
 
-        public string Export()
-        {
-            return ExportSkins(Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPrice, Constants.ExporterMarkup);
-        }
     }
 }

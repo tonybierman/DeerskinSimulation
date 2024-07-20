@@ -124,6 +124,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not enough skins to export..
+        /// </summary>
+        public static string NotEnoughSkinsToExport {
+            get {
+                return ResourceManager.GetString("NotEnoughSkinsToExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough skins to sell..
         /// </summary>
         public static string NotEnoughSkinsToSell {

@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeerskinSimulation", "Deers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeerskinSimulation.Tests", "DeerskinSimulation.Tests\DeerskinSimulation.Tests.csproj", "{F2A8CDCB-B08A-4F92-A741-9DEAAB3B7BB2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opt", "opt", "{5C6F2BD2-0FD1-432E-BBD9-98DF7AB26351}"
+	ProjectSection(SolutionItems) = preProject
+		NOTES.txt = NOTES.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

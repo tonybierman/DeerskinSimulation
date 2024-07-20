@@ -2,8 +2,14 @@
 @code {
     [Parameter] public EventCallback<SellOptionsViewModel> OnSellConfirmed { get; set; }
     [Parameter] public EventCallback OnSellCancelled { get; set; }
+    [Parameter] public int DefaultNumberOfSkins { get; set; }
 
     private SellOptionsViewModel sellOptionsViewModel = new SellOptionsViewModel();
+
+    protected override void OnInitialized()
+    {
+        sellOptionsViewModel.NumberOfSkins = DefaultNumberOfSkins;
+    }
 
     private void ConfirmSell()
     {

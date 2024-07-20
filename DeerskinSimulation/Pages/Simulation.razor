@@ -96,17 +96,17 @@
 
 @if (showSellOptions)
 {
-    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" />
+    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" DefaultNumberOfSkins="@viewModel.HunterInstance.Skins" />
 }
 
 @if (showTransportOptions)
 {
-    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" />
+    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" DefaultNumberOfSkins="@viewModel.TraderInstance.Skins" />
 }
 
 @if (showExportOptions)
 {
-    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" />
+    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" DefaultNumberOfSkins="@viewModel.ExporterInstance.Skins" />
 }
 
 @code {

@@ -2,8 +2,14 @@
 @code {
     [Parameter] public EventCallback<TransportOptionsViewModel> OnTransportConfirmed { get; set; }
     [Parameter] public EventCallback OnTransportCancelled { get; set; }
+    [Parameter] public int DefaultNumberOfSkins { get; set; }
 
     private TransportOptionsViewModel transportOptionsViewModel = new TransportOptionsViewModel();
+
+    protected override void OnInitialized()
+    {
+        transportOptionsViewModel.NumberOfSkins = DefaultNumberOfSkins;
+    }
 
     private void ConfirmTransport()
     {

@@ -1,0 +1,45 @@
+﻿@using DeerskinSimulation.Models
+@using DeerskinSimulation.ViewModels
+@code {
+    [Parameter] public EventCallback<HuntOptionsViewModel> OnHuntConfirmed { get; set; }
+    [Parameter] public EventCallback OnHuntCancelled { get; set; }
+
+    private HuntOptionsViewModel huntOptionsViewModel = new HuntOptionsViewModel();
+
+    private void ConfirmHunt()
+    {
+        OnHuntConfirmed.InvokeAsync(huntOptionsViewModel);
+    }
+
+    private void CancelHunt()
+    {
+        OnHuntCancelled.InvokeAsync();
+    }
+}
+
+<div class="hunt-options">
+    <h5>Hunt Options</h5>
+    <label for="packhorses">Number of Packhorses:</label>
+    <select id="packhorses" class="form-control" @bind="huntOptionsViewModel.SelectedPackhorses">
+        @for (int i = 1; i <= Constants.MaxPackhorses; i++)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+    <button class="btn btn-success mt-2" @onclick="ConfirmHunt">Confirm</button>
+    <button class="btn btn-secondary mt-2" @onclick="CancelHunt">Cancel</button>
+</div>
+
+<style>
+    .hunt-options {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+</style>

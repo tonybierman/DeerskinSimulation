@@ -20,15 +20,8 @@
                     <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
                     <div>
-                        <label for="packhorses">Number of Packhorses:</label>
-                        <select id="packhorses" class="form-control" @bind="viewModel.SelectedPackhorses">
-                            @for (int i = 1; i <= Constants.MaxPackhorses; i++)
-                            {
-                                <option value="@i">@i</option>
-                            }
-                        </select>
-                        <button class="btn btn-success mt-2" @onclick="() => viewModel.Hunt()">@UIStr.HuntButton</button>
-                        <button class="btn btn-secondary mt-2" @onclick="() => viewModel.SellToTrader()">@UIStr.SellToTraderButton</button>
+                        <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
+                        <button class="btn btn-secondary mt-2" @onclick="viewModel.SellToTrader">@UIStr.SellToTraderButton</button>
                     </div>
                 </div>
             </div>
@@ -42,7 +35,7 @@
                     <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
                     <div>
-                        <button class="btn btn-secondary" @onclick="() => viewModel.TransportToExporter()">@UIStr.TransportToExporterButton</button>
+                        <button class="btn btn-secondary" @onclick="viewModel.TransportToExporter">@UIStr.TransportToExporterButton</button>
                     </div>
                 </div>
             </div>
@@ -56,7 +49,7 @@
                     <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
                     <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
                     <div>
-                        <button class="btn btn-success" @onclick="() => viewModel.Export()">@UIStr.ExportButton</button>
+                        <button class="btn btn-success" @onclick="viewModel.Export">@UIStr.ExportButton</button>
                     </div>
                 </div>
             </div>
@@ -89,8 +82,14 @@
     </div>
 </div>
 
+@if (showHuntOptions)
+{
+    <HuntOptions OnHuntConfirmed="ConfirmHunt" OnHuntCancelled="CancelHunt" />
+}
+
 @code {
     private SimulationViewModel viewModel = new SimulationViewModel();
+    private bool showHuntOptions = false;
 
     protected override void OnInitialized()
     {
@@ -107,6 +106,23 @@
     {
         await Task.Delay(100); // Give time for the UI to update
         await JS.InvokeVoidAsync("scrollToBottom", "console");
+    }
+
+    private void ShowHuntOptions()
+    {
+        showHuntOptions = true;
+    }
+
+    private void CancelHunt()
+    {
+        showHuntOptions = false;
+    }
+
+    private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
+    {
+        showHuntOptions = false;
+        viewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
+        await viewModel.Hunt();
     }
 
     public void Dispose()

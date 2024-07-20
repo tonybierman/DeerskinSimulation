@@ -3,6 +3,9 @@
 @inject NavigationManager Navigation
 @using DeerskinSimulation.Resources
 @using DeerskinSimulation.Models
+@using DeerskinSimulation.ViewModels
+
+@implements IDisposable
 
 <h3>Deerskin Simulation</h3>
 
@@ -11,21 +14,21 @@
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>@UIStr.HunterTitle (@hunter.Name)</h4>
+                    <h4>@UIStr.HunterTitle (@viewModel.HunterInstance.Name)</h4>
                 </div>
                 <div class="card-body">
-                    <p>@UIStr.SkinsLabel @hunter.Skins</p>
-                    <p>@UIStr.MoneyLabel @hunter.Money</p>
+                    <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
+                    <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
                     <div>
                         <label for="packhorses">Number of Packhorses:</label>
-                        <select id="packhorses" class="form-control" @bind="selectedPackhorses">
+                        <select id="packhorses" class="form-control" @bind="viewModel.SelectedPackhorses">
                             @for (int i = 1; i <= Constants.MaxPackhorses; i++)
                             {
                                 <option value="@i">@i</option>
                             }
                         </select>
-                        <button class="btn btn-success mt-2" @onclick="() => Hunt(selectedPackhorses)">@UIStr.HuntButton</button>
-                        <button class="btn btn-secondary mt-2" @onclick="SellToTrader">@UIStr.SellToTraderButton</button>
+                        <button class="btn btn-success mt-2" @onclick="() => viewModel.Hunt()">@UIStr.HuntButton</button>
+                        <button class="btn btn-secondary mt-2" @onclick="() => viewModel.SellToTrader()">@UIStr.SellToTraderButton</button>
                     </div>
                 </div>
             </div>
@@ -33,13 +36,13 @@
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>@UIStr.TraderTitle (@trader.Name)</h4>
+                    <h4>@UIStr.TraderTitle (@viewModel.TraderInstance.Name)</h4>
                 </div>
                 <div class="card-body">
-                    <p>@UIStr.SkinsLabel @trader.Skins</p>
-                    <p>@UIStr.MoneyLabel @trader.Money</p>
+                    <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
+                    <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
                     <div>
-                        <button class="btn btn-secondary" @onclick="TransportToExporter">@UIStr.TransportToExporterButton</button>
+                        <button class="btn btn-secondary" @onclick="() => viewModel.TransportToExporter()">@UIStr.TransportToExporterButton</button>
                     </div>
                 </div>
             </div>
@@ -47,13 +50,13 @@
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>@UIStr.ExporterTitle (@exporter.Name)</h4>
+                    <h4>@UIStr.ExporterTitle (@viewModel.ExporterInstance.Name)</h4>
                 </div>
                 <div class="card-body">
-                    <p>@UIStr.SkinsLabel @exporter.Skins</p>
-                    <p>@UIStr.MoneyLabel @exporter.Money</p>
+                    <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
+                    <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
                     <div>
-                        <button class="btn btn-success" @onclick="Export">@UIStr.ExportButton</button>
+                        <button class="btn btn-success" @onclick="() => viewModel.Export()">@UIStr.ExportButton</button>
                     </div>
                 </div>
             </div>
@@ -68,9 +71,9 @@
                 </div>
                 <div class="card-body">
                     <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
-                        @if (messages.Any())
+                        @if (viewModel.Messages.Any())
                         {
-                            @foreach (var message in messages)
+                            @foreach (var message in viewModel.Messages)
                             {
                                 <div style="color:@message.Color">@message.Message</div>
                             }
@@ -87,50 +90,15 @@
 </div>
 
 @code {
-    private Hunter hunter = new Hunter("Hunter1");
-    private Trader trader = new Trader("Trader1");
-    private Exporter exporter = new Exporter("Exporter1");
-    private List<NotificationEventArgs> messages = new List<NotificationEventArgs>();
-    private int selectedPackhorses = 1;
+    private SimulationViewModel viewModel = new SimulationViewModel();
 
     protected override void OnInitialized()
     {
-        hunter.OnNotification += HandleNotification;
-        trader.OnNotification += HandleNotification;
-        exporter.OnNotification += HandleNotification;
+        viewModel.StateChanged += OnStateChanged;
     }
 
-    private async void Hunt(int packhorses)
+    private async Task OnStateChanged()
     {
-        var result = hunter.Hunt(packhorses);
-        messages.Add(new NotificationEventArgs(result, "black"));
-        await ScrollToBottomAsync();
-    }
-
-    private async void SellToTrader()
-    {
-        var result = hunter.SellToTrader(trader);
-        messages.Add(new NotificationEventArgs(result, "black"));
-        await ScrollToBottomAsync();
-    }
-
-    private async void TransportToExporter()
-    {
-        var result = trader.TransportToExporter(exporter);
-        messages.Add(new NotificationEventArgs(result, "black"));
-        await ScrollToBottomAsync();
-    }
-
-    private async void Export()
-    {
-        var result = exporter.Export();
-        messages.Add(new NotificationEventArgs(result, "black"));
-        await ScrollToBottomAsync();
-    }
-
-    private async void HandleNotification(object sender, NotificationEventArgs e)
-    {
-        messages.Add(e);
         StateHasChanged();
         await ScrollToBottomAsync();
     }
@@ -139,6 +107,11 @@
     {
         await Task.Delay(100); // Give time for the UI to update
         await JS.InvokeVoidAsync("scrollToBottom", "console");
+    }
+
+    public void Dispose()
+    {
+        viewModel.StateChanged -= OnStateChanged;
     }
 }
 

@@ -4,6 +4,7 @@ namespace DeerskinSimulation.Models
 {
     public class NotificationEventArgs : EventArgs
     {
+        public object? Sender { get; }
         public string Message { get; }
         public string Color { get; }
 
@@ -11,6 +12,11 @@ namespace DeerskinSimulation.Models
         {
             Message = message;
             Color = color;
+        }
+
+        public NotificationEventArgs(object sender, string message, string color) : this (message, color)
+        {
+            Sender = sender;
         }
     }
 }

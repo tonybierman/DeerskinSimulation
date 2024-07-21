@@ -37,7 +37,7 @@ namespace DeerskinSimulation.Models
 
         protected virtual void RaiseNotification(string message, string color)
         {
-            OnNotification?.Invoke(this, new NotificationEventArgs($"{Name}: {message}", color));
+            OnNotification?.Invoke(this, new NotificationEventArgs(this, $"{Name}: {message}", color));
         }
 
         public virtual void AddSkins(int amount)

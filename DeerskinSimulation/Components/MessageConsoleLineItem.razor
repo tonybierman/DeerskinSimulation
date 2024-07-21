@@ -4,4 +4,13 @@
     [Parameter] public NotificationEventArgs Message { get; set; }
 }
 
-<div style="color:@Message.Color">@Message.Message</div>
+<div style="color:@Message.Color">
+    @if (Message.Sender != null)
+    {
+        <span>@Message.Sender.GetType().Name: @Message.Message</span>
+    }
+    else
+    {
+        <span>@Message.Message</span>
+    }
+</div>

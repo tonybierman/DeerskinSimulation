@@ -1,0 +1,46 @@
+﻿@using DeerskinSimulation.Models
+@using DeerskinSimulation.Resources
+@using DeerskinSimulation.ViewModels
+@inject IJSRuntime JS
+
+@code {
+    [Parameter] public List<NotificationEventArgs> Messages { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        // Scroll to bottom when messages are updated
+        if (Messages?.Count > 0)
+        {
+            InvokeAsync(ScrollToBottomAsync);
+        }
+    }
+
+    private async Task ScrollToBottomAsync()
+    {
+        await Task.Delay(100); // Give time for the UI to update
+        await JS.InvokeVoidAsync("scrollToBottom", "console");
+    }
+}
+
+<div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
+    @if (Messages?.Any() == true)
+    {
+        @foreach (var message in Messages)
+        {
+            <div style="color:@message.Color">@message.Message</div>
+        }
+    }
+    else
+    {
+        <p>@UIStr.NoMessagesLabel</p>
+    }
+</div>
+
+<script>
+    window.scrollToBottom = function (elementId) {
+        var element = document.getElementById(elementId);
+        if (element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+</script>

@@ -63,19 +63,7 @@
                     <h4>@UIStr.MessagesTitle</h4>
                 </div>
                 <div class="card-body">
-                    <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
-                        @if (viewModel.Messages.Any())
-                        {
-                            @foreach (var message in viewModel.Messages)
-                            {
-                                <div style="color:@message.Color">@message.Message</div>
-                            }
-                        }
-                        else
-                        {
-                            <p>@UIStr.NoMessagesLabel</p>
-                        }
-                    </div>
+                    <MessageConsole Messages="viewModel.Messages" />
                 </div>
             </div>
         </div>

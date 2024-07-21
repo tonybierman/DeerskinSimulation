@@ -1,6 +1,7 @@
-﻿@using DeerskinSimulation.Models
-@using DeerskinSimulation.Resources
+﻿@using DeerskinSimulation.Resources
 @using DeerskinSimulation.ViewModels
+@using DeerskinSimulation.Models
+@using DeerskinSimulation.Components
 @inject IJSRuntime JS
 
 @code {
@@ -27,7 +28,7 @@
     {
         @foreach (var message in Messages)
         {
-            <div style="color:@message.Color">@message.Message</div>
+            <MessageConsoleLineItem Message="message" />
         }
     }
     else

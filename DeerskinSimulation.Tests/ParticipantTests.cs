@@ -64,6 +64,5 @@ namespace DeerskinSimulation.Tests
     {
         public MockParticipant(string name) : base(name, 0) { }
 
-        public override string Hunt() => string.Empty;
     }
 }

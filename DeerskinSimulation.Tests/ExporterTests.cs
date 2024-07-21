@@ -10,16 +10,17 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var exporter = new Exporter("Exporter1");
-            exporter.AddSkins(100);
+            int skinsToExport = 100;
+            exporter.AddSkins(skinsToExport);
 
             // Act
             var initialMoney = exporter.Money;
-            var result = exporter.Export();
+            var result = exporter.Export(skinsToExport);
 
             // Assert
             Assert.Equal(0, exporter.Skins);
             Assert.True(exporter.Money > initialMoney);
-            Assert.Contains("Exported 100 skins", result);
+            Assert.Contains($"Exported {skinsToExport} skins", result);
         }
     }
 }

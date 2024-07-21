@@ -1,0 +1,7 @@
+﻿@using DeerskinSimulation.Models
+
+@code {
+    [Parameter] public NotificationEventArgs Message { get; set; }
+}
+
+<div style="color:@Message.Color">@Message.Message</div>

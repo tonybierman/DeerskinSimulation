@@ -19,7 +19,7 @@
             AddSkins(skinsHunted);
 
             var eventMessage = ApplyRandomHuntingEvent();
-            eventMessage.Message = $"{Strings.HuntedSkins} {skinsHunted}. {eventMessage}";
+            eventMessage.Message = $"{Strings.HuntedSkins} {skinsHunted}. {eventMessage?.Message}";
 
             return eventMessage;
         }
@@ -39,7 +39,7 @@
             AddMoney(totalCost);
 
             var eventMessage = ApplyRandomTradingEvent();
-            eventMessage.Message = $"{Strings.SoldSkins} {numberOfSkins}. {eventMessage}";
+            eventMessage.Message = $"{Strings.SoldSkins} {numberOfSkins}. {eventMessage?.Message}";
 
             return eventMessage;
         }

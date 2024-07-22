@@ -109,7 +109,7 @@ namespace DeerskinSimulation.Models
             }
 
             ProcessTransaction(buyer, cost, numberOfSkins, AddMoney, AddSkins, RemoveSkins);
-            return new EventRecord($"Sold {numberOfSkins} skins. {ApplyRandomTradingEvent()}");
+            return new EventRecord($"Sold {numberOfSkins} skins. {ApplyRandomTradingEvent()?.Message}");
         }
 
         public virtual EventRecord TransportSkins(Participant recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
@@ -129,7 +129,7 @@ namespace DeerskinSimulation.Models
             }
 
             ProcessTransaction(recipient, sellingPrice, numberOfSkins, AddMoney, AddSkins, RemoveSkins, totalCost * markup);
-            return new EventRecord($"Transported {numberOfSkins} skins. {ApplyRandomTransportingEvent()}");
+            return new EventRecord($"Transported {numberOfSkins} skins. {ApplyRandomTransportingEvent()?.Message}");
         }
 
         public virtual EventRecord ExportSkins(int numberOfSkins, double exportCost, double duty, double pricePerSkin, double markup)
@@ -152,7 +152,7 @@ namespace DeerskinSimulation.Models
             AddMoney(sellingPrice);
             RemoveSkins(numberOfSkins);
 
-            return new EventRecord($"Exported {numberOfSkins} skins. {ApplyRandomExportingEvent()}");
+            return new EventRecord($"Exported {numberOfSkins} skins. {ApplyRandomExportingEvent()?.Message}");
         }
 
         private double CalculateTransactionCost(int skins, double pricePerSkin)

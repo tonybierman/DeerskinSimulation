@@ -5,12 +5,12 @@
 @inject IJSRuntime JS
 
 @code {
-    [Parameter] public List<NotificationEventArgs> Messages { get; set; }
+    [Parameter] public List<NotificationEventArgs> EventArgs { get; set; }
 
     protected override void OnParametersSet()
     {
         // Scroll to bottom when messages are updated
-        if (Messages?.Count > 0)
+        if (EventArgs?.Count > 0)
         {
             InvokeAsync(ScrollToBottomAsync);
         }
@@ -24,13 +24,13 @@
 }
 
 <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
-    @if (Messages?.Any() == true)
+    @if (EventArgs?.Any() == true)
     {
-        @foreach (var e in Messages)
+        @foreach (var e in EventArgs)
         {
-            @foreach (var m in e.Records)
+            @foreach (var msg in e.Records)
             {
-                <MessageConsoleLineItem Message="m" />
+                <MessageConsoleLineItem Message="msg" />
             }
         }
     }

@@ -6,11 +6,11 @@ namespace DeerskinSimulation.Models
     {
         public Exporter(string name) : base(name, Constants.ExporterStartingFunds) { }
 
-        public string Export(int numberOfSkins)
+        public EventRecord Export(int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
-                return Strings.NotEnoughSkinsToExport;
+                return new EventRecord(Strings.NotEnoughSkinsToExport);
             }
             return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPrice, Constants.ExporterMarkup);
         }

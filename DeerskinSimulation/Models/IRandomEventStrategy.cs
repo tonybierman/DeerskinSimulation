@@ -2,6 +2,6 @@
 {
     public interface IRandomEventStrategy
     {
-        string ApplyEvent(Participant participant);
+        EventRecord ApplyEvent(Participant participant);
     }
 }

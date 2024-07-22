@@ -26,9 +26,12 @@
 <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
     @if (Messages?.Any() == true)
     {
-        @foreach (var message in Messages)
+        @foreach (var e in Messages)
         {
-            <MessageConsoleLineItem Message="message" />
+            @foreach (var m in e.Records)
+            {
+                <MessageConsoleLineItem Message="m" />
+            }
         }
     }
     else

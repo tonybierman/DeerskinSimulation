@@ -31,28 +31,28 @@
         public async Task Hunt()
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
-            Messages.Add(new NotificationEventArgs(result, "black"));
+            Messages.Add(new NotificationEventArgs(new[] { result }));
             await StateChanged?.Invoke();
         }
 
         public async Task SellToTrader(int numberOfSkins)
         {
             var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
-            Messages.Add(new NotificationEventArgs(result, "black"));
+            Messages.Add(new NotificationEventArgs(new[] { result }));
             await StateChanged?.Invoke();
         }
 
         public async Task TransportToExporter(int numberOfSkins)
         {
             var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
-            Messages.Add(new NotificationEventArgs(result, "black"));
+            Messages.Add(new NotificationEventArgs(new[] { result }));
             await StateChanged?.Invoke();
         }
 
         public async Task Export(int numberOfSkins)
         {
             var result = ExporterInstance.Export(numberOfSkins);
-            Messages.Add(new NotificationEventArgs(result, "black"));
+            Messages.Add(new NotificationEventArgs(new[] { result }));
             await StateChanged?.Invoke();
         }
 

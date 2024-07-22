@@ -7,27 +7,28 @@
     {
         public Hunter(string name) : base(name, Constants.HunterStartingFunds) { }
 
-        public string Hunt(int packhorses)
+        public EventRecord Hunt(int packhorses)
         {
             if (Money < Constants.HuntingCost)
             {
-                return Strings.NotEnoughMoneyToHunt;
+                return new EventRecord(Strings.NotEnoughMoneyToHunt);
             }
 
             RemoveMoney(Constants.HuntingCost);
             int skinsHunted = packhorses * Constants.PackhorseCapacity;
             AddSkins(skinsHunted);
 
-            string eventMessage = ApplyRandomHuntingEvent();
+            var eventMessage = ApplyRandomHuntingEvent();
+            eventMessage.Message = $"{Strings.HuntedSkins} {skinsHunted}. {eventMessage}";
 
-            return $"{Strings.HuntedSkins} {skinsHunted}. {eventMessage}";
+            return eventMessage;
         }
 
-        public string SellToTrader(Trader trader, int numberOfSkins)
+        public EventRecord SellToTrader(Trader trader, int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
-                return Strings.NotEnoughSkinsToSell;
+                return new EventRecord(Strings.NotEnoughSkinsToSell);
             }
 
             double totalCost = numberOfSkins * Constants.DeerSkinPrice;
@@ -37,9 +38,10 @@
             RemoveSkins(numberOfSkins);
             AddMoney(totalCost);
 
-            string eventMessage = ApplyRandomTradingEvent();
+            var eventMessage = ApplyRandomTradingEvent();
+            eventMessage.Message = $"{Strings.SoldSkins} {numberOfSkins}. {eventMessage}";
 
-            return $"{Strings.SoldSkins} {numberOfSkins}. {eventMessage}";
+            return eventMessage;
         }
     }
 }

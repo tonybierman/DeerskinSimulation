@@ -1,21 +1,16 @@
-﻿using System;
+﻿using Castle.Core.Smtp;
+using System;
 
 namespace DeerskinSimulation.Models
 {
     public class NotificationEventArgs : EventArgs
     {
+        public EventRecord[] Records { get; }
         public object? Sender { get; }
-        public string Message { get; }
-        public string Color { get; }
 
-        public NotificationEventArgs(string message, string color)
+        public NotificationEventArgs(EventRecord[] recs, object? sender = null)
         {
-            Message = message;
-            Color = color;
-        }
-
-        public NotificationEventArgs(object sender, string message, string color) : this (message, color)
-        {
+            Records = recs;
             Sender = sender;
         }
     }

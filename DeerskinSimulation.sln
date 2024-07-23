@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opt", "opt", "{5C6F2BD2-0FD
 	ProjectSection(SolutionItems) = preProject
 		NOTES.txt = NOTES.txt
 		README.md = README.md
+		screenshot-01.png = screenshot-01.png
 	EndProjectSection
 EndProject
 Global

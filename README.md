@@ -4,6 +4,8 @@
 
 **Objective**: Blazor WebAssembly simulation of the deerskin economy in the 1700s, focusing on the roles of hunters, traders, and exporters.
 
+![Screenshot showing example usage](screenshot-01.png)
+
 ### Design Specifications
 1. **Separation of Logic from Presentation**: Console input/output is handled separately from the business logic.
 2. **Constants in a Dedicated Class**: Centralize all constant values.

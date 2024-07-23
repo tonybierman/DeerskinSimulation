@@ -10,7 +10,7 @@ namespace DeerskinSimulation.Models
         {
             if (Skins < numberOfSkins)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport));
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport, "images/merchant_ship_256.jpg"));
             }
 
             return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPrice, Constants.ExporterMarkup);

@@ -11,7 +11,7 @@
             {
                 double bonusMoney = rand.Next((int)Constants.BonusMoneyMin, (int)Constants.BonusMoneyMax);
                 return new EventResult(
-                    new EventRecord("High demand in Europe increased the selling price.", "green"),
+                    new EventRecord("High demand in Europe increased the selling price.", "green", "images/merchant_ship_256.jpg"),
                     originator => originator.AddMoney(bonusMoney),
                     recipient => recipient?.RemoveMoney(bonusMoney)
                 );
@@ -20,7 +20,7 @@
             {
                 int lostSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
                 return new EventResult(
-                    new EventRecord("Lost some skins during export.", "red"),
+                    new EventRecord("Lost some skins during export.", "red", "images/merchant_ship_256.jpg"),
                     originator => originator.RemoveSkins(lostSkins),
                     recipient => recipient?.AddSkins(lostSkins)
                 );

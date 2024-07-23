@@ -59,10 +59,4 @@ namespace DeerskinSimulation.Tests
             Assert.Equal(50, participant.Money);
         }
     }
-
-    public class MockParticipant : Participant
-    {
-        public MockParticipant(string name) : base(name, 0) { }
-
-    }
 }

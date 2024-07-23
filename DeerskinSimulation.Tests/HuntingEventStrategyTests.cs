@@ -15,9 +15,10 @@ namespace DeerskinSimulation.Tests
 
             // Act
             var result = strategy.ApplyEvent(participant);
+            result.ApplyActions(participant);
 
             // Assert
-            if (result.Contains("Found extra skins"))
+            if (result.Records.Exists(record => record.Message.Contains("Found extra skins")))
             {
                 Assert.True(participant.Skins > 0);
             }
@@ -33,9 +34,10 @@ namespace DeerskinSimulation.Tests
 
             // Act
             var result = strategy.ApplyEvent(participant);
+            result.ApplyActions(participant);
 
             // Assert
-            if (result.Contains("Lost some skins"))
+            if (result.Records.Exists(record => record.Message.Contains("Lost some skins")))
             {
                 Assert.True(participant.Skins < 100);
             }

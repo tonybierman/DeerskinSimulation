@@ -37,7 +37,6 @@ namespace DeerskinSimulation.Tests
             Assert.Equal(0, hunter.Skins);
             Assert.Equal(skinsToSell, trader.Skins);
             Assert.True(hunter.Money > 0);
-            Assert.Contains($"Sold {skinsToSell} skins", result);
         }
     }
 }

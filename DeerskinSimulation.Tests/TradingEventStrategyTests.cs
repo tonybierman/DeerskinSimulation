@@ -15,9 +15,10 @@ namespace DeerskinSimulation.Tests
 
             // Act
             var result = strategy.ApplyEvent(participant);
+            result.ApplyActions(participant);
 
             // Assert
-            if (result.Contains("High demand increased the selling price"))
+            if (result.Records.Exists(record => record.Message.Contains("High demand increased the selling price")))
             {
                 Assert.True(participant.Money > 0);
             }
@@ -33,9 +34,10 @@ namespace DeerskinSimulation.Tests
 
             // Act
             var result = strategy.ApplyEvent(participant);
+            result.ApplyActions(participant);
 
             // Assert
-            if (result.Contains("Damaged some skins"))
+            if (result.Records.Exists(record => record.Message.Contains("Damaged some skins")))
             {
                 Assert.True(participant.Skins < 100);
             }

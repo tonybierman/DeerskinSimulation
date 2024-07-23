@@ -4,8 +4,8 @@ git checkout master
 # Pull the latest changes to ensure you are up to date
 git pull origin master
 
-# Merge the sell-options branch
-git merge sell-options
+# Merge the messaging-context branch
+git merge messaging-context
 
 # Resolve any conflicts, then:
 git add <conflicted-files>
@@ -14,8 +14,8 @@ git commit
 # Push the changes to remote
 git push origin master
 
-# Delete the local sell-options branch
-git branch -d sell-options
+# Delete the local messaging-context branch
+git branch -d messaging-context
 
-# Delete the remote sell-options branch
-git push origin --delete sell-options
+# Delete the remote messaging-context branch
+git push origin --delete messaging-context

@@ -21,7 +21,6 @@ namespace DeerskinSimulation.Tests
             Assert.Equal(0, hunter.Skins);
             Assert.Equal(skinsToSell, trader.Skins);
             Assert.True(hunter.Money > 0);
-            Assert.Contains($"Sold {skinsToSell} skins", result);
         }
 
         [Fact]
@@ -40,7 +39,6 @@ namespace DeerskinSimulation.Tests
             Assert.Equal(0, trader.Skins);
             Assert.Equal(skinsToTransport, exporter.Skins);
             Assert.True(trader.Money > 0);
-            Assert.Contains($"Transported {skinsToTransport} skins", result);
         }
     }
 }

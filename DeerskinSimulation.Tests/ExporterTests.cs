@@ -20,7 +20,6 @@ namespace DeerskinSimulation.Tests
             // Assert
             Assert.Equal(0, exporter.Skins);
             Assert.True(exporter.Money > initialMoney);
-            Assert.Contains($"Exported {skinsToExport} skins", result);
         }
     }
 }

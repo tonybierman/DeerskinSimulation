@@ -7,11 +7,11 @@
     {
         public Hunter(string name) : base(name, Constants.HunterStartingFunds) { }
 
-        public EventRecord Hunt(int packhorses)
+        public EventResult Hunt(int packhorses)
         {
             if (Money < Constants.HuntingCost)
             {
-                return new EventRecord(Strings.NotEnoughMoneyToHunt);
+                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToHunt));
             }
 
             RemoveMoney(Constants.HuntingCost);
@@ -19,16 +19,16 @@
             AddSkins(skinsHunted);
 
             var eventMessage = ApplyRandomHuntingEvent();
-            eventMessage.Message = $"{Strings.HuntedSkins} {skinsHunted}. {eventMessage?.Message}";
+            eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}."));
 
             return eventMessage;
         }
 
-        public EventRecord SellToTrader(Trader trader, int numberOfSkins)
+        public EventResult SellToTrader(Trader trader, int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
-                return new EventRecord(Strings.NotEnoughSkinsToSell);
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell));
             }
 
             double totalCost = numberOfSkins * Constants.DeerSkinPrice;
@@ -39,7 +39,7 @@
             AddMoney(totalCost);
 
             var eventMessage = ApplyRandomTradingEvent();
-            eventMessage.Message = $"{Strings.SoldSkins} {numberOfSkins}. {eventMessage?.Message}";
+            eventMessage.Records.Add(new EventRecord($"{Strings.SoldSkins} {numberOfSkins}."));
 
             return eventMessage;
         }

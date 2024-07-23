@@ -2,24 +2,31 @@
 {
     public class ExportingEventStrategy : IRandomEventStrategy
     {
-        public EventRecord ApplyEvent(Participant participant)
+        public EventResult ApplyEvent(Participant participant)
         {
             var rand = new Random();
             var chance = rand.Next(0, 100);
+
             if (chance < 10) // 10% chance
             {
                 double bonusMoney = rand.Next((int)Constants.BonusMoneyMin, (int)Constants.BonusMoneyMax);
-                participant.AddMoney(bonusMoney);
-                return new EventRecord("High demand in Europe increased the selling price.");
+                return new EventResult(
+                    new EventRecord("High demand in Europe increased the selling price.", "green"),
+                    originator => originator.AddMoney(bonusMoney),
+                    recipient => recipient?.RemoveMoney(bonusMoney)
+                );
             }
             else if (chance < 20) // 10% chance
             {
                 int lostSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
-                participant.RemoveSkins(lostSkins);
-                return new EventRecord("Lost some skins during export.");
+                return new EventResult(
+                    new EventRecord("Lost some skins during export.", "red"),
+                    originator => originator.RemoveSkins(lostSkins),
+                    recipient => recipient?.AddSkins(lostSkins)
+                );
             }
 
-            return EventRecord.Empty;
+            return EventResult.Empty;
         }
     }
 }

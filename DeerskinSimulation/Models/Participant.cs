@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DeerskinSimulation.Resources;
 
 namespace DeerskinSimulation.Models
@@ -16,7 +17,7 @@ namespace DeerskinSimulation.Models
         public int Skins => _skins;
         public double Money => _money;
 
-        public event EventHandler<NotificationEventArgs> OnNotification;
+        public event EventHandler<EventResult> OnNotification;
 
         protected Participant(string name, double initialMoney)
         {
@@ -37,8 +38,8 @@ namespace DeerskinSimulation.Models
 
         protected virtual void RaiseNotification(string message, string color)
         {
-            OnNotification?.Invoke(this, new NotificationEventArgs(
-                new[] { new EventRecord($"{Name}: {message}", color) }, this));
+            OnNotification?.Invoke(this, 
+                new EventResult(new EventRecord($"{Name}: {message}", color)));
         }
 
         public virtual void AddSkins(int amount)
@@ -65,58 +66,38 @@ namespace DeerskinSimulation.Models
             RaiseNotification($"Removed ${amount:F2}.", "red");
         }
 
-        protected EventRecord ApplyRandomEvent(IRandomEventStrategy eventStrategy)
+        protected EventResult ApplyRandomEvent(IRandomEventStrategy eventStrategy)
         {
-            return eventStrategy.ApplyEvent(this);
+            var eventResult = eventStrategy.ApplyEvent(this);
+            eventResult.ApplyActions(this);
+            return eventResult;
         }
 
-        protected EventRecord ApplyRandomHuntingEvent()
+        protected EventResult ApplyRandomHuntingEvent()
         {
             return ApplyRandomEvent(_huntingEventStrategy);
         }
 
-        protected EventRecord ApplyRandomTradingEvent()
+        protected EventResult ApplyRandomTradingEvent()
         {
             return ApplyRandomEvent(_tradingEventStrategy);
         }
 
-        protected EventRecord ApplyRandomTransportingEvent()
+        protected EventResult ApplyRandomTransportingEvent()
         {
             return ApplyRandomEvent(_transportingEventStrategy);
         }
 
-        protected EventRecord ApplyRandomExportingEvent()
+        protected EventResult ApplyRandomExportingEvent()
         {
             return ApplyRandomEvent(_exportingEventStrategy);
         }
 
-        public virtual EventRecord Hunt(int packhorses)
-        {
-            return new EventRecord(Strings.NotEnoughMoneyToHunt);
-        }
-
-        public virtual EventRecord SellSkins(Participant buyer, int numberOfSkins)
+        public virtual EventResult TransportSkins(Participant recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
         {
             if (_skins < numberOfSkins)
             {
-                return new EventRecord(Strings.NoSkinsToSell);
-            }
-
-            double cost = CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPrice);
-            if (buyer.Money < cost)
-            {
-                return new EventRecord(Strings.BuyerCannotAffordSkins);
-            }
-
-            ProcessTransaction(buyer, cost, numberOfSkins, AddMoney, AddSkins, RemoveSkins);
-            return new EventRecord($"Sold {numberOfSkins} skins. {ApplyRandomTradingEvent()?.Message}");
-        }
-
-        public virtual EventRecord TransportSkins(Participant recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
-        {
-            if (_skins < numberOfSkins)
-            {
-                return new EventRecord(Strings.NotEnoughSkinsToTransport);
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport));
             }
 
             double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
@@ -125,18 +106,25 @@ namespace DeerskinSimulation.Models
 
             if (recipient.Money < sellingPrice)
             {
-                return new EventRecord(Strings.RecipientCannotAffordSkins);
+                return new EventResult(new EventRecord(Strings.RecipientCannotAffordSkins));
             }
 
-            ProcessTransaction(recipient, sellingPrice, numberOfSkins, AddMoney, AddSkins, RemoveSkins, totalCost * markup);
-            return new EventRecord($"Transported {numberOfSkins} skins. {ApplyRandomTransportingEvent()?.Message}");
+            recipient.RemoveMoney(sellingPrice);
+            recipient.AddSkins(numberOfSkins);
+            RemoveSkins(numberOfSkins);
+            AddMoney(sellingPrice);
+
+            var eventResult = ApplyRandomTransportingEvent();
+            eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins."));
+
+            return eventResult;
         }
 
-        public virtual EventRecord ExportSkins(int numberOfSkins, double exportCost, double duty, double pricePerSkin, double markup)
+        public virtual EventResult ExportSkins(int numberOfSkins, double exportCost, double duty, double pricePerSkin, double markup)
         {
             if (_skins < numberOfSkins)
             {
-                return new EventRecord(Strings.NoSkinsToExport);
+                return new EventResult(new EventRecord(Strings.NoSkinsToExport));
             }
 
             double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
@@ -145,14 +133,17 @@ namespace DeerskinSimulation.Models
 
             if (_money < totalCost)
             {
-                return new EventRecord(Strings.NotEnoughMoneyToExport);
+                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToExport));
             }
 
             RemoveMoney(totalCost);
             AddMoney(sellingPrice);
             RemoveSkins(numberOfSkins);
 
-            return new EventRecord($"Exported {numberOfSkins} skins. {ApplyRandomExportingEvent()?.Message}");
+            var eventResult = ApplyRandomExportingEvent();
+            eventResult.Records.Add(new EventRecord($"Exported {numberOfSkins} skins."));
+            
+            return eventResult;
         }
 
         private double CalculateTransactionCost(int skins, double pricePerSkin)
@@ -168,47 +159,6 @@ namespace DeerskinSimulation.Models
         private double CalculateTotalCost(double principal, double extraCost, double duty)
         {
             return extraCost + (principal * duty);
-        }
-
-        private void ProcessTransaction(Participant participant, double amount, int skins, Action<double> addMoney, Action<int> addSkins, Action<int> removeSkins, double additionalProfit = 0)
-        {
-            int finalSkins = skins;
-            var randomEvent = EventRecord.Empty;
-            if (participant is Trader || participant is Exporter)
-            {
-                randomEvent = ApplyRandomTradingEvent();
-                finalSkins -= GetLostSkinsFromEvent(randomEvent.Message);
-            }
-
-            participant.RemoveMoney(amount);
-            participant.AddSkins(finalSkins);
-            removeSkins(skins); // Remove the original number of skins before applying losses
-            addMoney(amount + additionalProfit);
-
-            if (!EventRecord.IsNullOrEmpty(randomEvent))
-            {
-                // TODO: Do this better
-                RaiseNotification(randomEvent.Message, "red");
-            }
-        }
-
-        // TODO: This is a hack fix this
-        private int GetLostSkinsFromEvent(string eventMessage)
-        {
-            int lostSkins = 0;
-            if (eventMessage.Contains("Lost"))
-            {
-                string[] words = eventMessage.Split(' ');
-                foreach (string word in words)
-                {
-                    if (int.TryParse(word, out int result))
-                    {
-                        lostSkins = result;
-                        break;
-                    }
-                }
-            }
-            return lostSkins;
         }
     }
 }

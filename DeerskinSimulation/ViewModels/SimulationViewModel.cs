@@ -10,7 +10,7 @@
         public Hunter HunterInstance { get; private set; }
         public Trader TraderInstance { get; private set; }
         public Exporter ExporterInstance { get; private set; }
-        public List<NotificationEventArgs> Messages { get; private set; }
+        public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
 
         public event Func<Task> StateChanged;
@@ -20,7 +20,7 @@
             HunterInstance = new Hunter("Mansker");
             TraderInstance = new Trader("Moravians");
             ExporterInstance = new Exporter("Charleston");
-            Messages = new List<NotificationEventArgs>();
+            Messages = new List<EventResult>();
             SelectedPackhorses = 1;
 
             HunterInstance.OnNotification += HandleNotification;
@@ -31,33 +31,33 @@
         public async Task Hunt()
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
-            Messages.Add(new NotificationEventArgs(new[] { result }));
+            Messages.Add(result);
             await StateChanged?.Invoke();
         }
 
         public async Task SellToTrader(int numberOfSkins)
         {
             var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
-            Messages.Add(new NotificationEventArgs(new[] { result }));
+            Messages.Add(result);
             await StateChanged?.Invoke();
         }
 
         public async Task TransportToExporter(int numberOfSkins)
         {
             var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
-            Messages.Add(new NotificationEventArgs(new[] { result }));
+            Messages.Add(result);
             await StateChanged?.Invoke();
         }
 
         public async Task Export(int numberOfSkins)
         {
             var result = ExporterInstance.Export(numberOfSkins);
-            Messages.Add(new NotificationEventArgs(new[] { result }));
+            Messages.Add(result);
             await StateChanged?.Invoke();
         }
 
 
-        private async void HandleNotification(object sender, NotificationEventArgs e)
+        private async void HandleNotification(object sender, EventResult e)
         {
             Messages.Add(e);
             await StateChanged?.Invoke();

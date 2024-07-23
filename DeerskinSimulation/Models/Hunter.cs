@@ -11,7 +11,7 @@
         {
             if (Money < Constants.HuntingCost)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToHunt));
+                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"));
             }
 
             RemoveMoney(Constants.HuntingCost);
@@ -19,7 +19,7 @@
             AddSkins(skinsHunted);
 
             var eventMessage = ApplyRandomHuntingEvent();
-            eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}."));
+            eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }
@@ -28,7 +28,7 @@
         {
             if (Skins < numberOfSkins)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell));
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell, image: "images/avatar_wm_256.jpg"));
             }
 
             double totalCost = numberOfSkins * Constants.DeerSkinPrice;
@@ -39,7 +39,7 @@
             AddMoney(totalCost);
 
             var eventMessage = ApplyRandomTradingEvent();
-            eventMessage.Records.Add(new EventRecord($"{Strings.SoldSkins} {numberOfSkins}."));
+            eventMessage.Records.Add(new EventRecord($"{Strings.SoldSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

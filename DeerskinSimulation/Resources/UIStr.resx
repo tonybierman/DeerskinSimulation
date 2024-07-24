@@ -121,16 +121,16 @@
     <value>Hunt</value>
   </data>
   <data name="SellToTraderButton" xml:space="preserve">
-    <value>Sell to Trader</value>
+    <value>Transport to Store</value>
   </data>
   <data name="TransportToExporterButton" xml:space="preserve">
-    <value>Transport to Exporter</value>
+    <value>Transport to Port</value>
   </data>
   <data name="ExportButton" xml:space="preserve">
     <value>Export</value>
   </data>
-  <data name="HunterTitle" xml:space="preserve">
-    <value>Hunter</value>
+  <data name="LogisticsTitle" xml:space="preserve">
+    <value>Logistics</value>
   </data>
   <data name="TraderTitle" xml:space="preserve">
     <value>Trader</value>

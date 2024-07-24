@@ -160,11 +160,11 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sold skins:.
+        ///   Looks up a localized string similar to Transported skins:.
         /// </summary>
-        public static string SoldSkins {
+        public static string TransportedSkins {
             get {
-                return ResourceManager.GetString("SoldSkins", resourceCulture);
+                return ResourceManager.GetString("TransportedSkins", resourceCulture);
             }
         }
     }

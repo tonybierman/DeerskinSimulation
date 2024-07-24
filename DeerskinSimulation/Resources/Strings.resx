@@ -147,8 +147,8 @@
   <data name="NotEnoughSkinsToSell" xml:space="preserve">
     <value>Not enough skins to sell.</value>
   </data>
-  <data name="SoldSkins" xml:space="preserve">
-    <value>Sold skins:</value>
+  <data name="TransportedSkins" xml:space="preserve">
+    <value>Transported skins:</value>
   </data>
   <data name="NotEnoughSkinsToExport" xml:space="preserve">
     <value>Not enough skins to export.</value>

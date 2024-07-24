@@ -1,4 +1,5 @@
-﻿@using DeerskinSimulation.ViewModels
+﻿@using DeerskinSimulation.Resources
+@using DeerskinSimulation.ViewModels
 @code {
     [Parameter] public EventCallback<SellOptionsViewModel> OnSellConfirmed { get; set; }
     [Parameter] public EventCallback OnSellCancelled { get; set; }
@@ -23,8 +24,8 @@
 }
 
 <div class="sell-options">
-    <h5>Sell Options</h5>
-    <label for="numberOfSkins">Number of Skins:</label>
+    <h5>@UIStr.SellToTraderButton</h5>
+    <label for="numberOfSkins">@UIStr.SkinsLabel</label>
     <input type="number" id="numberOfSkins" class="form-control" @bind="sellOptionsViewModel.NumberOfSkins" min="1" />
     <button class="btn btn-success mt-2" @onclick="ConfirmSell">Confirm</button>
     <button class="btn btn-secondary mt-2" @onclick="CancelSell">Cancel</button>

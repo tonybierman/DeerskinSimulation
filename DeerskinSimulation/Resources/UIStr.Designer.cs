@@ -97,20 +97,20 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hunter.
-        /// </summary>
-        public static string HunterTitle {
-            get {
-                return ResourceManager.GetString("HunterTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string ImageTitle {
             get {
                 return ResourceManager.GetString("ImageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logistics.
+        /// </summary>
+        public static string LogisticsTitle {
+            get {
+                return ResourceManager.GetString("LogisticsTitle", resourceCulture);
             }
         }
         
@@ -142,7 +142,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sell to Trader.
+        ///   Looks up a localized string similar to Transport to Store.
         /// </summary>
         public static string SellToTraderButton {
             get {
@@ -178,7 +178,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transport to Exporter.
+        ///   Looks up a localized string similar to Transport to Port.
         /// </summary>
         public static string TransportToExporterButton {
             get {

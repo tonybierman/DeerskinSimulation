@@ -39,7 +39,7 @@
             AddMoney(totalCost);
 
             var eventMessage = ApplyRandomTradingEvent();
-            eventMessage.Records.Add(new EventRecord($"{Strings.SoldSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord($"{Strings.TransportedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

@@ -15,13 +15,13 @@
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>@UIStr.HunterTitle (@viewModel.HunterInstance.Name)</h4>
+                    <h4>@UIStr.LogisticsTitle</h4>
                 </div>
                 <div class="card-body">
                     <div>
-                        <h4>Kanta-ke Station Camp</h4>
+                        <h4>@viewModel.HunterInstance.Name Station Camp</h4>
                         <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.HunterInstance.Money)</p>
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
                             <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
@@ -29,18 +29,18 @@
                     </div>
                     <hr/>
                     <div>
-                        <h4>Store at Bethabara</h4>
+                        <h4>Store at @viewModel.TraderInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.TraderInstance.Money)</p>
                         <div>
                             <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
                         </div>
                     </div>
                     <hr />
                     <div>
-                        <h4>Port at Charleston</h4>
+                        <h4>Port of @viewModel.ExporterInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.ExporterInstance.Money)</p>
                         <div>
                             <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
                         </div>

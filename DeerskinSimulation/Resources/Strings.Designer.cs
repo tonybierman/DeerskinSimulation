@@ -79,6 +79,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hunting.
+        /// </summary>
+        public static string HuntingActivityName {
+            get {
+                return ResourceManager.GetString("HuntingActivityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid number of packhorses. Choose between 1 and 5..
         /// </summary>
         public static string InvalidNumberOfPackhorses {

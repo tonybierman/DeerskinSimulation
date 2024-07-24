@@ -12,6 +12,9 @@
         public Exporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
+        public string? CurrentActivityName { get;set; }
+
+        public Action CompleteActivity { get; set; }
 
         public event Func<Task> StateChanged;
 
@@ -33,6 +36,7 @@
             var result = HunterInstance.Hunt(SelectedPackhorses);
             Messages.Add(result);
             await StateChanged?.Invoke();
+            CurrentActivityName = null;
         }
 
         public async Task SellToTrader(int numberOfSkins)

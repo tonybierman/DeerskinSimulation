@@ -153,4 +153,7 @@
   <data name="NotEnoughSkinsToExport" xml:space="preserve">
     <value>Not enough skins to export.</value>
   </data>
+  <data name="HuntingActivityName" xml:space="preserve">
+    <value>Hunting</value>
+  </data>
 </root>

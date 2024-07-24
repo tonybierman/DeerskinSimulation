@@ -3,9 +3,11 @@
 @inject NavigationManager Navigation
 @using DeerskinSimulation.Resources
 @using DeerskinSimulation.Models
+@using DeerskinSimulation.Services
 @using DeerskinSimulation.ViewModels
 @implements IDisposable
 @inject StateContainer StateContainer
+@inject GameLoopService GameLoopService
 
 <h3>Deerskin Simulation</h3>
 
@@ -18,7 +20,7 @@
                     <h4>@UIStr.LogisticsTitle</h4>
                     @if (StateContainer.Debug == true)
                     {
-                        <h6>DEBUG</h6>   
+                        <h6>@string.Format("DEBUG {0:F2} FPS", fps)</h6>
                     }
                 </div>
                 <div class="card-body">
@@ -26,6 +28,10 @@
                         <h4>@viewModel.HunterInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.HunterInstance.Money)</p>
+                        @if(currentDay > 0)
+                        {
+                            <p>@viewModel.CurrentActivityName: @(10 - currentDay)</p>
+                        }
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
                             <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
@@ -84,8 +90,19 @@
     private bool showTransportOptions = false;
     private bool showExportOptions = false;
 
+    private int currentDay = 0;
+    private double fps;
+
+    private async void UpdateGame()
+    {
+        fps = GameLoopService.FPS;
+        await InvokeAsync(StateHasChanged);
+    }
+
     protected override void OnInitialized()
     {
+        GameLoopService.OnGameTick += UpdateGame;
+        GameLoopService.OnDayPassed += UpdateDay;
         viewModel.StateChanged += OnStateChanged;
         StateContainer.OnChange += StateHasChanged;
     }
@@ -114,9 +131,15 @@
 
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
+        currentDay = 0;
+        GameLoopService.StartActivity();
         showHuntOptions = false;
         viewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
-        await viewModel.Hunt();
+        viewModel.CurrentActivityName = Strings.HuntingActivityName;
+        viewModel.CompleteActivity = async () =>
+        {
+            await viewModel.Hunt();
+        };
     }
 
     private void ShowSellOptions()
@@ -167,10 +190,31 @@
         await viewModel.Export(exportOptions.NumberOfSkins);
     }
 
+    private async void UpdateDay()
+    {
+        currentDay++;
+
+        if (currentDay == 10)
+        {
+            viewModel.CompleteActivity?.Invoke();
+            currentDay = 0;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void StartActivity()
+    {
+        currentDay = 0;
+        GameLoopService.StartActivity();
+    }
+
     public void Dispose()
     {
         viewModel.StateChanged -= OnStateChanged;
         StateContainer.OnChange -= StateHasChanged;
+        GameLoopService.OnGameTick -= UpdateGame;
+        GameLoopService.OnDayPassed -= UpdateDay;
     }
 }
 

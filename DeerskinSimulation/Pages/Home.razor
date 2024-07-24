@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using DeerskinSimulation.Models
+@implements IDisposable
+@inject StateContainer StateContainer
 
 <h3>Welcome to the Deerskin Simulation</h3>
 
@@ -10,6 +13,20 @@
 
     private void NavigateToSimulation()
     {
+        StateContainer.Debug = true;
+
         Navigation.NavigateTo("/simulation");
+    }
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        StateContainer.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
     }
 }

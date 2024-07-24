@@ -4,8 +4,8 @@
 @using DeerskinSimulation.Resources
 @using DeerskinSimulation.Models
 @using DeerskinSimulation.ViewModels
-
 @implements IDisposable
+@inject StateContainer StateContainer
 
 <h3>Deerskin Simulation</h3>
 
@@ -16,10 +16,14 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>@UIStr.LogisticsTitle</h4>
+                    @if (StateContainer.Debug == true)
+                    {
+                        <h6>DEBUG</h6>   
+                    }
                 </div>
                 <div class="card-body">
                     <div>
-                        <h4>@viewModel.HunterInstance.Name Station Camp</h4>
+                        <h4>@viewModel.HunterInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.HunterInstance.Money)</p>
                         <div>
@@ -83,6 +87,7 @@
     protected override void OnInitialized()
     {
         viewModel.StateChanged += OnStateChanged;
+        StateContainer.OnChange += StateHasChanged;
     }
 
     private async Task OnStateChanged()
@@ -165,6 +170,7 @@
     public void Dispose()
     {
         viewModel.StateChanged -= OnStateChanged;
+        StateContainer.OnChange -= StateHasChanged;
     }
 }
 

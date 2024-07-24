@@ -7,6 +7,9 @@
 @code {
     [Parameter] public List<EventResult> EventArgs { get; set; }
 
+    private string imageUrl = null;
+    private string imageCaption = null;
+
     protected override void OnParametersSet()
     {
         // Scroll to bottom when messages are updated
@@ -23,22 +26,39 @@
     }
 }
 
-<div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
-    @if (EventArgs?.Any() == true)
-    {
-        @foreach (var e in EventArgs)
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <figure class="text-center">
+                <img src="@imageUrl" alt="Event Image" width="256" />
+                <figcaption class="mt-2">@imageCaption</figcaption>
+            </figure>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
+        @if (EventArgs?.Any() == true)
         {
-            @foreach (var msg in e.Records)
+            @foreach (var e in EventArgs)
             {
-                <MessageConsoleLineItem Message="msg" />
+                @foreach (var msg in e.Records)
+                {
+                    imageUrl = msg.Image;
+                    imageCaption = msg.Message;
+                    <MessageConsoleLineItem Message="msg" />
+                }
             }
         }
-    }
-    else
-    {
-        <p>@UIStr.NoMessagesLabel</p>
-    }
+        else
+        {
+            <p>@UIStr.NoMessagesLabel</p>
+        }
+    </div>
 </div>
+
+
 
 <script>
     window.scrollToBottom = function (elementId) {

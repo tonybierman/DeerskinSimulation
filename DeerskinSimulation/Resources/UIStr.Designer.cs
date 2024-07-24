@@ -79,6 +79,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposition.
+        /// </summary>
+        public static string ExpositionTitle {
+            get {
+                return ResourceManager.GetString("ExpositionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hunt.
         /// </summary>
         public static string HuntButton {
@@ -93,6 +102,15 @@ namespace DeerskinSimulation.Resources {
         public static string HunterTitle {
             get {
                 return ResourceManager.GetString("HunterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string ImageTitle {
+            get {
+                return ResourceManager.GetString("ImageTitle", resourceCulture);
             }
         }
         

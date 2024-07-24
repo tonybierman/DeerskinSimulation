@@ -153,4 +153,10 @@
   <data name="SimulationComponentTitle" xml:space="preserve">
     <value>Deerskin Simulation</value>
   </data>
+  <data name="ExpositionTitle" xml:space="preserve">
+    <value>Exposition</value>
+  </data>
+  <data name="ImageTitle" xml:space="preserve">
+    <value>Image</value>
+  </data>
 </root>

@@ -10,64 +10,47 @@
 <h3>Deerskin Simulation</h3>
 
 <div class="container">
+
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>@UIStr.HunterTitle (@viewModel.HunterInstance.Name)</h4>
                 </div>
                 <div class="card-body">
-                    <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
-                    <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
                     <div>
-                        <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
-                        <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
+                        <h4>Kanta-ke Station Camp</h4>
+                        <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @viewModel.HunterInstance.Money</p>
+                        <div>
+                            <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
+                            <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div>
+                        <h4>Store at Bethabara</h4>
+                        <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
+                        <div>
+                            <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div>
+                        <h4>Port at Charleston</h4>
+                        <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
+                        <div>
+                            <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>@UIStr.TraderTitle (@viewModel.TraderInstance.Name)</h4>
-                </div>
-                <div class="card-body">
-                    <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
-                    <p>@UIStr.MoneyLabel @viewModel.TraderInstance.Money</p>
-                    <div>
-                        <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>@UIStr.ExporterTitle (@viewModel.ExporterInstance.Name)</h4>
-                </div>
-                <div class="card-body">
-                    <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
-                    <p>@UIStr.MoneyLabel @viewModel.ExporterInstance.Money</p>
-                    <div>
-                        <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <MessageConsole EventArgs="viewModel.Messages" />
     </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>@UIStr.MessagesTitle</h4>
-                </div>
-                <div class="card-body">
-                    <MessageConsole EventArgs="viewModel.Messages" />
-                </div>
-            </div>
-        </div>
-    </div>
+ 
 </div>
 
 @if (showHuntOptions)

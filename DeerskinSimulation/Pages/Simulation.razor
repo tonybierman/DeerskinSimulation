@@ -28,9 +28,9 @@
                         <h4>@viewModel.HunterInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.HunterInstance.Money)</p>
-                        @if(currentDay > 0)
+                        @if (@viewModel.CurrentActivityMeta != null)
                         {
-                            <p>@viewModel.CurrentActivityName: @(10 - currentDay)</p>
+                            <p>@viewModel.CurrentActivityMeta.Name: @(10 - currentDay)</p>
                         }
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
@@ -132,13 +132,14 @@
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
         currentDay = 0;
-        GameLoopService.StartActivity();
         showHuntOptions = false;
         viewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
-        viewModel.CurrentActivityName = Strings.HuntingActivityName;
+        viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 };
+        GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
         viewModel.CompleteActivity = async () =>
         {
             await viewModel.Hunt();
+            viewModel.CurrentActivityMeta = null;
         };
     }
 
@@ -154,8 +155,18 @@
 
     private async Task ConfirmSell(SellOptionsViewModel sellOptions)
     {
-        showSellOptions = false;
-        await viewModel.SellToTrader(sellOptions.NumberOfSkins);
+        if (sellOptions.NumberOfSkins > 0)
+        {
+            currentDay = 0;
+            showSellOptions = false;
+            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
+            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
+            viewModel.CompleteActivity = async () =>
+            {
+                await viewModel.SellToTrader(sellOptions.NumberOfSkins);
+                viewModel.CurrentActivityMeta = null;
+            };
+        }
     }
 
     private void ShowTransportOptions()
@@ -170,8 +181,18 @@
 
     private async Task ConfirmTransport(TransportOptionsViewModel transportOptions)
     {
-        showTransportOptions = false;
-        await viewModel.TransportToExporter(transportOptions.NumberOfSkins);
+        if (transportOptions.NumberOfSkins > 0)
+        {
+            currentDay = 0;
+            showTransportOptions = false;
+            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
+            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
+            viewModel.CompleteActivity = async () =>
+            {
+                await viewModel.TransportToExporter(transportOptions.NumberOfSkins);
+                viewModel.CurrentActivityMeta = null;
+            };
+        }
     }
 
     private void ShowExportOptions()
@@ -186,15 +207,25 @@
 
     private async Task ConfirmExport(ExportOptionsViewModel exportOptions)
     {
-        showExportOptions = false;
-        await viewModel.Export(exportOptions.NumberOfSkins);
+        if (exportOptions.NumberOfSkins > 0)
+        {
+            currentDay = 0;
+            showExportOptions = false;
+            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Exporting", Duration = 10 };
+            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
+            viewModel.CompleteActivity = async () =>
+            {
+                await viewModel.Export(exportOptions.NumberOfSkins);
+                viewModel.CurrentActivityMeta = null;
+            };
+        }
     }
 
     private async void UpdateDay()
     {
         currentDay++;
 
-        if (currentDay == 10)
+        if (currentDay >= viewModel.CurrentActivityMeta?.Duration)
         {
             viewModel.CompleteActivity?.Invoke();
             currentDay = 0;
@@ -203,11 +234,11 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private void StartActivity()
-    {
-        currentDay = 0;
-        GameLoopService.StartActivity();
-    }
+    // private void StartActivity()
+    // {
+    //     currentDay = 0;
+    //     GameLoopService.StartActivity();
+    // }
 
     public void Dispose()
     {

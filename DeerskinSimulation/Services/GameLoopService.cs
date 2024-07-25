@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using DeerskinSimulation.Models;
     using Microsoft.AspNetCore.Components;
 
     public class GameLoopService : IDisposable
@@ -18,6 +19,7 @@
         private CancellationTokenSource cancellationTokenSource;
         public event Action OnGameTick;
         public event Action OnDayPassed;
+        public TimedActivityMeta? CurrentActivityMeta { get; set; }
 
         public double FPS => fps;
 
@@ -33,11 +35,12 @@
             timer = new Timer(GameLoop, null, 0, 16); // Roughly 60 FPS
         }
 
-        public void StartActivity()
+        public void StartActivity(TimedActivityMeta activityMeta)
         {
             isActivityRunning = true;
             tickCount = 0;
             dayCount = 0;
+            CurrentActivityMeta = activityMeta;
         }
 
         private void GameLoop(object state)
@@ -64,9 +67,10 @@
                     dayCount++;
                     OnDayPassed?.Invoke();
 
-                    if (dayCount >= 10) // Activity finishes after 10 days
+                    if (dayCount >= CurrentActivityMeta?.Duration) // Activity finishes after 10 days
                     {
                         isActivityRunning = false;
+                        CurrentActivityMeta = null;
                     }
                 }
             }

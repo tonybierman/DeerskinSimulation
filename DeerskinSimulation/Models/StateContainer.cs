@@ -9,8 +9,11 @@
             get => m_debug ?? false;
             set
             {
-                m_debug = value;
-                NotifyStateChanged();
+                if (m_debug != value)
+                {
+                    m_debug = value;
+                    NotifyStateChanged();
+                }
             }
         }
 

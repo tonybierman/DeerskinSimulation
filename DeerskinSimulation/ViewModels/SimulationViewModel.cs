@@ -61,7 +61,7 @@
         #endregion
 
         #region Forward
-        public async Task SellToTrader(int numberOfSkins)
+        public async Task ForwardToTrader(int numberOfSkins)
         {
             var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
             if (result.HasRecords())
@@ -95,7 +95,7 @@
 
         public async Task RandomTransportEventCheck()
         {
-            var result = TraderInstance.RollForRandomForwardingEvent();
+            var result = TraderInstance.RollForRandomTransportingEvent();
             if (result.HasRecords())
             {
                 Messages.Add(result);

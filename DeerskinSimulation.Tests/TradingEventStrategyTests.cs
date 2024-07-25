@@ -10,7 +10,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var participant = new MockParticipant("Trader1");
-            var strategy = new TradingEventStrategy();
+            var strategy = new ForwardingEventStrategy();
             participant.AddMoney(0); // Ensure money starts at 0
 
             // Act
@@ -29,7 +29,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var participant = new MockParticipant("Trader1");
-            var strategy = new TradingEventStrategy();
+            var strategy = new ForwardingEventStrategy();
             participant.AddSkins(100); // Ensure there are skins to remove
 
             // Act

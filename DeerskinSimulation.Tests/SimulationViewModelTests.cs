@@ -52,7 +52,7 @@ namespace DeerskinSimulation.Tests
             viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
 
             // Act
-            await viewModel.SellToTrader(10);
+            await viewModel.ForwardToTrader(10);
 
             // Assert
             Assert.True(viewModel.Messages.Count > 0);

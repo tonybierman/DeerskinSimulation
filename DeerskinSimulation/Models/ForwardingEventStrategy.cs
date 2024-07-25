@@ -1,6 +1,6 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class TradingEventStrategy : IRandomEventStrategy
+    public class ForwardingEventStrategy : IRandomEventStrategy
     {
         public EventResult ApplyEvent(Participant participant)
         {

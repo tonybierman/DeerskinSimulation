@@ -18,7 +18,7 @@
             int skinsHunted = packhorses * Constants.PackhorseCapacity;
             AddSkins(skinsHunted);
 
-            var eventMessage = ApplyRandomHuntingEvent();
+            var eventMessage = new EventResult();
             eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
@@ -38,7 +38,7 @@
             RemoveSkins(numberOfSkins);
             AddMoney(totalCost);
 
-            var eventMessage = ApplyRandomForwardingEvent();
+            var eventMessage = new EventResult();
             eventMessage.Records.Add(new EventRecord($"{Strings.TransportedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;

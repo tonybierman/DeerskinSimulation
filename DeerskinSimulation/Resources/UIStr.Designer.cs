@@ -142,7 +142,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forward to Store.
+        ///   Looks up a localized string similar to Forward to Trader.
         /// </summary>
         public static string SellToTraderButton {
             get {

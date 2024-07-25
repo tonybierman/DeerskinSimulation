@@ -151,7 +151,7 @@
 
     #endregion
 
-    #region sell
+    #region forward
 
     private void ShowSellOptions()
     {
@@ -174,7 +174,7 @@
             GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
             ViewModel.CompleteActivity = async () =>
             {
-                await ViewModel.SellToTrader(sellOptions.NumberOfSkins);
+                await ViewModel.ForwardToTrader(sellOptions.NumberOfSkins);
                 ViewModel.CurrentActivityMeta = null;
             };
             ViewModel.RandomEventCheck = async () =>

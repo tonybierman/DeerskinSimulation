@@ -9,7 +9,7 @@ namespace DeerskinSimulation.Models
         private int _skins;
         private double _money;
         private IRandomEventStrategy _huntingEventStrategy;
-        private IRandomEventStrategy _tradingEventStrategy;
+        private IRandomEventStrategy _forwardingEventStrategy;
         private IRandomEventStrategy _transportingEventStrategy;
         private IRandomEventStrategy _exportingEventStrategy;
 
@@ -31,7 +31,7 @@ namespace DeerskinSimulation.Models
         private void InitializeEventStrategies()
         {
             _huntingEventStrategy = new HuntingEventStrategy();
-            _tradingEventStrategy = new TradingEventStrategy();
+            _forwardingEventStrategy = new ForwardingEventStrategy();
             _transportingEventStrategy = new TransportingEventStrategy();
             _exportingEventStrategy = new ExportingEventStrategy();
         }
@@ -80,7 +80,7 @@ namespace DeerskinSimulation.Models
 
         protected EventResult ApplyRandomForwardingEvent()
         {
-            return ApplyRandomEvent(_tradingEventStrategy);
+            return ApplyRandomEvent(_forwardingEventStrategy);
         }
 
         protected EventResult ApplyRandomTransportingEvent()
@@ -114,7 +114,7 @@ namespace DeerskinSimulation.Models
             RemoveSkins(numberOfSkins);
             AddMoney(sellingPrice);
 
-            var eventResult = ApplyRandomTransportingEvent();
+            var eventResult = ApplyRandomForwardingEvent();
             eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins."));
 
             return eventResult;

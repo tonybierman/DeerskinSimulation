@@ -43,5 +43,10 @@
 
             return eventMessage;
         }
+
+        public EventResult RollForRandomEvent()
+        {
+            return ApplyRandomHuntingEvent();
+        }
     }
 }

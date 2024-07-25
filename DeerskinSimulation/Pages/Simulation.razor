@@ -18,7 +18,16 @@
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>@UIStr.LogisticsTitle</h4>
+                    <h4>
+                        @if (@ViewModel.CurrentActivityMeta != null)
+                        {
+                            <text>@ViewModel.CurrentActivityMeta.Name: @(10 - currentDay)</text>
+                        }
+                        else
+                        {
+                            @UIStr.LogisticsTitle
+                        }
+                    </h4>
                     @if (Session.Debug == true)
                     {
                         <h6>@string.Format("DEBUG {0:F2} FPS", fps)</h6>
@@ -29,10 +38,7 @@
                         <h4>@ViewModel.HunterInstance.Name</h4>
                         <p>@UIStr.SkinsLabel @ViewModel.HunterInstance.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.HunterInstance.Money)</p>
-                        @if (@ViewModel.CurrentActivityMeta != null)
-                        {
-                            <p>@ViewModel.CurrentActivityMeta.Name: @(10 - currentDay)</p>
-                        }
+
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
                             <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
@@ -110,13 +116,6 @@
     private async Task OnStateChanged()
     {
         StateHasChanged();
-        await ScrollToBottomAsync();
-    }
-
-    private async Task ScrollToBottomAsync()
-    {
-        await Task.Delay(100); // Give time for the UI to update
-        await JS.InvokeVoidAsync("scrollToBottom", "console");
     }
 
     #region hunt
@@ -264,12 +263,3 @@
         GameLoopService.OnDayPassed -= UpdateDay;
     }
 }
-
-<script>
-    window.scrollToBottom = function (elementId) {
-        var element = document.getElementById(elementId);
-        if (element) {
-            element.scrollTop = element.scrollHeight;
-        }
-    };
-</script>

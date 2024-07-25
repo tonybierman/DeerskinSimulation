@@ -6,7 +6,7 @@
         {
             var rand = new Random();
             var chance = rand.Next(0, 100);
-            if (chance < 10) // 10% chance
+            if (chance < 2) // 10% chance
             {
                 int extraSkins = rand.Next(Constants.ExtraSkinsMin, Constants.ExtraSkinsMax);
                 return new EventResult(
@@ -14,7 +14,7 @@
                     p => p.AddSkins(extraSkins)
                 );
             }
-            else if (chance < 20) // 10% chance
+            else if (chance < 4) // 10% chance
             {
                 int lostSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
                 return new EventResult(

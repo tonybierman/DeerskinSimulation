@@ -47,12 +47,12 @@
 
         public async Task HuntRandomEventCheck()
         {
-            if (Debug)
+            var result = HunterInstance.RollForRandomEvent();
+            if (result != null)
             {
-                var result = new EventResult(new EventRecord("Random event check"));
                 Messages.Add(result);
+                await StateChanged?.Invoke();
             }
-            await StateChanged?.Invoke();
         }
 
         public async Task SellToTrader(int numberOfSkins)

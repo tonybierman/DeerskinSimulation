@@ -8,21 +8,6 @@
     [Parameter] public List<EventResult> EventArgs { get; set; }
 
     private MessageConsoleViewModel viewModel = new MessageConsoleViewModel();
-
-    protected override void OnParametersSet()
-    {
-        // Scroll to bottom when messages are updated
-        if (EventArgs?.Count > 0)
-        {
-            InvokeAsync(ScrollToBottomAsync);
-        }
-    }
-
-    private async Task ScrollToBottomAsync()
-    {
-        await Task.Delay(100); // Give time for the UI to update
-        await JS.InvokeVoidAsync("scrollToBottom", "console");
-    }
 }
 
 <div class="col-md-3">
@@ -61,9 +46,9 @@
             <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
                 @if (EventArgs?.Any() == true)
                 {
-                    @foreach (var e in EventArgs)
+                    @foreach (var e in EventArgs.Reverse<EventResult>())
                     {
-                        @foreach (var msg in e.Records)
+                        @foreach (var msg in e.Records.Reverse<EventRecord>())
                         {
                             viewModel.ImageUrl = msg.Image;
                             viewModel.ImageCaption = msg.Message;
@@ -79,17 +64,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-<script>
-    window.scrollToBottom = function (elementId) {
-        var element = document.getElementById(elementId);
-        if (element) {
-            element.scrollTop = element.scrollHeight;
-        }
-    };
-</script>

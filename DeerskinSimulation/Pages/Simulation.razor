@@ -6,8 +6,9 @@
 @using DeerskinSimulation.Services
 @using DeerskinSimulation.ViewModels
 @implements IDisposable
-@inject StateContainer StateContainer
+@inject StateContainer Session
 @inject GameLoopService GameLoopService
+@inject SimulationViewModel ViewModel
 
 <h3>Deerskin Simulation</h3>
 
@@ -18,19 +19,19 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>@UIStr.LogisticsTitle</h4>
-                    @if (StateContainer.Debug == true)
+                    @if (Session.Debug == true)
                     {
                         <h6>@string.Format("DEBUG {0:F2} FPS", fps)</h6>
                     }
                 </div>
                 <div class="card-body">
                     <div>
-                        <h4>@viewModel.HunterInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @viewModel.HunterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.HunterInstance.Money)</p>
-                        @if (@viewModel.CurrentActivityMeta != null)
+                        <h4>@ViewModel.HunterInstance.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.HunterInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.HunterInstance.Money)</p>
+                        @if (@ViewModel.CurrentActivityMeta != null)
                         {
-                            <p>@viewModel.CurrentActivityMeta.Name: @(10 - currentDay)</p>
+                            <p>@ViewModel.CurrentActivityMeta.Name: @(10 - currentDay)</p>
                         }
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
@@ -39,18 +40,18 @@
                     </div>
                     <hr/>
                     <div>
-                        <h4>Store at @viewModel.TraderInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @viewModel.TraderInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.TraderInstance.Money)</p>
+                        <h4>Store at @ViewModel.TraderInstance.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.TraderInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.TraderInstance.Money)</p>
                         <div>
                             <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
                         </div>
                     </div>
                     <hr />
                     <div>
-                        <h4>Port of @viewModel.ExporterInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @viewModel.ExporterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", viewModel.ExporterInstance.Money)</p>
+                        <h4>Port of @ViewModel.ExporterInstance.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.ExporterInstance.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.ExporterInstance.Money)</p>
                         <div>
                             <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
                         </div>
@@ -58,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <MessageConsole EventArgs="viewModel.Messages" />
+        <MessageConsole EventArgs="ViewModel.Messages" />
     </div>
  
 </div>
@@ -70,21 +71,20 @@
 
 @if (showSellOptions)
 {
-    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" DefaultNumberOfSkins="@viewModel.HunterInstance.Skins" />
+    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" DefaultNumberOfSkins="@ViewModel.HunterInstance.Skins" />
 }
 
 @if (showTransportOptions)
 {
-    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" DefaultNumberOfSkins="@viewModel.TraderInstance.Skins" />
+    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" DefaultNumberOfSkins="@ViewModel.TraderInstance.Skins" />
 }
 
 @if (showExportOptions)
 {
-    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" DefaultNumberOfSkins="@viewModel.ExporterInstance.Skins" />
+    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" DefaultNumberOfSkins="@ViewModel.ExporterInstance.Skins" />
 }
 
 @code {
-    private SimulationViewModel viewModel = new SimulationViewModel();
     private bool showHuntOptions = false;
     private bool showSellOptions = false;
     private bool showTransportOptions = false;
@@ -103,8 +103,8 @@
     {
         GameLoopService.OnGameTick += UpdateGame;
         GameLoopService.OnDayPassed += UpdateDay;
-        viewModel.StateChanged += OnStateChanged;
-        StateContainer.OnChange += StateHasChanged;
+        ViewModel.StateChanged += OnStateChanged;
+        Session.OnChange += StateHasChanged;
     }
 
     private async Task OnStateChanged()
@@ -135,13 +135,17 @@
     {
         currentDay = 0;
         showHuntOptions = false;
-        viewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
-        viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 };
-        GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
-        viewModel.CompleteActivity = async () =>
+        ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
+        ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 };
+        GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
+        ViewModel.CompleteActivity = async () =>
         {
-            await viewModel.Hunt();
-            viewModel.CurrentActivityMeta = null;
+            await ViewModel.Hunt();
+            ViewModel.CurrentActivityMeta = null;
+        };
+        ViewModel.RandomEventCheck = async () =>
+        {
+            await ViewModel.HuntRandomEventCheck();
         };
     }
 
@@ -165,12 +169,12 @@
         {
             currentDay = 0;
             showSellOptions = false;
-            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
-            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
-            viewModel.CompleteActivity = async () =>
+            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
+            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
+            ViewModel.CompleteActivity = async () =>
             {
-                await viewModel.SellToTrader(sellOptions.NumberOfSkins);
-                viewModel.CurrentActivityMeta = null;
+                await ViewModel.SellToTrader(sellOptions.NumberOfSkins);
+                ViewModel.CurrentActivityMeta = null;
             };
         }
     }
@@ -195,12 +199,12 @@
         {
             currentDay = 0;
             showTransportOptions = false;
-            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
-            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
-            viewModel.CompleteActivity = async () =>
+            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
+            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
+            ViewModel.CompleteActivity = async () =>
             {
-                await viewModel.TransportToExporter(transportOptions.NumberOfSkins);
-                viewModel.CurrentActivityMeta = null;
+                await ViewModel.TransportToExporter(transportOptions.NumberOfSkins);
+                ViewModel.CurrentActivityMeta = null;
             };
         }
     }
@@ -225,12 +229,12 @@
         {
             currentDay = 0;
             showExportOptions = false;
-            viewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Exporting", Duration = 10 };
-            GameLoopService.StartActivity(viewModel.CurrentActivityMeta);
-            viewModel.CompleteActivity = async () =>
+            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Exporting", Duration = 10 };
+            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
+            ViewModel.CompleteActivity = async () =>
             {
-                await viewModel.Export(exportOptions.NumberOfSkins);
-                viewModel.CurrentActivityMeta = null;
+                await ViewModel.Export(exportOptions.NumberOfSkins);
+                ViewModel.CurrentActivityMeta = null;
             };
         }
     }
@@ -241,19 +245,21 @@
     {
         currentDay++;
 
-        if (currentDay >= viewModel.CurrentActivityMeta?.Duration)
+        if (currentDay >= ViewModel.CurrentActivityMeta?.Duration)
         {
-            viewModel.CompleteActivity?.Invoke();
+            ViewModel.CompleteActivity?.Invoke();
             currentDay = 0;
         }
+
+        ViewModel.RandomEventCheck();
 
         await InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
     {
-        viewModel.StateChanged -= OnStateChanged;
-        StateContainer.OnChange -= StateHasChanged;
+        ViewModel.StateChanged -= OnStateChanged;
+        Session.OnChange -= StateHasChanged;
         GameLoopService.OnGameTick -= UpdateGame;
         GameLoopService.OnDayPassed -= UpdateDay;
     }

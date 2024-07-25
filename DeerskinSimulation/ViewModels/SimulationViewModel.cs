@@ -4,22 +4,29 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using DeerskinSimulation.Models;
+    using Microsoft.AspNetCore.Components;
 
     public class SimulationViewModel
     {
+        private StateContainer? _session;
+        public bool Debug { get; private set; } 
+
         public Hunter HunterInstance { get; private set; }
         public Trader TraderInstance { get; private set; }
         public Exporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
         public TimedActivityMeta? CurrentActivityMeta { get;set; }
-
         public Action CompleteActivity { get; set; }
+        public Action RandomEventCheck { get; set; }
 
         public event Func<Task> StateChanged;
 
-        public SimulationViewModel()
+        public SimulationViewModel(StateContainer? session)
         {
+            _session = session;
+            Debug = _session?.Debug == true;
+
             HunterInstance = new Hunter("Kanta-ke");
             TraderInstance = new Trader("Bethabara");
             ExporterInstance = new Exporter("Charleston");
@@ -35,6 +42,16 @@
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
             Messages.Add(result);
+            await StateChanged?.Invoke();
+        }
+
+        public async Task HuntRandomEventCheck()
+        {
+            if (Debug)
+            {
+                var result = new EventResult(new EventRecord("Random event check"));
+                Messages.Add(result);
+            }
             await StateChanged?.Invoke();
         }
 

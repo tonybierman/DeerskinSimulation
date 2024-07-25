@@ -38,15 +38,20 @@
             RemoveSkins(numberOfSkins);
             AddMoney(totalCost);
 
-            var eventMessage = ApplyRandomTradingEvent();
+            var eventMessage = ApplyRandomForwardingEvent();
             eventMessage.Records.Add(new EventRecord($"{Strings.TransportedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }
 
-        public EventResult RollForRandomEvent()
+        public EventResult RollForRandomHuntingEvent()
         {
             return ApplyRandomHuntingEvent();
+        }
+
+        public EventResult RollForRandomForwardingEvent()
+        {
+            return ApplyRandomForwardingEvent();
         }
     }
 }

@@ -13,5 +13,10 @@
         {
             return TransportSkins(exporter, numberOfSkins, Constants.RegionalTransportCost, Constants.DeerSkinPrice, Constants.TraderMarkup);
         }
+
+        public EventResult RollForRandomForwardingEvent()
+        {
+            return ApplyRandomForwardingEvent();
+        }
     }
 }

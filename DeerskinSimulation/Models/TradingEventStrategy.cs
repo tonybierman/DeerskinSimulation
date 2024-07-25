@@ -7,7 +7,7 @@
             var rand = new Random();
             var chance = rand.Next(0, 100);
 
-            if (chance < 10) // 10% chance
+            if (chance < 3) // 10% chance
             {
                 double bonusMoney = rand.Next((int)Constants.BonusMoneyMin, (int)Constants.BonusMoneyMax);
                 return new EventResult(
@@ -16,17 +16,17 @@
                     recipient => recipient?.RemoveMoney(bonusMoney)
                 );
             }
-            else if (chance < 20) // 10% chance
+            else if (chance < 6) // 10% chance
             {
                 int damagedSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
                 return new EventResult(
-                    new EventRecord("Damaged some skins while trading.", "red", "images/packhorse_256.jpg"),
+                    new EventRecord("Damaged some skins while forwarding.", "red", "images/packhorse_256.jpg"),
                     originator => originator.RemoveSkins(damagedSkins),
                     recipient => recipient?.AddSkins(damagedSkins)
                 );
             }
 
-            return EventResult.Empty;
+            return new EventResult();
         }
     }
 }

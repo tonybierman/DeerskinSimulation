@@ -38,49 +38,100 @@
             ExporterInstance.OnNotification += HandleNotification;
         }
 
+        #region Hunt
         public async Task Hunt()
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
-            Messages.Add(result);
-            await StateChanged?.Invoke();
-        }
-
-        public async Task HuntRandomEventCheck()
-        {
-            var result = HunterInstance.RollForRandomEvent();
-            if (result != null)
+            if (result.HasRecords())
             {
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }
         }
 
+        public async Task RandomHuntingEventCheck()
+        {
+            var result = HunterInstance.RollForRandomHuntingEvent();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
+        }
+        #endregion
+
+        #region Forward
         public async Task SellToTrader(int numberOfSkins)
         {
             var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
-            Messages.Add(result);
-            await StateChanged?.Invoke();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
         }
 
+        public async Task RandomForwardingEventCheck()
+        {
+            var result = HunterInstance.RollForRandomForwardingEvent();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
+        }
+        #endregion
+
+        #region Transport
         public async Task TransportToExporter(int numberOfSkins)
         {
             var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
-            Messages.Add(result);
-            await StateChanged?.Invoke();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
         }
 
+        public async Task RandomTransportEventCheck()
+        {
+            var result = TraderInstance.RollForRandomForwardingEvent();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
+        }
+        #endregion
+
+        #region Export
         public async Task Export(int numberOfSkins)
         {
             var result = ExporterInstance.Export(numberOfSkins);
-            Messages.Add(result);
-            await StateChanged?.Invoke();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
         }
-
+        public async Task RandomExportEventCheck()
+        {
+            var result = ExporterInstance.RollForRandomExportingEvent();
+            if (result.HasRecords())
+            {
+                Messages.Add(result);
+                await StateChanged?.Invoke();
+            }
+        }
+        #endregion
 
         private async void HandleNotification(object sender, EventResult e)
         {
-            Messages.Add(e);
-            await StateChanged?.Invoke();
+            if (e.HasRecords())
+            {
+                Messages.Add(e);
+                await StateChanged?.Invoke();
+            }
         }
     }
 }

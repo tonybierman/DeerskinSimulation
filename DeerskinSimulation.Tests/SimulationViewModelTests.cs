@@ -121,7 +121,7 @@ namespace DeerskinSimulation.Tests
             viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
 
             // Act
-            await viewModel.HuntRandomEventCheck();
+            await viewModel.RandomHuntingEventCheck();
 
             // Assert
             Assert.Contains(viewModel.Messages, msg => msg.Records.Exists(record => record.Message == "Random event check"));

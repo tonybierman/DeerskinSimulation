@@ -78,7 +78,7 @@ namespace DeerskinSimulation.Models
             return ApplyRandomEvent(_huntingEventStrategy);
         }
 
-        protected EventResult ApplyRandomTradingEvent()
+        protected EventResult ApplyRandomForwardingEvent()
         {
             return ApplyRandomEvent(_tradingEventStrategy);
         }

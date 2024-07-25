@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <MessageConsole EventArgs="ViewModel.Messages" />
+        <MessageConsole Events="ViewModel.Messages" />
     </div>
  
 </div>
@@ -102,7 +102,7 @@
     private async void UpdateGame()
     {
         fps = GameLoopService.FPS;
-        await InvokeAsync(StateHasChanged);
+        //await InvokeAsync(StateHasChanged);
     }
 
     protected override void OnInitialized()
@@ -132,6 +132,7 @@
 
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
+        ViewModel.Messages.Clear();
         currentDay = 0;
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
@@ -144,7 +145,7 @@
         };
         ViewModel.RandomEventCheck = async () =>
         {
-            await ViewModel.HuntRandomEventCheck();
+            await ViewModel.RandomHuntingEventCheck();
         };
     }
 
@@ -166,14 +167,19 @@
     {
         if (sellOptions.NumberOfSkins > 0)
         {
+            ViewModel.Messages.Clear();
             currentDay = 0;
             showSellOptions = false;
-            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
+            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Trading", Duration = 10 };
             GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
             ViewModel.CompleteActivity = async () =>
             {
                 await ViewModel.SellToTrader(sellOptions.NumberOfSkins);
                 ViewModel.CurrentActivityMeta = null;
+            };
+            ViewModel.RandomEventCheck = async () =>
+            {
+                await ViewModel.RandomForwardingEventCheck();
             };
         }
     }
@@ -196,6 +202,7 @@
     {
         if (transportOptions.NumberOfSkins > 0)
         {
+            ViewModel.Messages.Clear(); 
             currentDay = 0;
             showTransportOptions = false;
             ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
@@ -226,6 +233,7 @@
     {
         if (exportOptions.NumberOfSkins > 0)
         {
+            ViewModel.Messages.Clear(); 
             currentDay = 0;
             showExportOptions = false;
             ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Exporting", Duration = 10 };

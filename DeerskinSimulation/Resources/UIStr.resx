@@ -121,7 +121,7 @@
     <value>Hunt</value>
   </data>
   <data name="SellToTraderButton" xml:space="preserve">
-    <value>Transport to Store</value>
+    <value>Forward to Store</value>
   </data>
   <data name="TransportToExporterButton" xml:space="preserve">
     <value>Transport to Port</value>

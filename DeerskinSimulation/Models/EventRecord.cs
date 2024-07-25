@@ -17,8 +17,6 @@ namespace DeerskinSimulation.Models
             Image = image;
         }
 
-        public static EventRecord Empty { get; } = new EventRecord(string.Empty);
-
         public static bool IsNullOrEmpty(EventRecord record)
         {
             return record == null || string.IsNullOrEmpty(record.Message);

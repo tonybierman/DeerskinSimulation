@@ -16,5 +16,10 @@ namespace DeerskinSimulation.Models
             return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPrice, Constants.ExporterMarkup);
         }
 
+        public EventResult RollForRandomExportingEvent()
+        {
+            return ApplyRandomExportingEvent();
+        }
+
     }
 }

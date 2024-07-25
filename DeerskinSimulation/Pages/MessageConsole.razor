@@ -5,7 +5,7 @@
 @inject IJSRuntime JS
 
 @code {
-    [Parameter] public List<EventResult> EventArgs { get; set; }
+    [Parameter] public List<EventResult> Events { get; set; }
 
     private MessageConsoleViewModel viewModel = new MessageConsoleViewModel();
 }
@@ -44,9 +44,9 @@
         </div>
         <div class="card-body">
             <div id="console" style="height: 200px; overflow-y: scroll; border: 1px solid #8b4513; padding: 10px;">
-                @if (EventArgs?.Any() == true)
+                @if (Events?.Any() == true)
                 {
-                    @foreach (var e in EventArgs.Reverse<EventResult>())
+                    @foreach (var e in Events.Reverse<EventResult>())
                     {
                         @foreach (var msg in e.Records.Reverse<EventRecord>())
                         {

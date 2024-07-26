@@ -10,10 +10,10 @@
 @inject GameLoopService GameLoopService
 @inject SimulationViewModel ViewModel
 
-<h3>Deerskin Simulation</h3>
+<h3 class="text-center text-black">@UIStr.SimulationComponentTitle</h3>
 
 <div class="container">
-
+<hr/>
     <div class="row">
         <div class="col-md-3">
             <div class="card mb-4">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <MessageConsole Events="ViewModel.Messages" />
+        <MessageConsole Events="ViewModel.Messages" ImageUrl="@Session.AvatarUrl" />
     </div>
  
 </div>

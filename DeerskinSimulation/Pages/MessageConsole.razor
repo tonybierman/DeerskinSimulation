@@ -6,8 +6,18 @@
 
 @code {
     [Parameter] public List<EventResult> Events { get; set; }
+    [Parameter] public string? ImageUrl { get; set; }
+    [Parameter] public string? ImageCaption { get; set; }
 
     private MessageConsoleViewModel viewModel = new MessageConsoleViewModel();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        viewModel.ImageUrl = ImageUrl ?? "images/ph_256.jpg";
+        viewModel.ImageCaption = ImageCaption ?? "Deerskin Economy Simulator";
+    }
 }
 
 <div class="col-md-3">

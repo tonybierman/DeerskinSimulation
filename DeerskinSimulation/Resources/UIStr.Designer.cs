@@ -151,7 +151,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deerskin Simulation.
+        ///   Looks up a localized string similar to Deerskin Economy Simulator.
         /// </summary>
         public static string SimulationComponentTitle {
             get {

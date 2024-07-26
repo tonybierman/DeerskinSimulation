@@ -1,4 +1,7 @@
-﻿@code {
+﻿@using DeerskinSimulation.Models
+@inject StateContainer Session
+
+@code {
     private List<string> avatarUrls = new List<string>
     {
         "images/avatar_af_256.jpg",
@@ -14,6 +17,7 @@
     private void SelectAvatar(string avatarUrl)
     {
         selectedAvatarUrl = avatarUrl;
+        Session.AvatarUrl = avatarUrl;
     }
 }
 <h5>Select an Avatar:</h5>

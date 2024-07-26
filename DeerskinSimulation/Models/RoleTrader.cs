@@ -23,9 +23,9 @@ namespace DeerskinSimulation.Models
                 return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport));
             }
 
-            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
+            double principal = MathUtils.CalculateTransactionCost(numberOfSkins, pricePerSkin);
             double totalCost = principal + transportCost;
-            double sellingPrice = CalculateSellingPrice(totalCost, markup);
+            double sellingPrice = MathUtils.CalculateSellingPrice(totalCost, markup);
 
             if (recipient.Money < sellingPrice)
             {

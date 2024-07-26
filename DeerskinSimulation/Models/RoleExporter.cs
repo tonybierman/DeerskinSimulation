@@ -37,9 +37,9 @@ namespace DeerskinSimulation.Models
                 return new EventResult(new EventRecord(Strings.NoSkinsToExport));
             }
 
-            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
-            double totalCost = CalculateTotalCost(principal, exportCost, duty);
-            double sellingPrice = CalculateSellingPrice(principal + totalCost, markup);
+            double principal = MathUtils.CalculateTransactionCost(numberOfSkins, pricePerSkin);
+            double totalCost = MathUtils.CalculateTotalCost(principal, exportCost, duty);
+            double sellingPrice = MathUtils.CalculateSellingPrice(principal + totalCost, markup);
 
             if (_money < totalCost)
             {

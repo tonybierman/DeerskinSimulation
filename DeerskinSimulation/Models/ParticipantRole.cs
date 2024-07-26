@@ -64,20 +64,5 @@ namespace DeerskinSimulation.Models
             eventResult.ApplyActions(this);
             return eventResult;
         }
-
-        protected double CalculateTransactionCost(int skins, double pricePerSkin)
-        {
-            return skins * pricePerSkin;
-        }
-
-        protected double CalculateSellingPrice(double totalCost, double markup)
-        {
-            return totalCost + (totalCost * markup);
-        }
-
-        protected double CalculateTotalCost(double principal, double extraCost, double duty)
-        {
-            return extraCost + (principal * duty);
-        }
     }
 }

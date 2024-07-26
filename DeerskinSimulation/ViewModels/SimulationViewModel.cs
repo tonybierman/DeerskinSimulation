@@ -11,26 +11,37 @@
     public class SimulationViewModel
     {
         private StateContainer? _session;
-        public bool Debug { get; private set; } 
+        private int currentDay;
 
+        public bool Debug { get; private set; } 
         public Hunter HunterInstance { get; private set; }
         public Trader TraderInstance { get; private set; }
         public Exporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
         public UserActivity CurrentUserActivity { get; set; }
-        public event Func<Task> StateChanged;
         public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
+        public ConfirmTransportCommand ConfirmTransportCmd { get; }
+        public ConfirmExportCommand ConfirmExportCmd { get; }
+        public int CurrentDay { get => currentDay; set => currentDay = value; }
+
+        public event Func<Task> StateChanged;
+
         public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService)
         {
             _session = session;
             Debug = _session?.Debug == true;
+
             ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService);
             ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
+            ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService);
+            ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService);
+
             HunterInstance = new Hunter("Kanta-ke");
             TraderInstance = new Trader("Bethabara");
             ExporterInstance = new Exporter("Charleston");
+
             Messages = new List<EventResult>();
             SelectedPackhorses = 1;
 
@@ -125,6 +136,33 @@
             }
         }
         #endregion
+
+        public async void UpdateDay()
+        {
+            if (CurrentDay == 0)
+            {
+                if (CurrentUserActivity?.Start != null)
+                {
+                    await CurrentUserActivity?.Start?.Invoke();
+                }
+            }
+
+            CurrentDay++;
+
+            if (CurrentDay >= CurrentUserActivity?.Meta?.Duration)
+            {
+                if (CurrentUserActivity?.Finish != null)
+                {
+                    await CurrentUserActivity?.Finish?.Invoke();
+                }
+                CurrentDay = 0;
+            }
+
+            if (CurrentUserActivity?.InProcess != null)
+            {
+                await CurrentUserActivity?.InProcess?.Invoke();
+            }
+        }
 
         private async void HandleNotification(object sender, EventResult e)
         {

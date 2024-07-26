@@ -21,7 +21,7 @@
                     <h4>
                         @if (@ViewModel.CurrentUserActivity?.Meta != null)
                         {
-                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(10 - currentDay)</text>
+                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(10 - ViewModel.CurrentDay)</text>
                         }
                         else
                         {
@@ -95,15 +95,7 @@
     private bool showForwardOptions = false;
     private bool showTransportOptions = false;
     private bool showExportOptions = false;
-
-    private int currentDay = 0;
     private double fps;
-
-    private async void UpdateGame()
-    {
-        fps = GameLoopService.FPS;
-        //await InvokeAsync(StateHasChanged);
-    }
 
     protected override void OnInitialized()
     {
@@ -133,7 +125,7 @@
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
         ViewModel.Messages.Clear();
-        currentDay = 0;
+        ViewModel.CurrentDay = 0;
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
         await ViewModel.ConfirmHuntCmd.ExecuteAsync(huntOptions);
@@ -156,7 +148,7 @@
     private async Task ConfirmForward(ForwardOptionsViewModel forwardOptions)
     {
         ViewModel.Messages.Clear();
-        currentDay = 0;
+        ViewModel.CurrentDay = 0;
         showForwardOptions = false;
         await ViewModel.ConfirmSellCmd.ExecuteAsync(forwardOptions);
     }
@@ -180,25 +172,9 @@
         if (transportOptions.NumberOfSkins > 0)
         {
             ViewModel.Messages.Clear(); 
-            currentDay = 0;
+            ViewModel.CurrentDay = 0;
             showTransportOptions = false;
-            ViewModel.CurrentUserActivity = new UserActivity
-            {
-                Meta = new TimedActivityMeta { Name = "Transporting", Duration = 10 },
-                Start = async () =>
-                {
-                    await ViewModel.TransportToExporter(transportOptions.NumberOfSkins);
-                },
-                InProcess = async () =>
-                {
-                    //await ViewModel.RandomTransportingEventCheck();
-                },
-                Finish = async () =>
-                {
-                        ViewModel.CurrentUserActivity = null;
-                }
-            };
-            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
+            await ViewModel.ConfirmTransportCmd.ExecuteAsync(transportOptions);
         }
     }
 
@@ -221,25 +197,9 @@
         if (exportOptions.NumberOfSkins > 0)
         {
             ViewModel.Messages.Clear(); 
-            currentDay = 0;
+            ViewModel.CurrentDay = 0;
             showExportOptions = false;
-            ViewModel.CurrentUserActivity = new UserActivity
-            {
-                Meta = new TimedActivityMeta { Name = "Exporting", Duration = 10 },
-                Start = async () =>
-                {
-                    await ViewModel.Export(exportOptions.NumberOfSkins);
-                },
-                InProcess = async () =>
-                {
-                    //await ViewModel.RandomExportingEventCheck();
-                },
-                Finish = async () =>
-                {
-                        ViewModel.CurrentUserActivity = null;
-                }
-            };
-            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
+            await ViewModel.ConfirmExportCmd.ExecuteAsync(exportOptions);
         }
     }
 
@@ -247,31 +207,13 @@
 
     private async void UpdateDay()
     {
-        if (currentDay == 0)
-        {
-            if (ViewModel.CurrentUserActivity?.Start != null)
-            {
-                await ViewModel.CurrentUserActivity?.Start?.Invoke();
-            }
-        }
-
-        currentDay++;
-
-        if (currentDay >= ViewModel.CurrentUserActivity?.Meta?.Duration)
-        {
-            if (ViewModel.CurrentUserActivity?.Finish != null)
-            {
-                await ViewModel.CurrentUserActivity?.Finish?.Invoke();
-            }
-            currentDay = 0;
-        }
-
-        if (ViewModel.CurrentUserActivity?.InProcess != null)
-        {
-            await ViewModel.CurrentUserActivity?.InProcess?.Invoke();
-        }
-
+        ViewModel.UpdateDay();
         await InvokeAsync(StateHasChanged);
+    }
+
+    private async void UpdateGame()
+    {
+        fps = GameLoopService.FPS;
     }
 
     public void Dispose()

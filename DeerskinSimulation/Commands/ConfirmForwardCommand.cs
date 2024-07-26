@@ -5,18 +5,18 @@
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
 
-    public class ConfirmSellCommand
+    public class ConfirmForwardCommand
     {
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
 
-        public ConfirmSellCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
+        public ConfirmForwardCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
         }
 
-        public async Task ExecuteAsync(SellOptionsViewModel sellOptions)
+        public async Task ExecuteAsync(ForwardOptionsViewModel sellOptions)
         {
             if (sellOptions.NumberOfSkins > 0)
             {

@@ -41,7 +41,7 @@
 
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
-                            <button class="btn btn-secondary mt-2" @onclick="ShowSellOptions">@UIStr.SellToTraderButton</button>
+                            <button class="btn btn-secondary mt-2" @onclick="ShowForwardOptions">@UIStr.SellToTraderButton</button>
                         </div>
                     </div>
                     <hr/>
@@ -75,9 +75,9 @@
     <HuntOptions OnHuntConfirmed="ConfirmHunt" OnHuntCancelled="CancelHunt" />
 }
 
-@if (showSellOptions)
+@if (showForwardOptions)
 {
-    <SellOptions OnSellConfirmed="ConfirmSell" OnSellCancelled="CancelSell" DefaultNumberOfSkins="@ViewModel.HunterInstance.Skins" />
+    <ForwardOptions OnForwardConfirmed="ConfirmForward" OnForwardCancelled="CancelForward" DefaultNumberOfSkins="@ViewModel.HunterInstance.Skins" />
 }
 
 @if (showTransportOptions)
@@ -92,7 +92,7 @@
 
 @code {
     private bool showHuntOptions = false;
-    private bool showSellOptions = false;
+    private bool showForwardOptions = false;
     private bool showTransportOptions = false;
     private bool showExportOptions = false;
 
@@ -143,22 +143,22 @@
 
     #region forward
 
-    private void ShowSellOptions()
+    private void ShowForwardOptions()
     {
-        showSellOptions = true;
+        showForwardOptions = true;
     }
 
-    private void CancelSell()
+    private void CancelForward()
     {
-        showSellOptions = false;
+        showForwardOptions = false;
     }
 
-    private async Task ConfirmSell(SellOptionsViewModel sellOptions)
+    private async Task ConfirmForward(ForwardOptionsViewModel forwardOptions)
     {
         ViewModel.Messages.Clear();
         currentDay = 0;
-        showSellOptions = false;
-        await ViewModel.ConfirmSellCmd.ExecuteAsync(sellOptions);
+        showForwardOptions = false;
+        await ViewModel.ConfirmSellCmd.ExecuteAsync(forwardOptions);
     }
 
     #endregion

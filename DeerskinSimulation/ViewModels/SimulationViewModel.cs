@@ -20,13 +20,13 @@
         public int SelectedPackhorses { get; set; }
         public UserActivity CurrentUserActivity { get; set; }
         public event Func<Task> StateChanged;
-        public ConfirmSellCommand ConfirmSellCmd { get; }
+        public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService)
         {
             _session = session;
             Debug = _session?.Debug == true;
-            ConfirmSellCmd = new ConfirmSellCommand(this, gameLoopService);
+            ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService);
             ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
             HunterInstance = new Hunter("Kanta-ke");
             TraderInstance = new Trader("Bethabara");

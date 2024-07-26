@@ -1,0 +1,46 @@
+﻿@using DeerskinSimulation.Resources
+@using DeerskinSimulation.ViewModels
+@code {
+    [Parameter] public EventCallback<ForwardOptionsViewModel> OnForwardConfirmed { get; set; }
+    [Parameter] public EventCallback OnForwardCancelled { get; set; }
+    [Parameter] public int DefaultNumberOfSkins { get; set; }
+
+    private ForwardOptionsViewModel forwardOptionsViewModel = new ForwardOptionsViewModel();
+
+    protected override void OnInitialized()
+    {
+        forwardOptionsViewModel.NumberOfSkins = DefaultNumberOfSkins;
+    }
+
+    private void ConfirmForward()
+    {
+        OnForwardConfirmed.InvokeAsync(forwardOptionsViewModel);
+    }
+
+    private void CancelForward()
+    {
+        OnForwardCancelled.InvokeAsync();
+    }
+}
+
+<div class="forward-options">
+    <h5>@UIStr.SellToTraderButton</h5>
+    <label for="numberOfSkins">@UIStr.SkinsLabel</label>
+    <input type="number" id="numberOfSkins" class="form-control" @bind="forwardOptionsViewModel.NumberOfSkins" min="1" />
+    <button class="btn btn-success mt-2" @onclick="ConfirmForward">Confirm</button>
+    <button class="btn btn-secondary mt-2" @onclick="CancelForward">Cancel</button>
+</div>
+
+<style>
+    .forward-options {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+    }
+</style>

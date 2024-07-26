@@ -24,7 +24,7 @@
             return eventMessage;
         }
 
-        public EventResult SellToTrader(Trader trader, int numberOfSkins)
+        public EventResult ForwardToTrader(Trader trader, int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
@@ -39,7 +39,7 @@
             AddMoney(totalCost);
 
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord($"{Strings.TransportedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord($"{Strings.ForwardedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

@@ -70,6 +70,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forwarded skins:.
+        /// </summary>
+        public static string ForwardedSkins {
+            get {
+                return ResourceManager.GetString("ForwardedSkins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hunted skins:.
         /// </summary>
         public static string HuntedSkins {

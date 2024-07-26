@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using DeerskinSimulation.Commands;
     using DeerskinSimulation.Models;
+    using DeerskinSimulation.Services;
     using Microsoft.AspNetCore.Components;
 
     public class SimulationViewModel
@@ -18,12 +20,14 @@
         public int SelectedPackhorses { get; set; }
         public UserActivity CurrentUserActivity { get; set; }
         public event Func<Task> StateChanged;
-
-        public SimulationViewModel(StateContainer? session)
+        public ConfirmSellCommand ConfirmSellCmd { get; }
+        public ConfirmHuntCommand ConfirmHuntCmd { get; }
+        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService)
         {
             _session = session;
             Debug = _session?.Debug == true;
-
+            ConfirmSellCmd = new ConfirmSellCommand(this, gameLoopService);
+            ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
             HunterInstance = new Hunter("Kanta-ke");
             TraderInstance = new Trader("Bethabara");
             ExporterInstance = new Exporter("Charleston");
@@ -60,7 +64,7 @@
         #region Forward
         public async Task ForwardToTrader(int numberOfSkins)
         {
-            var result = HunterInstance.SellToTrader(TraderInstance, numberOfSkins);
+            var result = HunterInstance.ForwardToTrader(TraderInstance, numberOfSkins);
             if (result.HasRecords())
             {
                 Messages.Add(result);

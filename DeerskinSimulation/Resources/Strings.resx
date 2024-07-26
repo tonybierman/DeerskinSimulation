@@ -156,4 +156,7 @@
   <data name="HuntingActivityName" xml:space="preserve">
     <value>Hunting</value>
   </data>
+  <data name="ForwardedSkins" xml:space="preserve">
+    <value>Forwarded skins:</value>
+  </data>
 </root>

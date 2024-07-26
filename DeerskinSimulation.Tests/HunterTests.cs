@@ -31,7 +31,7 @@ namespace DeerskinSimulation.Tests
             hunter.AddSkins(skinsToSell);
 
             // Act
-            var result = hunter.SellToTrader(trader, skinsToSell);
+            var result = hunter.ForwardToTrader(trader, skinsToSell);
 
             // Assert
             Assert.Equal(0, hunter.Skins);

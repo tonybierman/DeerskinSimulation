@@ -136,23 +136,7 @@
         currentDay = 0;
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
-        ViewModel.CurrentUserActivity = new UserActivity    
-        {
-            Meta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 },
-            Start = async () =>
-            {
-                await ViewModel.Hunt();
-            },
-            InProcess= async () =>
-            {
-                await ViewModel.RandomHuntingEventCheck();
-            },
-            Finish = async () =>
-            {
-                ViewModel.CurrentUserActivity = null;
-            }
-        };
-        GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
+        await ViewModel.ConfirmHuntCmd.ExecuteAsync(huntOptions);
     }
 
     #endregion
@@ -171,29 +155,10 @@
 
     private async Task ConfirmSell(SellOptionsViewModel sellOptions)
     {
-        if (sellOptions.NumberOfSkins > 0)
-        {
-            ViewModel.Messages.Clear();
-            currentDay = 0;
-            showSellOptions = false;
-            ViewModel.CurrentUserActivity = new UserActivity
-            {
-                Meta = new TimedActivityMeta { Name = "Trading", Duration = 10 },
-                Start = async () =>
-                {
-                    await ViewModel.ForwardToTrader(sellOptions.NumberOfSkins);
-                },
-                InProcess = async () =>
-                {
-                    await ViewModel.RandomForwardingEventCheck();
-                },
-                Finish = async () =>
-                {
-                    ViewModel.CurrentUserActivity = null;
-                }
-            };
-            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
-        }
+        ViewModel.Messages.Clear();
+        currentDay = 0;
+        showSellOptions = false;
+        await ViewModel.ConfirmSellCmd.ExecuteAsync(sellOptions);
     }
 
     #endregion

@@ -19,10 +19,10 @@
             else if (chance < 6) // 10% chance
             {
                 int damagedSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
+                damagedSkins = 5;
                 return new EventResult(
                     new EventRecord("Damaged some skins while forwarding.", "red", "images/packhorse_256.jpg"),
-                    originator => originator.RemoveSkins(damagedSkins),
-                    recipient => recipient?.AddSkins(damagedSkins)
+                    originator => originator.RemoveSkins(damagedSkins)
                 );
             }
 

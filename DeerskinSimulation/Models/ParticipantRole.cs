@@ -4,7 +4,7 @@ using DeerskinSimulation.Resources;
 
 namespace DeerskinSimulation.Models
 {
-    public abstract class Participant
+    public abstract class ParticipantRole
     {
         private int _skins;
         private double _money;
@@ -19,7 +19,7 @@ namespace DeerskinSimulation.Models
 
         public event EventHandler<EventResult> OnNotification;
 
-        protected Participant(string name, double initialMoney)
+        protected ParticipantRole(string name, double initialMoney)
         {
             Name = name;
             _money = initialMoney;
@@ -30,10 +30,10 @@ namespace DeerskinSimulation.Models
 
         private void InitializeEventStrategies()
         {
-            _huntingEventStrategy = new HuntingEventStrategy();
-            _forwardingEventStrategy = new ForwardingEventStrategy();
-            _transportingEventStrategy = new TransportingEventStrategy();
-            _exportingEventStrategy = new ExportingEventStrategy();
+            _huntingEventStrategy = new RandomEventStrategyHunting();
+            _forwardingEventStrategy = new RandomEventStrategyForwarding();
+            _transportingEventStrategy = new RandomEventStrategyTransporting();
+            _exportingEventStrategy = new RandomEventStrategyExporting();
         }
 
         protected virtual void RaiseNotification(string message, string color)
@@ -99,7 +99,7 @@ namespace DeerskinSimulation.Models
             return ApplyRandomEvent(_exportingEventStrategy);
         }
 
-        public virtual EventResult TransportSkins(Participant recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
+        public virtual EventResult TransportSkins(ParticipantRole recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
         {
             if (_skins < numberOfSkins)
             {

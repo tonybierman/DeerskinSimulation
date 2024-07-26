@@ -1,8 +1,8 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class ExportingEventStrategy : IRandomEventStrategy
+    public class RandomEventStrategyExporting : IRandomEventStrategy
     {
-        public EventResult ApplyEvent(Participant participant)
+        public EventResult ApplyEvent(ParticipantRole participant)
         {
             var rand = new Random();
             var chance = rand.Next(0, 100);

@@ -31,7 +31,7 @@ namespace DeerskinSimulation.Tests
             await _confirmHuntCommand.ExecuteAsync(huntOptions);
 
             // Assert
-            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimedActivityMeta>()), Times.Once);
+            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimelapseActivityMeta>()), Times.Once);
             Assert.NotNull(_mockViewModel.Object.CurrentUserActivity);
             Assert.Equal("Hunting", _mockViewModel.Object.CurrentUserActivity.Meta.Name);
             Assert.Equal(10, _mockViewModel.Object.CurrentUserActivity.Meta.Duration);

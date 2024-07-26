@@ -19,7 +19,7 @@
         private CancellationTokenSource cancellationTokenSource;
         public event Action OnGameTick;
         public event Action OnDayPassed;
-        public TimedActivityMeta? CurrentActivityMeta { get; set; }
+        public TimelapseActivityMeta? CurrentActivityMeta { get; set; }
 
         public double FPS => fps;
 
@@ -35,7 +35,7 @@
             timer = new Timer(GameLoop, null, 0, 16); // Roughly 60 FPS
         }
 
-        public virtual void StartActivity(TimedActivityMeta activityMeta)
+        public virtual void StartActivity(TimelapseActivityMeta activityMeta)
         {
             isActivityRunning = true;
             tickCount = 0;

@@ -31,7 +31,7 @@ namespace DeerskinSimulation.Tests
             await _confirmForwardCommand.ExecuteAsync(forwardOptions);
 
             // Assert
-            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimedActivityMeta>()), Times.Once);
+            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimelapseActivityMeta>()), Times.Once);
             Assert.NotNull(_mockViewModel.Object.CurrentUserActivity);
             Assert.Equal("Forwarding", _mockViewModel.Object.CurrentUserActivity.Meta.Name);
             Assert.Equal(10, _mockViewModel.Object.CurrentUserActivity.Meta.Duration);
@@ -47,7 +47,7 @@ namespace DeerskinSimulation.Tests
             await _confirmForwardCommand.ExecuteAsync(forwardOptions);
 
             // Assert
-            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimedActivityMeta>()), Times.Never);
+            _mockGameLoopService.Verify(s => s.StartActivity(It.IsAny<TimelapseActivityMeta>()), Times.Never);
             Assert.Null(_mockViewModel.Object.CurrentUserActivity);
         }
 

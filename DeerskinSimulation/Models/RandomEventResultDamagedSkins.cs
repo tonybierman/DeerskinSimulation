@@ -1,8 +1,8 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class RandomEventDamagedSkins : EventResult
+    public class RandomEventResultDamagedSkins : EventResult
     {
-        public RandomEventDamagedSkins(int damagedSkins) : base(
+        public RandomEventResultDamagedSkins(int damagedSkins) : base(
             new EventRecord($"Damaged {damagedSkins} skins while forwarding.", "red", "images/packhorse_256.jpg"),
                     originator => originator.RemoveSkins(damagedSkins))
         {

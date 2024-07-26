@@ -10,7 +10,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var participant = new MockParticipant("Hunter1");
-            var strategy = new HuntingEventStrategy();
+            var strategy = new RandomEventStrategyHunting();
             participant.AddSkins(0); // Ensure skins start at 0
 
             // Act
@@ -29,7 +29,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var participant = new MockParticipant("Hunter1");
-            var strategy = new HuntingEventStrategy();
+            var strategy = new RandomEventStrategyHunting();
             participant.AddSkins(100); // Ensure there are skins to remove
 
             // Act

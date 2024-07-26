@@ -9,7 +9,7 @@ namespace DeerskinSimulation.Tests
         public void Hunter_Hunt_ShouldIncreaseSkinsAndDecreaseMoney()
         {
             // Arrange
-            var hunter = new Hunter("Hunter1");
+            var hunter = new RoleHunter("Hunter1");
             int packhorses = 3; // Assuming the hunter uses 3 packhorses for the hunt
 
             // Act
@@ -25,8 +25,8 @@ namespace DeerskinSimulation.Tests
         public void Hunter_SellToTrader_ShouldTransferSkinsAndMoney()
         {
             // Arrange
-            var hunter = new Hunter("Hunter1");
-            var trader = new Trader("Trader1");
+            var hunter = new RoleHunter("Hunter1");
+            var trader = new RoleTrader("Trader1");
             int skinsToSell = 100;
             hunter.AddSkins(skinsToSell);
 

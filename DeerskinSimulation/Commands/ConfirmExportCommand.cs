@@ -20,9 +20,9 @@
         {
             if (exportOptions.NumberOfSkins > 0)
             {
-                _viewModel.CurrentUserActivity = new UserActivity
+                _viewModel.CurrentUserActivity = new UserInitiatedActivity
                 {
-                    Meta = new TimedActivityMeta { Name = "Exporting", Duration = 10 },
+                    Meta = new TimelapseActivityMeta { Name = "Exporting", Duration = 10 },
                     Start = async () =>
                     {
                         await _viewModel.Export(exportOptions.NumberOfSkins);

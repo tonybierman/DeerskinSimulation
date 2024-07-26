@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeerskinSimulation.Tests
 {
-    public class MockParticipant : Participant
+    public class MockParticipant : ParticipantRole
     {
         public MockParticipant(string name) : base(name, 0) { }
 

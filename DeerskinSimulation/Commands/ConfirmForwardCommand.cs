@@ -20,9 +20,9 @@
         {
             if (sellOptions.NumberOfSkins > 0)
             {
-                _viewModel.CurrentUserActivity = new UserActivity
+                _viewModel.CurrentUserActivity = new UserInitiatedActivity
                 {
-                    Meta = new TimedActivityMeta { Name = "Forwarding", Duration = 10 },
+                    Meta = new TimelapseActivityMeta { Name = "Forwarding", Duration = 10 },
                     Start = async () => { },
                     InProcess = async () =>
                     {

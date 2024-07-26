@@ -3,9 +3,9 @@
     using System;
     using DeerskinSimulation.Resources; // Make sure you have the appropriate using directive
 
-    public class Hunter : Participant
+    public class RoleHunter : ParticipantRole
     {
-        public Hunter(string name) : base(name, Constants.HunterStartingFunds) { }
+        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds) { }
 
         public EventResult Hunt(int packhorses)
         {
@@ -24,7 +24,7 @@
             return eventMessage;
         }
 
-        public EventResult ForwardToTrader(Trader trader, int numberOfSkins)
+        public EventResult ForwardToTrader(RoleTrader trader, int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {

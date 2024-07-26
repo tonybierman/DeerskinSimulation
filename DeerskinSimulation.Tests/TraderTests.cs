@@ -9,8 +9,8 @@ namespace DeerskinSimulation.Tests
         public void Trader_TransportToExporter_ShouldTransferSkinsAndMoney()
         {
             // Arrange
-            var trader = new Trader("Trader1");
-            var exporter = new Exporter("Exporter1");
+            var trader = new RoleTrader("Trader1");
+            var exporter = new RoleExporter("Exporter1");
             int skinsToTransport = 100;
             trader.AddSkins(skinsToTransport);
 

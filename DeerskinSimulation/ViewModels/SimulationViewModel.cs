@@ -14,12 +14,12 @@
         private int currentDay;
 
         public bool Debug { get; private set; } 
-        public Hunter HunterInstance { get; private set; }
-        public Trader TraderInstance { get; private set; }
-        public Exporter ExporterInstance { get; private set; }
+        public RoleHunter HunterInstance { get; private set; }
+        public RoleTrader TraderInstance { get; private set; }
+        public RoleExporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
-        public UserActivity CurrentUserActivity { get; set; }
+        public UserInitiatedActivity CurrentUserActivity { get; set; }
         public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
@@ -38,9 +38,9 @@
             ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService);
             ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService);
 
-            HunterInstance = new Hunter("Kanta-ke");
-            TraderInstance = new Trader("Bethabara");
-            ExporterInstance = new Exporter("Charleston");
+            HunterInstance = new RoleHunter("Kanta-ke");
+            TraderInstance = new RoleTrader("Bethabara");
+            ExporterInstance = new RoleExporter("Charleston");
 
             Messages = new List<EventResult>();
             SelectedPackhorses = 1;

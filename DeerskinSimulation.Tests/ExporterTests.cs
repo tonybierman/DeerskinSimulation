@@ -9,7 +9,7 @@ namespace DeerskinSimulation.Tests
         public void Exporter_Export_ShouldDecreaseSkinsAndIncreaseMoney()
         {
             // Arrange
-            var exporter = new Exporter("Exporter1");
+            var exporter = new RoleExporter("Exporter1");
             int skinsToExport = 100;
             exporter.AddSkins(skinsToExport);
 

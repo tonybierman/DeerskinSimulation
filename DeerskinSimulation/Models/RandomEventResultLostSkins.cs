@@ -1,8 +1,8 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class RandomEventLostSkins : EventResult
+    public class RandomEventResultLostSkins : EventResult
     {
-        public RandomEventLostSkins(int lostSkins) : base(
+        public RandomEventResultLostSkins(int lostSkins) : base(
             new EventRecord($"Lost {lostSkins} skins due to bad weather.", "red", "images/bad_fortune_256.jpg"),
             p => p.RemoveSkins(lostSkins))
         {

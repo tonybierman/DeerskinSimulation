@@ -8,7 +8,7 @@ namespace DeerskinSimulation.Models
     /// Delegate for defining actions that can be performed on a participant.
     /// </summary>
     /// <param name="participant">The participant on which the action is performed.</param>
-    public delegate void EventAction(Participant participant);
+    public delegate void EventAction(ParticipantRole participant);
 
     /// <summary>
     /// Represents the result of an event, including records and actions to be applied to participants.
@@ -62,7 +62,7 @@ namespace DeerskinSimulation.Models
         /// </summary>
         /// <param name="originator">The originator participant.</param>
         /// <param name="recipient">The recipient participant (optional).</param>
-        public void ApplyActions(Participant originator, Participant recipient = null)
+        public void ApplyActions(ParticipantRole originator, ParticipantRole recipient = null)
         {
             OriginatorAction?.Invoke(originator);
             RecipientAction?.Invoke(recipient);

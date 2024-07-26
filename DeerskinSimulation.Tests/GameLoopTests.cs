@@ -60,7 +60,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var gameLoopService = new GameLoopService();
-            var activityMeta = new TimedActivityMeta { Duration = 5 };
+            var activityMeta = new TimelapseActivityMeta { Duration = 5 };
 
             // Act
             gameLoopService.StartActivity(activityMeta);
@@ -92,7 +92,7 @@ namespace DeerskinSimulation.Tests
             var gameLoopService = new GameLoopService();
             var dayPassedInvoked = false;
             gameLoopService.OnDayPassed += () => dayPassedInvoked = true;
-            var activityMeta = new TimedActivityMeta { Duration = 1 };
+            var activityMeta = new TimelapseActivityMeta { Duration = 1 };
             gameLoopService.StartActivity(activityMeta);
 
             // Act
@@ -107,7 +107,7 @@ namespace DeerskinSimulation.Tests
         {
             // Arrange
             var gameLoopService = new GameLoopService();
-            var activityMeta = new TimedActivityMeta { Duration = 1 }; // Duration is 1 day
+            var activityMeta = new TimelapseActivityMeta { Duration = 1 }; // Duration is 1 day
             gameLoopService.StartActivity(activityMeta);
 
             // Act

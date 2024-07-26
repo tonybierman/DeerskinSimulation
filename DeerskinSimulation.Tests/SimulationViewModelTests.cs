@@ -84,9 +84,9 @@ namespace DeerskinSimulation.Tests
             // Arrange
             var startInvoked = false;
             var finishInvoked = false;
-            var userActivity = new UserActivity
+            var userActivity = new UserInitiatedActivity
             {
-                Meta = new TimedActivityMeta { Duration = 1 },
+                Meta = new TimelapseActivityMeta { Duration = 1 },
                 Start = () => { startInvoked = true; return Task.CompletedTask; },
                 Finish = () => { finishInvoked = true; return Task.CompletedTask; }
             };

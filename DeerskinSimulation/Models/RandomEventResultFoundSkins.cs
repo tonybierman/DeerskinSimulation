@@ -1,8 +1,8 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class RandomEventFoundSkins : EventResult
+    public class RandomEventResultFoundSkins : EventResult
     {
-        public RandomEventFoundSkins(int extraSkins) : base(
+        public RandomEventResultFoundSkins(int extraSkins) : base(
             new EventRecord($"Found {extraSkins} extra skins during the hunt!", 
                 "green", 
                 "images/good_fortune_256.jpg"),

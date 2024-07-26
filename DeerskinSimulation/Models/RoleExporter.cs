@@ -2,9 +2,9 @@
 
 namespace DeerskinSimulation.Models
 {
-    public class Exporter : Participant
+    public class RoleExporter : ParticipantRole
     {
-        public Exporter(string name) : base(name, Constants.ExporterStartingFunds) { }
+        public RoleExporter(string name) : base(name, Constants.ExporterStartingFunds) { }
 
         public EventResult Export(int numberOfSkins)
         {

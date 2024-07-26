@@ -5,7 +5,14 @@
 
     public class RoleHunter : ParticipantRole
     {
-        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds) { }
+        private IRandomEventStrategy _huntingEventStrategy;
+        private IRandomEventStrategy _forwardingEventStrategy;
+
+        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds) 
+        {
+            _huntingEventStrategy = new RandomEventStrategyHunting();
+            _forwardingEventStrategy = new RandomEventStrategyForwarding();
+        }
 
         public EventResult Hunt(int packhorses)
         {
@@ -42,6 +49,15 @@
             eventMessage.Records.Add(new EventRecord($"{Strings.ForwardedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
+        }
+
+        protected EventResult ApplyRandomHuntingEvent()
+        {
+            return ApplyRandomEvent(_huntingEventStrategy);
+        }
+        protected EventResult ApplyRandomForwardingEvent()
+        {
+            return ApplyRandomEvent(_forwardingEventStrategy);
         }
 
         public EventResult RollForRandomHuntingEvent()

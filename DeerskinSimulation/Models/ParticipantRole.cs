@@ -6,12 +6,8 @@ namespace DeerskinSimulation.Models
 {
     public abstract class ParticipantRole
     {
-        private int _skins;
-        private double _money;
-        private IRandomEventStrategy _huntingEventStrategy;
-        private IRandomEventStrategy _forwardingEventStrategy;
-        private IRandomEventStrategy _transportingEventStrategy;
-        private IRandomEventStrategy _exportingEventStrategy;
+        protected int _skins;
+        protected double _money;
 
         public string Name { get; }
         public int Skins => _skins;
@@ -24,16 +20,6 @@ namespace DeerskinSimulation.Models
             Name = name;
             _money = initialMoney;
             _skins = 0;
-
-            InitializeEventStrategies();
-        }
-
-        private void InitializeEventStrategies()
-        {
-            _huntingEventStrategy = new RandomEventStrategyHunting();
-            _forwardingEventStrategy = new RandomEventStrategyForwarding();
-            _transportingEventStrategy = new RandomEventStrategyTransporting();
-            _exportingEventStrategy = new RandomEventStrategyExporting();
         }
 
         protected virtual void RaiseNotification(string message, string color)
@@ -79,90 +65,17 @@ namespace DeerskinSimulation.Models
             return eventResult;
         }
 
-        protected EventResult ApplyRandomHuntingEvent()
-        {
-            return ApplyRandomEvent(_huntingEventStrategy);
-        }
-
-        protected EventResult ApplyRandomForwardingEvent()
-        {
-            return ApplyRandomEvent(_forwardingEventStrategy);
-        }
-
-        protected EventResult ApplyRandomTransportingEvent()
-        {
-            return ApplyRandomEvent(_transportingEventStrategy);
-        }
-
-        protected EventResult ApplyRandomExportingEvent()
-        {
-            return ApplyRandomEvent(_exportingEventStrategy);
-        }
-
-        public virtual EventResult TransportSkins(ParticipantRole recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
-        {
-            if (_skins < numberOfSkins)
-            {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport));
-            }
-
-            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
-            double totalCost = principal + transportCost;
-            double sellingPrice = CalculateSellingPrice(totalCost, markup);
-
-            if (recipient.Money < sellingPrice)
-            {
-                return new EventResult(new EventRecord(Strings.RecipientCannotAffordSkins));
-            }
-
-            recipient.RemoveMoney(sellingPrice);
-            recipient.AddSkins(numberOfSkins);
-            RemoveSkins(numberOfSkins);
-            AddMoney(sellingPrice);
-
-            var eventResult = ApplyRandomForwardingEvent();
-            eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins."));
-
-            return eventResult;
-        }
-
-        public virtual EventResult ExportSkins(int numberOfSkins, double exportCost, double duty, double pricePerSkin, double markup)
-        {
-            if (_skins < numberOfSkins)
-            {
-                return new EventResult(new EventRecord(Strings.NoSkinsToExport));
-            }
-
-            double principal = CalculateTransactionCost(numberOfSkins, pricePerSkin);
-            double totalCost = CalculateTotalCost(principal, exportCost, duty);
-            double sellingPrice = CalculateSellingPrice(principal + totalCost, markup);
-
-            if (_money < totalCost)
-            {
-                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToExport));
-            }
-
-            RemoveMoney(totalCost);
-            AddMoney(sellingPrice);
-            RemoveSkins(numberOfSkins);
-
-            var eventResult = ApplyRandomExportingEvent();
-            eventResult.Records.Add(new EventRecord($"Exported {numberOfSkins} skins."));
-            
-            return eventResult;
-        }
-
-        private double CalculateTransactionCost(int skins, double pricePerSkin)
+        protected double CalculateTransactionCost(int skins, double pricePerSkin)
         {
             return skins * pricePerSkin;
         }
 
-        private double CalculateSellingPrice(double totalCost, double markup)
+        protected double CalculateSellingPrice(double totalCost, double markup)
         {
             return totalCost + (totalCost * markup);
         }
 
-        private double CalculateTotalCost(double principal, double extraCost, double duty)
+        protected double CalculateTotalCost(double principal, double extraCost, double duty)
         {
             return extraCost + (principal * duty);
         }

@@ -138,15 +138,19 @@
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
         ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 };
         GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-        ViewModel.CompleteActivity = async () =>
+        ViewModel.StartActivity = async () =>
         {
             await ViewModel.Hunt();
-            ViewModel.CurrentActivityMeta = null;
         };
         ViewModel.RandomEventCheck = async () =>
         {
             await ViewModel.RandomHuntingEventCheck();
         };
+        ViewModel.CompleteActivity = async () =>
+        {
+            ViewModel.CurrentActivityMeta = null;
+        };
+
     }
 
     #endregion
@@ -172,9 +176,12 @@
             showSellOptions = false;
             ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Trading", Duration = 10 };
             GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-            ViewModel.CompleteActivity = async () =>
+            ViewModel.StartActivity = async () =>
             {
                 await ViewModel.ForwardToTrader(sellOptions.NumberOfSkins);
+            };
+            ViewModel.CompleteActivity = async () =>
+            {
                 ViewModel.CurrentActivityMeta = null;
             };
             ViewModel.RandomEventCheck = async () =>
@@ -250,15 +257,30 @@
 
     private async void UpdateDay()
     {
+
+        if (currentDay == 0)
+        {
+            if (ViewModel.CompleteActivity != null)
+            {
+                await ViewModel.StartActivity.Invoke();
+            }
+        }
+
         currentDay++;
 
         if (currentDay >= ViewModel.CurrentActivityMeta?.Duration)
         {
-            ViewModel.CompleteActivity?.Invoke();
+            if (ViewModel.CompleteActivity != null)
+            {
+                await ViewModel.CompleteActivity.Invoke();
+            }
             currentDay = 0;
         }
 
-        ViewModel.RandomEventCheck();
+        if (ViewModel.RandomEventCheck != null)
+        {
+            await ViewModel.RandomEventCheck.Invoke();
+        }
 
         await InvokeAsync(StateHasChanged);
     }

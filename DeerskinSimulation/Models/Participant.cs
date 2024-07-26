@@ -50,6 +50,9 @@ namespace DeerskinSimulation.Models
 
         public virtual void RemoveSkins(int amount)
         {
+            if (_skins <= 0)
+                return;
+
             _skins = Math.Max(0, _skins - amount);
             //RaiseNotification($"Removed {amount} skins.", "red");
         }
@@ -62,6 +65,9 @@ namespace DeerskinSimulation.Models
 
         public virtual void RemoveMoney(double amount)
         {
+            if (_money <= 0)
+                return;
+
             _money = Math.Max(0, _money - amount);
             //RaiseNotification($"Removed ${amount:F2}.", "red");
         }

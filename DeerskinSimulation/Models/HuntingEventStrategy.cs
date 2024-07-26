@@ -9,18 +9,15 @@
             if (chance < 3) // 10% chance
             {
                 int extraSkins = rand.Next(Constants.ExtraSkinsMin, Constants.ExtraSkinsMax);
-                return new EventResult(
-                    new EventRecord("Found extra skins during the hunt!", "green", "images/good_fortune_256.jpg"),
-                    p => p.AddSkins(extraSkins)
-                );
+                return new RandomEventFoundSkins(extraSkins);
             }
             else if (chance < 6) // 10% chance
             {
-                int lostSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
-                return new EventResult(
-                    new EventRecord("Lost some skins due to bad weather.", "red", "images/bad_fortune_256.jpg"),
-                    p => p.RemoveSkins(lostSkins)
-                );
+                if (participant.Skins > 0)
+                {
+                    int lostSkins = rand.Next(Constants.LostSkinsMin, Constants.LostSkinsMax);
+                    return new RandomEventLostSkins(lostSkins);
+                }
             }
 
             return new EventResult();

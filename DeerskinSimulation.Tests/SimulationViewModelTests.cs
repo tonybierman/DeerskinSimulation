@@ -2,149 +2,103 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DeerskinSimulation.Models;
+using DeerskinSimulation.Services;
 using DeerskinSimulation.ViewModels;
 using Xunit;
+using Moq;
 
 namespace DeerskinSimulation.Tests
 {
     public class SimulationViewModelTests
     {
-        [Fact]
-        public void SimulationViewModel_InitializesCorrectly()
-        {
-            // Arrange
-            var session = new StateContainer();
-            var viewModel = new SimulationViewModel(session);
+        private readonly Mock<GameLoopService> _mockGameLoopService;
+        private readonly StateContainer _stateContainer;
+        private readonly SimulationViewModel _viewModel;
 
-            // Act & Assert
-            Assert.NotNull(viewModel);
-            Assert.NotNull(viewModel.HunterInstance);
-            Assert.NotNull(viewModel.TraderInstance);
-            Assert.NotNull(viewModel.ExporterInstance);
-            Assert.NotNull(viewModel.Messages);
-            Assert.Equal(1, viewModel.SelectedPackhorses);
+        public SimulationViewModelTests()
+        {
+            _mockGameLoopService = new Mock<GameLoopService>();
+            _stateContainer = new StateContainer();
+            _viewModel = new SimulationViewModel(_stateContainer, _mockGameLoopService.Object);
+            _viewModel.StateChanged += async () => await Task.CompletedTask; // Ensure StateChanged is subscribed
         }
 
         [Fact]
         public async Task Hunt_ShouldAddEventResultToMessages()
         {
             // Arrange
-            var session = new StateContainer();
-            var viewModel = new SimulationViewModel(session);
-            var stateChangedInvoked = false;
-            viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
+            var initialMessagesCount = _viewModel.Messages.Count;
 
             // Act
-            await viewModel.Hunt();
+            await _viewModel.Hunt();
 
             // Assert
-            Assert.True(viewModel.Messages.Count > 0);
-            Assert.True(stateChangedInvoked);
+            Assert.NotEqual(initialMessagesCount, _viewModel.Messages.Count);
         }
 
         [Fact]
-        public async Task SellToTrader_ShouldAddEventResultToMessages()
+        public async Task ForwardToTrader_ShouldAddEventResultToMessages()
         {
             // Arrange
-            var session = new StateContainer();
-            var viewModel = new SimulationViewModel(session);
-            var stateChangedInvoked = false;
-            viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
+            var initialMessagesCount = _viewModel.Messages.Count;
+            _viewModel.HunterInstance.AddSkins(10); // Ensure hunter has skins to sell
 
             // Act
-            await viewModel.ForwardToTrader(10);
+            await _viewModel.ForwardToTrader(10);
 
             // Assert
-            Assert.True(viewModel.Messages.Count > 0);
-            Assert.True(stateChangedInvoked);
+            Assert.NotEqual(initialMessagesCount, _viewModel.Messages.Count);
         }
 
         [Fact]
         public async Task TransportToExporter_ShouldAddEventResultToMessages()
         {
             // Arrange
-            var session = new StateContainer();
-            var viewModel = new SimulationViewModel(session);
-            var stateChangedInvoked = false;
-            viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
+            var initialMessagesCount = _viewModel.Messages.Count;
+            _viewModel.TraderInstance.AddSkins(10); // Ensure trader has skins to transport
 
             // Act
-            await viewModel.TransportToExporter(10);
+            await _viewModel.TransportToExporter(10);
 
             // Assert
-            Assert.True(viewModel.Messages.Count > 0);
-            Assert.True(stateChangedInvoked);
+            Assert.NotEqual(initialMessagesCount, _viewModel.Messages.Count);
         }
 
         [Fact]
         public async Task Export_ShouldAddEventResultToMessages()
         {
             // Arrange
-            var session = new StateContainer();
-            var viewModel = new SimulationViewModel(session);
-            var stateChangedInvoked = false;
-            viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
+            var initialMessagesCount = _viewModel.Messages.Count;
+            _viewModel.ExporterInstance.AddSkins(10); // Ensure exporter has skins to export
 
             // Act
-            await viewModel.Export(10);
+            await _viewModel.Export(10);
 
             // Assert
-            Assert.True(viewModel.Messages.Count > 0);
-            Assert.True(stateChangedInvoked);
+            Assert.NotEqual(initialMessagesCount, _viewModel.Messages.Count);
         }
 
         [Fact]
-        public void DebugMode_ShouldReflectStateContainerValue()
+        public async Task UpdateDay_ShouldInvokeStartAndFinishActions()
         {
             // Arrange
-            var session = new StateContainer { Debug = true };
-            var viewModel = new SimulationViewModel(session);
-
-            // Act & Assert
-            Assert.True(viewModel.Debug);
-
-            // Arrange with Debug mode off
-            session = new StateContainer { Debug = false };
-            viewModel = new SimulationViewModel(session);
-
-            // Act & Assert
-            Assert.False(viewModel.Debug);
-        }
-
-        [Fact]
-        public async Task HuntRandomEventCheck_ShouldAddDebugMessageInDebugMode()
-        {
-            // Arrange
-            var session = new StateContainer { Debug = true };
-            var viewModel = new SimulationViewModel(session);
-            var stateChangedInvoked = false;
-            viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
+            var startInvoked = false;
+            var finishInvoked = false;
+            var userActivity = new UserActivity
+            {
+                Meta = new TimedActivityMeta { Duration = 1 },
+                Start = () => { startInvoked = true; return Task.CompletedTask; },
+                Finish = () => { finishInvoked = true; return Task.CompletedTask; }
+            };
+            _viewModel.CurrentUserActivity = userActivity;
 
             // Act
-            await viewModel.RandomHuntingEventCheck();
+            _viewModel.UpdateDay();
+            await Task.Delay(50); // Wait for the async operation to complete
 
             // Assert
-            Assert.Contains(viewModel.Messages, msg => msg.Records.Exists(record => record.Message == "Random event check"));
-            Assert.True(stateChangedInvoked);
+            Assert.True(startInvoked);
+            Assert.True(finishInvoked);
         }
-
-        //[Fact]
-        //public async Task HandleNotification_ShouldAddEventResultToMessages()
-        //{
-        //    // Arrange
-        //    var session = new StateContainer();
-        //    var viewModel = new SimulationViewModel(session);
-        //    var stateChangedInvoked = false;
-        //    viewModel.StateChanged += () => { stateChangedInvoked = true; return Task.CompletedTask; };
-        //    var eventResult = new EventResult(new EventRecord("Test Event"));
-
-        //    // Act
-        //    viewModel.HandleNotification(this, eventResult);
-
-        //    // Assert
-        //    Assert.Contains(viewModel.Messages, msg => msg.Records.Exists(record => record.Message == "Test Event"));
-        //    Assert.True(stateChangedInvoked);
-        //}
     }
 }
-

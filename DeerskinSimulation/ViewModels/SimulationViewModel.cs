@@ -51,7 +51,7 @@
         }
 
         #region Hunt
-        public async Task Hunt()
+        public virtual async Task Hunt()
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
             if (result.HasRecords())
@@ -61,7 +61,7 @@
             }
         }
 
-        public async Task RandomHuntingEventCheck()
+        public virtual async Task RandomHuntingEventCheck()
         {
             var result = HunterInstance.RollForRandomHuntingEvent();
             if (result.HasRecords())
@@ -73,7 +73,7 @@
         #endregion
 
         #region Forward
-        public async Task ForwardToTrader(int numberOfSkins)
+        public virtual async Task ForwardToTrader(int numberOfSkins)
         {
             var result = HunterInstance.ForwardToTrader(TraderInstance, numberOfSkins);
             if (result.HasRecords())
@@ -83,7 +83,7 @@
             }
         }
 
-        public async Task RandomForwardingEventCheck()
+        public virtual async Task RandomForwardingEventCheck()
         {
             var result = HunterInstance.RollForRandomForwardingEvent();
             if (result.HasRecords())
@@ -95,7 +95,7 @@
         #endregion
 
         #region Transport
-        public async Task TransportToExporter(int numberOfSkins)
+        public virtual async Task TransportToExporter(int numberOfSkins)
         {
             var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
             if (result.HasRecords())
@@ -117,7 +117,7 @@
         #endregion
 
         #region Export
-        public async Task Export(int numberOfSkins)
+        public virtual async Task Export(int numberOfSkins)
         {
             var result = ExporterInstance.Export(numberOfSkins);
             if (result.HasRecords())

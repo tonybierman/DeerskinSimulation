@@ -35,7 +35,7 @@
             timer = new Timer(GameLoop, null, 0, 16); // Roughly 60 FPS
         }
 
-        public void StartActivity(TimedActivityMeta activityMeta)
+        public virtual void StartActivity(TimedActivityMeta activityMeta)
         {
             isActivityRunning = true;
             tickCount = 0;

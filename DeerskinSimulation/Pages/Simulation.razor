@@ -19,9 +19,9 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>
-                        @if (@ViewModel.CurrentActivityMeta != null)
+                        @if (@ViewModel.CurrentUserActivity?.Meta != null)
                         {
-                            <text>@ViewModel.CurrentActivityMeta.Name: @(10 - currentDay)</text>
+                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(10 - currentDay)</text>
                         }
                         else
                         {
@@ -136,21 +136,23 @@
         currentDay = 0;
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
-        ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 };
-        GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-        ViewModel.StartActivity = async () =>
+        ViewModel.CurrentUserActivity = new UserActivity    
         {
-            await ViewModel.Hunt();
+            Meta = new TimedActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 },
+            Start = async () =>
+            {
+                await ViewModel.Hunt();
+            },
+            InProcess= async () =>
+            {
+                await ViewModel.RandomHuntingEventCheck();
+            },
+            Finish = async () =>
+            {
+                ViewModel.CurrentUserActivity = null;
+            }
         };
-        ViewModel.RandomEventCheck = async () =>
-        {
-            await ViewModel.RandomHuntingEventCheck();
-        };
-        ViewModel.CompleteActivity = async () =>
-        {
-            ViewModel.CurrentActivityMeta = null;
-        };
-
+        GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
     }
 
     #endregion
@@ -174,20 +176,23 @@
             ViewModel.Messages.Clear();
             currentDay = 0;
             showSellOptions = false;
-            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Trading", Duration = 10 };
-            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-            ViewModel.StartActivity = async () =>
+            ViewModel.CurrentUserActivity = new UserActivity
             {
-                await ViewModel.ForwardToTrader(sellOptions.NumberOfSkins);
+                Meta = new TimedActivityMeta { Name = "Trading", Duration = 10 },
+                Start = async () =>
+                {
+                    await ViewModel.ForwardToTrader(sellOptions.NumberOfSkins);
+                },
+                InProcess = async () =>
+                {
+                    await ViewModel.RandomForwardingEventCheck();
+                },
+                Finish = async () =>
+                {
+                    ViewModel.CurrentUserActivity = null;
+                }
             };
-            ViewModel.CompleteActivity = async () =>
-            {
-                ViewModel.CurrentActivityMeta = null;
-            };
-            ViewModel.RandomEventCheck = async () =>
-            {
-                await ViewModel.RandomForwardingEventCheck();
-            };
+            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
         }
     }
 
@@ -212,13 +217,23 @@
             ViewModel.Messages.Clear(); 
             currentDay = 0;
             showTransportOptions = false;
-            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Transporting", Duration = 10 };
-            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-            ViewModel.CompleteActivity = async () =>
+            ViewModel.CurrentUserActivity = new UserActivity
             {
-                await ViewModel.TransportToExporter(transportOptions.NumberOfSkins);
-                ViewModel.CurrentActivityMeta = null;
+                Meta = new TimedActivityMeta { Name = "Transporting", Duration = 10 },
+                Start = async () =>
+                {
+                    await ViewModel.TransportToExporter(transportOptions.NumberOfSkins);
+                },
+                InProcess = async () =>
+                {
+                    //await ViewModel.RandomTransportingEventCheck();
+                },
+                Finish = async () =>
+                {
+                        ViewModel.CurrentUserActivity = null;
+                }
             };
+            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
         }
     }
 
@@ -243,13 +258,23 @@
             ViewModel.Messages.Clear(); 
             currentDay = 0;
             showExportOptions = false;
-            ViewModel.CurrentActivityMeta = new TimedActivityMeta { Name = "Exporting", Duration = 10 };
-            GameLoopService.StartActivity(ViewModel.CurrentActivityMeta);
-            ViewModel.CompleteActivity = async () =>
+            ViewModel.CurrentUserActivity = new UserActivity
             {
-                await ViewModel.Export(exportOptions.NumberOfSkins);
-                ViewModel.CurrentActivityMeta = null;
+                Meta = new TimedActivityMeta { Name = "Exporting", Duration = 10 },
+                Start = async () =>
+                {
+                    await ViewModel.Export(exportOptions.NumberOfSkins);
+                },
+                InProcess = async () =>
+                {
+                    //await ViewModel.RandomExportingEventCheck();
+                },
+                Finish = async () =>
+                {
+                        ViewModel.CurrentUserActivity = null;
+                }
             };
+            GameLoopService.StartActivity(ViewModel.CurrentUserActivity.Meta);
         }
     }
 
@@ -257,29 +282,28 @@
 
     private async void UpdateDay()
     {
-
         if (currentDay == 0)
         {
-            if (ViewModel.CompleteActivity != null)
+            if (ViewModel.CurrentUserActivity?.Start != null)
             {
-                await ViewModel.StartActivity.Invoke();
+                await ViewModel.CurrentUserActivity?.Start?.Invoke();
             }
         }
 
         currentDay++;
 
-        if (currentDay >= ViewModel.CurrentActivityMeta?.Duration)
+        if (currentDay >= ViewModel.CurrentUserActivity?.Meta?.Duration)
         {
-            if (ViewModel.CompleteActivity != null)
+            if (ViewModel.CurrentUserActivity?.Finish != null)
             {
-                await ViewModel.CompleteActivity.Invoke();
+                await ViewModel.CurrentUserActivity?.Finish?.Invoke();
             }
             currentDay = 0;
         }
 
-        if (ViewModel.RandomEventCheck != null)
+        if (ViewModel.CurrentUserActivity?.InProcess != null)
         {
-            await ViewModel.RandomEventCheck.Invoke();
+            await ViewModel.CurrentUserActivity?.InProcess?.Invoke();
         }
 
         await InvokeAsync(StateHasChanged);

@@ -16,11 +16,7 @@
         public Exporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
-        public TimedActivityMeta? CurrentActivityMeta { get;set; }
-        public Func<Task> StartActivity { get; set; }
-        public Func<Task> CompleteActivity { get; set; }
-        public Func<Task> RandomEventCheck { get; set; }
-
+        public UserActivity CurrentUserActivity { get; set; }
         public event Func<Task> StateChanged;
 
         public SimulationViewModel(StateContainer? session)

@@ -1,0 +1,62 @@
+﻿@code {
+    private List<string> avatarUrls = new List<string>
+    {
+        "images/avatar_af_256.jpg",
+        "images/avatar_am_256.jpg",
+        "images/avatar_bf_256.jpg",
+        "images/avatar_bm_256.jpg",
+        "images/avatar_wf_256.jpg",
+        "images/avatar_wm_256.jpg"
+    };
+
+    private string selectedAvatarUrl;
+
+    private void SelectAvatar(string avatarUrl)
+    {
+        selectedAvatarUrl = avatarUrl;
+    }
+}
+<h5>Select an Avatar:</h5>
+<div class="avatar-selection justify-content-center align-items-center">
+    @foreach (var avatarUrl in avatarUrls)
+    {
+        <img src="@avatarUrl" class="avatar" @onclick="() => SelectAvatar(avatarUrl)" />
+    }
+</div>
+
+@if (!string.IsNullOrEmpty(selectedAvatarUrl))
+{
+    <div class="selected-avatar">
+        <img src="@selectedAvatarUrl" class="avatar-selected" />
+    </div>
+}
+
+<style>
+    .avatar-selection {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+        .avatar:hover {
+            border: 2px solid #007bff;
+        }
+
+    .selected-avatar {
+        margin-top: 20px;
+    }
+
+    .avatar-selected {
+        width: 256px;
+        height: 256px;
+        border-radius: 50%;
+    }
+</style>

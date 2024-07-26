@@ -3,9 +3,15 @@
 @implements IDisposable
 @inject StateContainer StateContainer
 
-<h3>Welcome to the Deerskin Simulation</h3>
-
-<button @onclick="NavigateToSimulation">Start Simulation</button>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="text-center">
+        <h4>Welcome to the</h4>
+        <h1 class="fw-bold">Deerskin Economy</h1>
+        <h4 class="mb-5">Simulator</h4>
+        <AvatarSelection />
+        <button class="mt-3" @onclick="NavigateToSimulation">Start Simulation</button>
+    </div>
+</div>
 
 @code {
     [Inject]

@@ -20,15 +20,15 @@
 
         public async Task ExecuteAsync(HuntOptionsViewModel sellOptions)
         {
-            _viewModel.CurrentUserActivity = new UserInitiatedActivity
+            _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
             {
-                Meta = new TimelapseActivityMeta { Name = Strings.HuntingActivityName, Duration = 10 },
+                Meta = new TimelapseActivityMeta { Name = Strings.HuntingActivityName, Duration = 30 },
                 Start = async () =>
                 {
-                    await _viewModel.Hunt();
                 },
                 InProcess = async () =>
                 {
+                    await _viewModel.Hunt();
                     await _viewModel.RandomHuntingEventCheck();
                 },
                 Finish = async () =>

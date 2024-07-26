@@ -1,6 +1,6 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class UserInitiatedActivity
+    public class UserInitiatedActivitySequence
     {
         public TimelapseActivityMeta? Meta { get; set; }
         public Func<Task>? Start { get; set; }

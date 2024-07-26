@@ -19,7 +19,7 @@
         public RoleExporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
         public int SelectedPackhorses { get; set; }
-        public UserInitiatedActivity CurrentUserActivity { get; set; }
+        public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
         public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }

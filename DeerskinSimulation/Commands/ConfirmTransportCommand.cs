@@ -21,7 +21,7 @@
         {
             if (transportOptions.NumberOfSkins > 0)
             {
-                _viewModel.CurrentUserActivity = new UserInitiatedActivity
+                _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10 },
                     Start = async () =>

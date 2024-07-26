@@ -14,17 +14,28 @@
             _forwardingEventStrategy = new RandomEventStrategyForwarding();
         }
 
+        /// <summary>
+        /// Hunting math
+        /// It costs money to hunt everyday
+        /// </summary>
+        /// <param name="packhorses"></param>
+        /// <returns></returns>
         public EventResult Hunt(int packhorses)
         {
-            if (Money < Constants.HuntingCost)
+            if (Money < Constants.HuntingCostPerDay)
             {
                 return new EventResult(new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"));
             }
 
-            RemoveMoney(Constants.HuntingCost);
-            int skinsHunted = packhorses * Constants.PackhorseCapacity;
+            // Gotta pay to play
+            RemoveMoney(Constants.HuntingCostPerDay * packhorses);
+            
+            // Now try to get some skins
+            var rand = new Random();
+            var skinsHunted = rand.Next(Constants.DailySkinsMin + packhorses, Constants.DailySkinsMax + packhorses);
             AddSkins(skinsHunted);
 
+            // Tell the UI
             var eventMessage = new EventResult();
             eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}.", image: "images/avatar_wm_256.jpg"));
 
@@ -38,7 +49,7 @@
                 return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell, image: "images/avatar_wm_256.jpg"));
             }
 
-            double totalCost = numberOfSkins * Constants.DeerSkinPrice;
+            double totalCost = numberOfSkins * Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb;
             trader.RemoveMoney(totalCost);
             trader.AddSkins(numberOfSkins);
 

@@ -13,7 +13,7 @@ namespace DeerskinSimulation.Models
 
         public EventResult TransportToExporter(RoleExporter exporter, int numberOfSkins)
         {
-            return TransportSkins(exporter, numberOfSkins, Constants.RegionalTransportCost, Constants.DeerSkinPrice, Constants.TraderMarkup);
+            return TransportSkins(exporter, numberOfSkins, Constants.RegionalTransportCost, Constants.DeerSkinPricePerLb, Constants.TraderMarkup);
         }
 
         public virtual EventResult TransportSkins(ParticipantRole recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)

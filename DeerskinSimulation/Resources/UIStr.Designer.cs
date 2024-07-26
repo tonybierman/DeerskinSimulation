@@ -97,7 +97,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image.
+        ///   Looks up a localized string similar to Media.
         /// </summary>
         public static string ImageTitle {
             get {
@@ -106,7 +106,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logistics.
+        ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string LogisticsTitle {
             get {
@@ -115,7 +115,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Messages.
+        ///   Looks up a localized string similar to Console.
         /// </summary>
         public static string MessagesTitle {
             get {

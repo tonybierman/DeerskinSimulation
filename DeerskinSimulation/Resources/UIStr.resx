@@ -130,7 +130,7 @@
     <value>Export</value>
   </data>
   <data name="LogisticsTitle" xml:space="preserve">
-    <value>Logistics</value>
+    <value>Dashboard</value>
   </data>
   <data name="TraderTitle" xml:space="preserve">
     <value>Trader</value>
@@ -145,7 +145,7 @@
     <value>Money: </value>
   </data>
   <data name="MessagesTitle" xml:space="preserve">
-    <value>Messages</value>
+    <value>Console</value>
   </data>
   <data name="NoMessagesLabel" xml:space="preserve">
     <value>No messages.</value>
@@ -157,6 +157,6 @@
     <value>Exposition</value>
   </data>
   <data name="ImageTitle" xml:space="preserve">
-    <value>Image</value>
+    <value>Media</value>
   </data>
 </root>

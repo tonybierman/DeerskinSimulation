@@ -139,30 +139,37 @@
 
         public async void UpdateDay()
         {
-            if (CurrentDay == 0)
+            if (CurrentUserActivity == null) return;
+
+            // First day of activity
+            if (CurrentDay == 0 && CurrentUserActivity.Start != null)
             {
-                if (CurrentUserActivity?.Start != null)
-                {
-                    await CurrentUserActivity?.Start?.Invoke();
-                }
+                await CurrentUserActivity.Start.Invoke();
             }
 
             CurrentDay++;
 
-            if (CurrentDay >= CurrentUserActivity?.Meta?.Duration)
+            // Last day of activity
+            if (CurrentDay >= CurrentUserActivity.Meta?.Duration)
             {
-                if (CurrentUserActivity?.Finish != null)
+                if (CurrentUserActivity.Finish != null)
                 {
-                    await CurrentUserActivity?.Finish?.Invoke();
+                    await CurrentUserActivity.Finish.Invoke();
                 }
+
+                CurrentUserActivity = null;
                 CurrentDay = 0;
+
+                return;
             }
 
-            if (CurrentUserActivity?.InProcess != null)
+            // Every day in between first and last day
+            if (CurrentUserActivity.InProcess != null)
             {
-                await CurrentUserActivity?.InProcess?.Invoke();
+                await CurrentUserActivity.InProcess.Invoke();
             }
         }
+
 
         private async void HandleNotification(object sender, EventResult e)
         {

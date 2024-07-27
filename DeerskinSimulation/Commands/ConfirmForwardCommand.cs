@@ -23,7 +23,6 @@
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Forwarding", Duration = 10 },
-                    Start = async () => { },
                     InProcess = async () =>
                     {
                         await _viewModel.RandomForwardingEventCheck();
@@ -31,7 +30,6 @@
                     Finish = async () =>
                     {
                         await _viewModel.ForwardToTrader(Math.Min(sellOptions.NumberOfSkins, _viewModel.HunterInstance.Skins));
-                        _viewModel.CurrentUserActivity = null;
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

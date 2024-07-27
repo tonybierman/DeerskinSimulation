@@ -30,10 +30,6 @@
                 {
                     await _viewModel.Hunt();
                     await _viewModel.RandomHuntingEventCheck();
-                },
-                Finish = async () =>
-                {
-                    _viewModel.CurrentUserActivity = null;
                 }
             };
             _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

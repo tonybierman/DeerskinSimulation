@@ -31,10 +31,6 @@
                     InProcess = async () =>
                     {
                         //await ViewModel.RandomTransportingEventCheck();
-                    },
-                    Finish = async () =>
-                    {
-                        _viewModel.CurrentUserActivity = null;
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

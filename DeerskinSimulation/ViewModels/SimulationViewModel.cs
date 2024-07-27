@@ -11,7 +11,6 @@
     public class SimulationViewModel
     {
         private StateContainer? _session;
-        private int currentDay;
 
         public bool Debug { get; private set; } 
         public RoleHunter HunterInstance { get; private set; }
@@ -141,25 +140,25 @@
 
         public async void UpdateUserActivityDay()
         {
-            if (CurrentUserActivity == null) return;
+            if (CurrentUserActivity.Meta == null) return;
 
             // First day of activity
-            if (CurrentUserActivity.DaysElapsed == 0 && CurrentUserActivity.Start != null)
+            if (CurrentUserActivity.Meta.Elapsed == 0 && CurrentUserActivity.Start != null)
             {
                 await CurrentUserActivity.Start.Invoke();
             }
 
-            CurrentUserActivity.DaysElapsed++;
+            CurrentUserActivity.Meta.Elapsed++;
 
             // Last day of activity
-            if (CurrentUserActivity.DaysElapsed >= CurrentUserActivity.Meta?.Duration)
+            if (CurrentUserActivity.Meta.Elapsed >= CurrentUserActivity.Meta?.Duration)
             {
                 if (CurrentUserActivity.Finish != null)
                 {
                     await CurrentUserActivity.Finish.Invoke();
                 }
 
-                CurrentUserActivity.DaysElapsed = -1;
+                CurrentUserActivity.Meta.Elapsed = -1;
                 CurrentUserActivity = null;
 
                 return;

@@ -21,7 +21,7 @@
                     <h4>
                         @if (@ViewModel.CurrentUserActivity?.Meta != null)
                         {
-                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(@ViewModel.CurrentUserActivity?.Meta?.Duration - @ViewModel.CurrentUserActivity?.DaysElapsed) Days</text>
+                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(@ViewModel.CurrentUserActivity?.Meta?.Duration - @ViewModel.CurrentUserActivity?.Meta?.Elapsed) Days</text>
                         }
                         else
                         {

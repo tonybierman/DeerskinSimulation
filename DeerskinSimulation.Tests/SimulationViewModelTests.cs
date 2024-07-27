@@ -93,7 +93,7 @@ namespace DeerskinSimulation.Tests
             _viewModel.CurrentUserActivity = userActivity;
 
             // Act
-            _viewModel.UpdateDay();
+            _viewModel.UpdateUserActivityDay();
             await Task.Delay(50); // Wait for the async operation to complete
 
             // Assert

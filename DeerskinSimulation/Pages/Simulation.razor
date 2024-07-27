@@ -15,13 +15,13 @@
 <div class="container">
 <hr/>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>
                         @if (@ViewModel.CurrentUserActivity?.Meta != null)
                         {
-                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(@ViewModel.CurrentUserActivity?.Meta?.Duration - ViewModel.CurrentDay) Days</text>
+                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(@ViewModel.CurrentUserActivity?.Meta?.Duration - ViewModel.UserActivityDay) Days</text>
                         }
                         else
                         {
@@ -125,7 +125,7 @@
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
         ViewModel.Messages.Clear();
-        ViewModel.CurrentDay = 0;
+        ViewModel.UserActivityDay = 0;
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
         await ViewModel.ConfirmHuntCmd.ExecuteAsync(huntOptions);
@@ -148,7 +148,7 @@
     private async Task ConfirmForward(ForwardOptionsViewModel forwardOptions)
     {
         ViewModel.Messages.Clear();
-        ViewModel.CurrentDay = 0;
+        ViewModel.UserActivityDay = 0;
         showForwardOptions = false;
         await ViewModel.ConfirmSellCmd.ExecuteAsync(forwardOptions);
     }
@@ -172,7 +172,7 @@
         if (transportOptions.NumberOfSkins > 0)
         {
             ViewModel.Messages.Clear(); 
-            ViewModel.CurrentDay = 0;
+            ViewModel.UserActivityDay = 0;
             showTransportOptions = false;
             await ViewModel.ConfirmTransportCmd.ExecuteAsync(transportOptions);
         }
@@ -197,7 +197,7 @@
         if (exportOptions.NumberOfSkins > 0)
         {
             ViewModel.Messages.Clear(); 
-            ViewModel.CurrentDay = 0;
+            ViewModel.UserActivityDay = 0;
             showExportOptions = false;
             await ViewModel.ConfirmExportCmd.ExecuteAsync(exportOptions);
         }
@@ -207,7 +207,7 @@
 
     private async void UpdateDay()
     {
-        ViewModel.UpdateDay();
+        ViewModel.UpdateUserActivityDay();
         await InvokeAsync(StateHasChanged);
     }
 

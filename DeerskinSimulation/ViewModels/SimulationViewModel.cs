@@ -24,7 +24,7 @@
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
         public ConfirmExportCommand ConfirmExportCmd { get; }
-        public int CurrentDay { get => currentDay; set => currentDay = value; }
+        public int UserActivityDay { get => currentDay; set => currentDay = value; }
 
         public event Func<Task> StateChanged;
 
@@ -137,20 +137,20 @@
         }
         #endregion
 
-        public async void UpdateDay()
+        public async void UpdateUserActivityDay()
         {
             if (CurrentUserActivity == null) return;
 
             // First day of activity
-            if (CurrentDay == 0 && CurrentUserActivity.Start != null)
+            if (UserActivityDay == 0 && CurrentUserActivity.Start != null)
             {
                 await CurrentUserActivity.Start.Invoke();
             }
 
-            CurrentDay++;
+            UserActivityDay++;
 
             // Last day of activity
-            if (CurrentDay >= CurrentUserActivity.Meta?.Duration)
+            if (UserActivityDay >= CurrentUserActivity.Meta?.Duration)
             {
                 if (CurrentUserActivity.Finish != null)
                 {
@@ -158,7 +158,7 @@
                 }
 
                 CurrentUserActivity = null;
-                CurrentDay = 0;
+                UserActivityDay = 0;
 
                 return;
             }

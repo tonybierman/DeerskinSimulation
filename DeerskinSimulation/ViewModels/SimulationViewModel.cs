@@ -24,7 +24,7 @@
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
         public ConfirmExportCommand ConfirmExportCmd { get; }
-        public int UserActivityDay { get => currentDay; set => currentDay = value; }
+        //public int UserActivityDay { get => currentDay; set => currentDay = value; }
 
         public event Func<Task> StateChanged;
 
@@ -51,7 +51,7 @@
         }
 
         #region Hunt
-        public virtual async Task Hunt()
+        public virtual async Task<EventResultStatus> Hunt()
         {
             var result = HunterInstance.Hunt(SelectedPackhorses);
             if (result.HasRecords())
@@ -59,6 +59,8 @@
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }
+
+            return result.Status;
         }
 
         public virtual async Task RandomHuntingEventCheck()
@@ -142,23 +144,23 @@
             if (CurrentUserActivity == null) return;
 
             // First day of activity
-            if (UserActivityDay == 0 && CurrentUserActivity.Start != null)
+            if (CurrentUserActivity.DaysElapsed == 0 && CurrentUserActivity.Start != null)
             {
                 await CurrentUserActivity.Start.Invoke();
             }
 
-            UserActivityDay++;
+            CurrentUserActivity.DaysElapsed++;
 
             // Last day of activity
-            if (UserActivityDay >= CurrentUserActivity.Meta?.Duration)
+            if (CurrentUserActivity.DaysElapsed >= CurrentUserActivity.Meta?.Duration)
             {
                 if (CurrentUserActivity.Finish != null)
                 {
                     await CurrentUserActivity.Finish.Invoke();
                 }
 
+                CurrentUserActivity.DaysElapsed = -1;
                 CurrentUserActivity = null;
-                UserActivityDay = 0;
 
                 return;
             }

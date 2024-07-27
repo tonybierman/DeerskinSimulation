@@ -30,6 +30,8 @@ namespace DeerskinSimulation.Models
         /// </summary>
         public EventAction RecipientAction { get; }
 
+        public EventResultStatus Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EventResult"/> class with no records or actions.
         /// </summary>

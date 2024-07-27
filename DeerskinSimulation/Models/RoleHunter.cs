@@ -22,13 +22,18 @@
         /// <returns></returns>
         public EventResult Hunt(int packhorses)
         {
-            if (Money < Constants.HuntingCostPerDay)
+            double netCostPerDay = Constants.HuntingCostPerDay * packhorses;
+
+            if (Money < netCostPerDay)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"));
+                return new EventResult(
+                    new EventRecord(Strings.NotEnoughMoneyToHunt, 
+                        image: "images/avatar_wm_256.jpg")) 
+                    { Status = EventResultStatus.Fail } ;
             }
 
             // Gotta pay to play
-            RemoveMoney(Constants.HuntingCostPerDay * packhorses);
+            RemoveMoney(netCostPerDay);
             
             // Now try to get some skins
             var rand = new Random();

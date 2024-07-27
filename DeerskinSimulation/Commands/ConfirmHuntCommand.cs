@@ -23,13 +23,13 @@
             _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
             {
                 Meta = new TimelapseActivityMeta { Name = Strings.HuntingActivityName, Duration = 30 },
-                Start = async () =>
-                {
-                },
                 InProcess = async () =>
                 {
-                    await _viewModel.Hunt();
-                    await _viewModel.RandomHuntingEventCheck();
+                    if (_viewModel?.CurrentUserActivity?.Meta?.Status != EventResultStatus.Fail)
+                    {
+                        _viewModel.CurrentUserActivity.Meta.Status = await _viewModel.Hunt();
+                        await _viewModel.RandomHuntingEventCheck();
+                    }
                 }
             };
             _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

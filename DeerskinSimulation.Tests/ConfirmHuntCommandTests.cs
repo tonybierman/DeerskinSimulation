@@ -37,20 +37,20 @@ namespace DeerskinSimulation.Tests
             Assert.Equal(10, _mockViewModel.Object.CurrentUserActivity.Meta.Duration);
         }
 
-        [Fact]
-        public async Task ExecuteAsync_ShouldInvokeHuntOnStart()
-        {
-            // Arrange
-            var huntOptions = new HuntOptionsViewModel { SelectedPackhorses = 3 };
-            _mockViewModel.Setup(vm => vm.Hunt()).Returns(Task.CompletedTask);
+        //[Fact]
+        //public async Task ExecuteAsync_ShouldInvokeHuntOnStart()
+        //{
+        //    // Arrange
+        //    var huntOptions = new HuntOptionsViewModel { SelectedPackhorses = 3 };
+        //    _mockViewModel.Setup(vm => vm.Hunt()).Returns(Task.CompletedTask);
 
-            // Act
-            await _confirmHuntCommand.ExecuteAsync(huntOptions);
+        //    // Act
+        //    await _confirmHuntCommand.ExecuteAsync(huntOptions);
 
-            // Assert
-            await _mockViewModel.Object.CurrentUserActivity.Start();
-            _mockViewModel.Verify(vm => vm.Hunt(), Times.Once);
-        }
+        //    // Assert
+        //    await _mockViewModel.Object.CurrentUserActivity.Start();
+        //    _mockViewModel.Verify(vm => vm.Hunt(), Times.Once);
+        //}
 
         [Fact]
         public async Task ExecuteAsync_ShouldInvokeRandomHuntingEventCheckOnInProcess()

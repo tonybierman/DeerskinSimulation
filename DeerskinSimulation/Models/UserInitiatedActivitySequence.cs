@@ -6,6 +6,7 @@
         public Func<Task>? Start { get; set; }
         public Func<Task>? Finish { get; set; }
         public Func<Task>? InProcess { get; set; }
+        public int DaysElapsed { get; set; }
         public bool Completed { get; set; }
     }
 }

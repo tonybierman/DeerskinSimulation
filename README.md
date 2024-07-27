@@ -7,6 +7,12 @@ During the 1700s, millions of white-tail deerskins followed a similar path: skin
 
 **Objective**: Blazor WebAssembly simulation of the deerskin economy in the 1700s, focusing on the roles of hunters, traders, and exporters.
 
+### Demo Site
+
+[https://skins.bekkey.com](https://skins.bekkey.com)
+
+## Screen Shots
+
 ### Avatar Selector
 
 ![Screenshot showing example usage](screenshot-00.png)
@@ -14,3 +20,5 @@ During the 1700s, millions of white-tail deerskins followed a similar path: skin
 ### Dashboard
 
 ![Screenshot showing example usage](screenshot-01.png)
+
+

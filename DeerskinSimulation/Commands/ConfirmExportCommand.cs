@@ -23,13 +23,14 @@
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Exporting", Duration = 10 },
-                    Start = async () =>
-                    {
-                        await _viewModel.Export(exportOptions.NumberOfSkins);
-                    },
                     InProcess = async () =>
                     {
+                        // TODO: Daily events on the water
+                    },
+                    Finish = async () =>
+                    {
                         //TODO: await ViewModel.RandomExportingEventCheck();
+                        await _viewModel.Export(exportOptions.NumberOfSkins);
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

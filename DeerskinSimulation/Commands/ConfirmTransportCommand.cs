@@ -24,13 +24,14 @@
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10 },
-                    Start = async () =>
-                    {
-                        await _viewModel.TransportToExporter(transportOptions.NumberOfSkins);
-                    },
                     InProcess = async () =>
                     {
+                        // TODO: Daily events on the road
+                    },
+                    Finish = async () =>
+                    {
                         //await ViewModel.RandomTransportingEventCheck();
+                        await _viewModel.TransportToExporter(transportOptions.NumberOfSkins);
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

@@ -55,6 +55,13 @@
             var result = HunterInstance.Hunt(SelectedPackhorses);
             if (result.HasRecords())
             {
+                if (CurrentUserActivity.Meta != null)
+                {
+                    result.Meta = new EventResultMeta(
+                        CurrentUserActivity.Meta.Duration,
+                        CurrentUserActivity.Meta.Elapsed,
+                        CurrentUserActivity.Meta.Name);
+                }
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }
@@ -67,6 +74,13 @@
             var result = HunterInstance.RollForRandomHuntingEvent();
             if (result.HasRecords())
             {
+                if (CurrentUserActivity.Meta != null)
+                {
+                    result.Meta = new EventResultMeta(
+                        CurrentUserActivity.Meta.Duration,
+                        CurrentUserActivity.Meta.Elapsed,
+                        CurrentUserActivity.Meta.Name);
+                }
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }
@@ -79,6 +93,13 @@
             var result = HunterInstance.ForwardToTrader(TraderInstance, numberOfSkins);
             if (result.HasRecords())
             {
+                if (CurrentUserActivity.Meta != null)
+                {
+                    result.Meta = new EventResultMeta(
+                        CurrentUserActivity.Meta.Duration,
+                        CurrentUserActivity.Meta.Elapsed,
+                        CurrentUserActivity.Meta.Name);
+                }
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }
@@ -89,6 +110,13 @@
             var result = HunterInstance.RollForRandomForwardingEvent();
             if (result.HasRecords())
             {
+                if (CurrentUserActivity.Meta != null)
+                {
+                    result.Meta = new EventResultMeta(
+                        CurrentUserActivity.Meta.Duration,
+                        CurrentUserActivity.Meta.Elapsed,
+                        CurrentUserActivity.Meta.Name);
+                }
                 Messages.Add(result);
                 await StateChanged?.Invoke();
             }

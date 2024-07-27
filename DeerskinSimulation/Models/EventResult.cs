@@ -32,6 +32,8 @@ namespace DeerskinSimulation.Models
 
         public EventResultStatus Status { get; set; }
 
+        public EventResultMeta? Meta { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EventResult"/> class with no records or actions.
         /// </summary>

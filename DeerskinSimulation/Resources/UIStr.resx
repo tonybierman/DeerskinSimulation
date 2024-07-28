@@ -121,13 +121,13 @@
     <value>Hunt</value>
   </data>
   <data name="SellToTraderButton" xml:space="preserve">
-    <value>Forward to Trader</value>
+    <value>Forward to Trading Post</value>
   </data>
   <data name="TransportToExporterButton" xml:space="preserve">
-    <value>Transport to Port</value>
+    <value>Transport to Seaside Port</value>
   </data>
   <data name="ExportButton" xml:space="preserve">
-    <value>Export</value>
+    <value>Export to Europe</value>
   </data>
   <data name="LogisticsTitle" xml:space="preserve">
     <value>Dashboard</value>

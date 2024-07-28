@@ -61,7 +61,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export.
+        ///   Looks up a localized string similar to Export to Europe.
         /// </summary>
         public static string ExportButton {
             get {
@@ -142,7 +142,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forward to Trader.
+        ///   Looks up a localized string similar to Forward to Trading Post.
         /// </summary>
         public static string SellToTraderButton {
             get {
@@ -178,7 +178,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transport to Port.
+        ///   Looks up a localized string similar to Transport to Seaside Port.
         /// </summary>
         public static string TransportToExporterButton {
             get {

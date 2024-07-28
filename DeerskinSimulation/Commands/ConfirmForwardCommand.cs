@@ -20,20 +20,23 @@
         {
             if (sellOptions.NumberOfSkins > 0)
             {
-                var forwardToTraderCommand = new ForwardToTraderCommand(_viewModel, sellOptions.NumberOfSkins);
-                var randomForwardingEventCheckCommand = new RandomForwardingEventCheckCommand(_viewModel);
-
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Forwarding", Duration = 14 },
                     InProcess = async () =>
                     {
-                        // Execute the random forwarding event check command
-                        await randomForwardingEventCheckCommand.ExecuteAsync();
+                        // travel command
+                        var travelCommand = new WildernessRoadCommand(_viewModel);
+                        await travelCommand.ExecuteAsync();
                     },
                     Finish = async () =>
                     {
+                        // Execute the random forwarding event check command
+                        var randomForwardingEventCheckCommand = new RandomForwardingEventCheckCommand(_viewModel);
+                        await randomForwardingEventCheckCommand.ExecuteAsync();
+
                         // Execute the forward to trader command
+                        var forwardToTraderCommand = new ForwardToTraderCommand(_viewModel, sellOptions.NumberOfSkins);
                         await forwardToTraderCommand.ExecuteAsync();
                         _viewModel.CurrentUserActivity = null;
                     }

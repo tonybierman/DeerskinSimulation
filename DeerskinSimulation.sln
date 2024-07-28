@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opt", "opt", "{5C6F2BD2-0FD1-432E-BBD9-98DF7AB26351}"
 	ProjectSection(SolutionItems) = preProject
 		NOTES.txt = NOTES.txt
+		GreatWagonRoad.md = GreatWagonRoad.md
 		README.md = README.md
 		screenshot-00.png = screenshot-00.png
 		screenshot-01.png = screenshot-01.png

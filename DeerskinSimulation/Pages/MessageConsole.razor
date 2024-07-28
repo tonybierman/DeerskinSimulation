@@ -49,18 +49,6 @@
                     int? last = null;
                     @foreach (var e in Events.Reverse<EventResult>())
                     {
-                        @if (last != @e.Meta?.ActivityElapsed)
-                        {
-                            last = e.Meta?.ActivityElapsed;
-                            @if (@e.Meta?.ActivityName != null)
-                            {
-                                <span>@e.Meta?.ActivityName Day @last</span>
-                            }
-                            else
-                            {
-                                <span>Day @last</span>
-                            }
-                        }   
                         @foreach (var msg in e.Records.Reverse<EventRecord>())
                         {
                             viewModel.ImageUrl = msg.Image;

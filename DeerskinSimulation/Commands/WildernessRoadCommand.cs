@@ -5,11 +5,12 @@
     using DeerskinSimulation.Models;
     using DeerskinSimulation.ViewModels;
 
-    public class HuntCommand : ICommand
+    public class WildernessRoadCommand : ICommand
     {
         private readonly SimulationViewModel _viewModel;
+        private readonly int _packhorses;
 
-        public HuntCommand(SimulationViewModel viewModel)
+        public WildernessRoadCommand(SimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }
@@ -30,20 +31,26 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.HunterInstance.Hunt(_viewModel);
+            if (_viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
+
+            var meta = _viewModel.CurrentUserActivity.Meta;
+
+            var result = _viewModel.HunterInstance.Travel(_viewModel);
             if (result.HasRecords())
             {
-                if (_viewModel.CurrentUserActivity?.Meta != null)
-                {
-                    result.Meta = new EventResultMeta(
-                        _viewModel.CurrentUserActivity.Meta.Duration,
-                        _viewModel.CurrentUserActivity.Meta.Elapsed,
-                        _viewModel.CurrentUserActivity.Meta.Name);
-                }
+                result.Meta = new EventResultMeta(
+                    meta.Duration,
+                    meta.Elapsed,
+                    meta.Name);
+
                 _viewModel.Messages.Add(result);
             }
 
             return result.Status;
         }
+
     }
 }
+
+

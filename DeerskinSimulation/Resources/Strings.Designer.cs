@@ -79,7 +79,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hunted skins:.
+        ///   Looks up a localized string similar to Acquired {0} skins..
         /// </summary>
         public static string HuntedSkins {
             get {

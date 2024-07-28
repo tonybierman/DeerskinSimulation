@@ -26,7 +26,7 @@
                 {
                     if (_viewModel?.CurrentUserActivity?.Meta?.Status != EventResultStatus.Fail)
                     {
-                        var huntCommand = new HuntCommand(_viewModel, huntOptions.SelectedPackhorses);
+                        var huntCommand = new HuntCommand(_viewModel);
                         _viewModel.CurrentUserActivity.Meta.Status = await huntCommand.ExecuteAsync();
                         var randomHuntingEventCheckCommand = new RandomHuntingEventCheckCommand(_viewModel);
                         await randomHuntingEventCheckCommand.ExecuteAsync();

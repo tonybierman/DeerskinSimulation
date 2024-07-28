@@ -1,7 +1,9 @@
 ﻿namespace DeerskinSimulation.Models
 {
     using System;
+    using DeerskinSimulation.Pages;
     using DeerskinSimulation.Resources; // Make sure you have the appropriate using directive
+    using DeerskinSimulation.ViewModels;
 
     public class RoleHunter : ParticipantRole
     {
@@ -14,16 +16,43 @@
             _forwardingEventStrategy = new RandomEventStrategyForwarding();
         }
 
+        public EventResult Travel(SimulationViewModel viewModel)
+        {
+            double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
+
+            if (Money < netCostPerDay)
+            {
+                return new EventResult(
+                    new EventRecord(Strings.NotEnoughMoneyToHunt,
+                        image: "images/avatar_wm_256.jpg"))
+                { Status = EventResultStatus.Fail };
+            }
+
+            // Gotta pay to play
+            RemoveMoney(netCostPerDay);
+
+            // Tell the UI
+            var eventMessage = new EventResult();
+            eventMessage.Records.Add(new EventRecord($"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
+
+            return eventMessage;
+        }
+
         /// <summary>
         /// Hunting math
         /// It costs money to hunt everyday
         /// </summary>
         /// <param name="packhorses"></param>
         /// <returns></returns>
-        public EventResult Hunt(int packhorses)
+        public EventResult Hunt(SimulationViewModel viewModel)
         {
-            double netCostPerDay = Constants.HuntingCostPerDay * packhorses;
+            if (viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
 
+            double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
+            TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
+
+            NullReferenceException? exception = null;
             if (Money < netCostPerDay)
             {
                 return new EventResult(
@@ -37,12 +66,12 @@
             
             // Now try to get some skins
             var rand = new Random();
-            var skinsHunted = rand.Next(Constants.DailySkinsMin + packhorses, Constants.DailySkinsMax + packhorses);
+            var skinsHunted = rand.Next(Constants.DailySkinsMin + viewModel.SelectedPackhorses, Constants.DailySkinsMax + viewModel.SelectedPackhorses);
             AddSkins(skinsHunted);
 
             // Tell the UI
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord($"{Strings.HuntedSkins} {skinsHunted}.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

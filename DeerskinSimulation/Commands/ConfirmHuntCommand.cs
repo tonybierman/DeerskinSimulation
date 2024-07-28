@@ -4,7 +4,6 @@
     using DeerskinSimulation.ViewModels;
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
-    using DeerskinSimulation.Pages;
     using DeerskinSimulation.Resources;
 
     public class ConfirmHuntCommand
@@ -18,7 +17,7 @@
             _gameLoopService = gameLoopService;
         }
 
-        public async Task ExecuteAsync(HuntOptionsViewModel sellOptions)
+        public async Task ExecuteAsync(HuntOptionsViewModel huntOptions)
         {
             _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
             {
@@ -27,8 +26,10 @@
                 {
                     if (_viewModel?.CurrentUserActivity?.Meta?.Status != EventResultStatus.Fail)
                     {
-                        _viewModel.CurrentUserActivity.Meta.Status = await _viewModel.Hunt();
-                        await _viewModel.RandomHuntingEventCheck();
+                        var huntCommand = new HuntCommand(_viewModel, huntOptions.SelectedPackhorses);
+                        _viewModel.CurrentUserActivity.Meta.Status = await huntCommand.ExecuteAsync();
+                        var randomHuntingEventCheckCommand = new RandomHuntingEventCheckCommand(_viewModel);
+                        await randomHuntingEventCheckCommand.ExecuteAsync();
                     }
                 }
             };

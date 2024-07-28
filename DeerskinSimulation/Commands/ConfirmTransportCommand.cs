@@ -4,7 +4,6 @@
     using DeerskinSimulation.ViewModels;
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
-    using DeerskinSimulation.Pages;
 
     public class ConfirmTransportCommand
     {
@@ -21,17 +20,20 @@
         {
             if (transportOptions.NumberOfSkins > 0)
             {
+                var transportToExporterCommand = new TransportToExporterCommand(_viewModel, transportOptions.NumberOfSkins);
+                var randomTransportEventCheckCommand = new RandomTransportEventCheckCommand(_viewModel);
+
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10 },
                     InProcess = async () =>
                     {
-                        // TODO: Daily events on the road
+                        await randomTransportEventCheckCommand.ExecuteAsync();
                     },
                     Finish = async () =>
                     {
-                        //await ViewModel.RandomTransportingEventCheck();
-                        await _viewModel.TransportToExporter(transportOptions.NumberOfSkins);
+                        await transportToExporterCommand.ExecuteAsync();
+                        _viewModel.CurrentUserActivity = null;
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

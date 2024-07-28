@@ -11,7 +11,6 @@
     public class SimulationViewModel
     {
         private StateContainer? _session;
-
         public bool Debug { get; private set; } 
         public RoleHunter HunterInstance { get; private set; }
         public RoleTrader TraderInstance { get; private set; }
@@ -23,7 +22,6 @@
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
         public ConfirmExportCommand ConfirmExportCmd { get; }
-        //public int UserActivityDay { get => currentDay; set => currentDay = value; }
 
         public event Func<Task> StateChanged;
 
@@ -49,124 +47,7 @@
             ExporterInstance.OnNotification += HandleNotification;
         }
 
-        #region Hunt
-        public virtual async Task<EventResultStatus> Hunt()
-        {
-            var result = HunterInstance.Hunt(SelectedPackhorses);
-            if (result.HasRecords())
-            {
-                if (CurrentUserActivity.Meta != null)
-                {
-                    result.Meta = new EventResultMeta(
-                        CurrentUserActivity.Meta.Duration,
-                        CurrentUserActivity.Meta.Elapsed,
-                        CurrentUserActivity.Meta.Name);
-                }
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-
-            return result.Status;
-        }
-
-        public virtual async Task RandomHuntingEventCheck()
-        {
-            var result = HunterInstance.RollForRandomHuntingEvent();
-            if (result.HasRecords())
-            {
-                if (CurrentUserActivity.Meta != null)
-                {
-                    result.Meta = new EventResultMeta(
-                        CurrentUserActivity.Meta.Duration,
-                        CurrentUserActivity.Meta.Elapsed,
-                        CurrentUserActivity.Meta.Name);
-                }
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-        #endregion
-
-        #region Forward
-        public virtual async Task ForwardToTrader(int numberOfSkins)
-        {
-            var result = HunterInstance.ForwardToTrader(TraderInstance, numberOfSkins);
-            if (result.HasRecords())
-            {
-                if (CurrentUserActivity.Meta != null)
-                {
-                    result.Meta = new EventResultMeta(
-                        CurrentUserActivity.Meta.Duration,
-                        CurrentUserActivity.Meta.Elapsed,
-                        CurrentUserActivity.Meta.Name);
-                }
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-
-        public virtual async Task RandomForwardingEventCheck()
-        {
-            var result = HunterInstance.RollForRandomForwardingEvent();
-            if (result.HasRecords())
-            {
-                if (CurrentUserActivity.Meta != null)
-                {
-                    result.Meta = new EventResultMeta(
-                        CurrentUserActivity.Meta.Duration,
-                        CurrentUserActivity.Meta.Elapsed,
-                        CurrentUserActivity.Meta.Name);
-                }
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-        #endregion
-
-        #region Transport
-        public virtual async Task TransportToExporter(int numberOfSkins)
-        {
-            var result = TraderInstance.TransportToExporter(ExporterInstance, numberOfSkins);
-            if (result.HasRecords())
-            {
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-
-        public async Task RandomTransportEventCheck()
-        {
-            var result = TraderInstance.RollForRandomTransportingEvent();
-            if (result.HasRecords())
-            {
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-        #endregion
-
-        #region Export
-        public virtual async Task Export(int numberOfSkins)
-        {
-            var result = ExporterInstance.Export(numberOfSkins);
-            if (result.HasRecords())
-            {
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-        public async Task RandomExportEventCheck()
-        {
-            var result = ExporterInstance.RollForRandomExportingEvent();
-            if (result.HasRecords())
-            {
-                Messages.Add(result);
-                await StateChanged?.Invoke();
-            }
-        }
-        #endregion
-
-        public async void UpdateUserActivityDay()
+        public async Task UpdateUserActivityDay()
         {
             if (CurrentUserActivity.Meta == null) return;
 
@@ -186,7 +67,6 @@
                     await CurrentUserActivity.Finish.Invoke();
                 }
 
-                CurrentUserActivity.Meta.Elapsed = -1;
                 CurrentUserActivity = null;
 
                 return;
@@ -198,7 +78,6 @@
                 await CurrentUserActivity.InProcess.Invoke();
             }
         }
-
 
         private async void HandleNotification(object sender, EventResult e)
         {

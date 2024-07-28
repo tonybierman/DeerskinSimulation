@@ -20,21 +20,34 @@
         {
             if (exportOptions.NumberOfSkins > 0)
             {
+                var exportCommand = CreateExportCommand(_viewModel, exportOptions.NumberOfSkins);
+                var randomExportEventCheckCommand = CreateRandomExportEventCheckCommand(_viewModel);
+
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Exporting", Duration = 10 },
                     InProcess = async () =>
                     {
-                        // TODO: Daily events on the water
+                        await randomExportEventCheckCommand.ExecuteAsync();
                     },
                     Finish = async () =>
                     {
-                        //TODO: await ViewModel.RandomExportingEventCheck();
-                        await _viewModel.Export(exportOptions.NumberOfSkins);
+                        await exportCommand.ExecuteAsync();
+                        _viewModel.CurrentUserActivity = null;
                     }
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);
             }
+        }
+
+        protected virtual ExportCommand CreateExportCommand(SimulationViewModel viewModel, int numberOfSkins)
+        {
+            return new ExportCommand(viewModel, numberOfSkins);
+        }
+
+        protected virtual RandomExportEventCheckCommand CreateRandomExportEventCheckCommand(SimulationViewModel viewModel)
+        {
+            return new RandomExportEventCheckCommand(viewModel);
         }
     }
 }

@@ -20,19 +20,25 @@
         {
             if (sellOptions.NumberOfSkins > 0)
             {
+                var forwardToTraderCommand = new ForwardToTraderCommand(_viewModel, sellOptions.NumberOfSkins);
+                var randomForwardingEventCheckCommand = new RandomForwardingEventCheckCommand(_viewModel);
+
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
                     Meta = new TimelapseActivityMeta { Name = "Forwarding", Duration = 14 },
                     InProcess = async () =>
                     {
-                        // TODO: Daily events on the road
+                        // Execute the random forwarding event check command
+                        await randomForwardingEventCheckCommand.ExecuteAsync();
                     },
                     Finish = async () =>
                     {
-                        await _viewModel.RandomForwardingEventCheck();
-                        await _viewModel.ForwardToTrader(Math.Min(sellOptions.NumberOfSkins, _viewModel.HunterInstance.Skins));
+                        // Execute the forward to trader command
+                        await forwardToTraderCommand.ExecuteAsync();
+                        _viewModel.CurrentUserActivity = null;
                     }
                 };
+
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);
             }
         }

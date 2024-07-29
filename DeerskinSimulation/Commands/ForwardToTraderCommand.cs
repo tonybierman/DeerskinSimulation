@@ -32,7 +32,7 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.HunterInstance.ForwardToTrader(_viewModel.TraderInstance, _numberOfSkins);
+            var result = _viewModel.HunterInstance.DeliverToTrader(_viewModel.TraderInstance, _numberOfSkins);
             if (result.HasRecords())
             {
                 if (_viewModel.CurrentUserActivity?.Meta != null)

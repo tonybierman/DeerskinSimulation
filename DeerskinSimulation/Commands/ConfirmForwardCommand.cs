@@ -22,7 +22,7 @@
             {
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
-                    Meta = new TimelapseActivityMeta { Name = "Forwarding", Duration = 14 },
+                    Meta = new TimelapseActivityMeta { Name = "Packtrain", Duration = 14 },
                     InProcess = async () =>
                     {
                         // travel command

@@ -2,7 +2,7 @@
 {
     using System;
     using DeerskinSimulation.Pages;
-    using DeerskinSimulation.Resources; // Make sure you have the appropriate using directive
+    using DeerskinSimulation.Resources;
     using DeerskinSimulation.ViewModels;
 
     public class RoleHunter : ParticipantRole
@@ -18,7 +18,11 @@
 
         public EventResult Travel(SimulationViewModel viewModel)
         {
+            if (viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
+
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
+            TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
             if (Money < netCostPerDay)
             {
@@ -33,7 +37,7 @@
 
             // Tell the UI
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord($"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }
@@ -76,7 +80,7 @@
             return eventMessage;
         }
 
-        public EventResult ForwardToTrader(RoleTrader trader, int numberOfSkins)
+        public EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
@@ -91,7 +95,7 @@
             AddMoney(totalCost);
 
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord($"{Strings.ForwardedSkins} {numberOfSkins}.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(string.Format(Strings.ForwardedSkins, numberOfSkins), image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

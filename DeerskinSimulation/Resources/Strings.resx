@@ -157,7 +157,7 @@
     <value>Hunting</value>
   </data>
   <data name="ForwardedSkins" xml:space="preserve">
-    <value>Forwarded skins:</value>
+    <value>Delivered {0} skins.</value>
   </data>
   <data name="NotEnoughMoneyTravel" xml:space="preserve">
     <value>Not enough money to travel.</value>

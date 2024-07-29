@@ -70,7 +70,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forwarded skins:.
+        ///   Looks up a localized string similar to Delivered {0} skins..
         /// </summary>
         public static string ForwardedSkins {
             get {

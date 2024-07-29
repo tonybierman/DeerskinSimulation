@@ -14,7 +14,7 @@ namespace DeerskinSimulation.Models
 
         public EventResult DeliverToExporter(SimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
-            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb);
+            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
 
             exporter.RemoveMoney(sellingPrice);
             exporter.AddSkins(numberOfSkins);
@@ -52,7 +52,7 @@ namespace DeerskinSimulation.Models
             }
 
             var eventResult = new EventResult();
-            eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins about 20 miles."));
+            eventResult.Records.Add(new EventRecord(meta.Name, meta.Elapsed, $"Transported {numberOfSkins} about 20 miles."));
 
             return eventResult;
         }

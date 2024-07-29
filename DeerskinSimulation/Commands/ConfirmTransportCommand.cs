@@ -35,7 +35,7 @@
 
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
-                    Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10 },
+                    Meta = new TimelapseActivityMeta { Name = "Wagontrain", Duration = 10 },
                     InProcess = async () =>
                     {
                         await travelCommand.ExecuteAsync();

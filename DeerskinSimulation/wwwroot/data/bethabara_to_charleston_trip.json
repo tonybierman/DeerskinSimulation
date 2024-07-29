@@ -1,0 +1,116 @@
+[
+    {
+        "Day": 1,
+        "Terrain": "Rolling hills, forested areas",
+        "EndOfDay": "Mocksville, NC",
+        "Settlement": "No major settlements, small farms"
+    },
+    {
+        "Day": 2,
+        "Terrain": "Forests and small creeks",
+        "EndOfDay": "Near the Yadkin River",
+        "Settlement": "No major settlements"
+    },
+    {
+        "Day": 3,
+        "Terrain": "Forested, open fields approaching Salisbury",
+        "EndOfDay": "Salisbury, NC",
+        "Settlement": "Salisbury"
+    },
+    {
+        "Day": 4,
+        "Terrain": "Rolling terrain, transitioning to flatter areas",
+        "EndOfDay": "Between Salisbury and Concord, NC",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 5,
+        "Terrain": "Rolling hills",
+        "EndOfDay": "Concord, NC",
+        "Settlement": "Concord"
+    },
+    {
+        "Day": 6,
+        "Terrain": "Forested areas",
+        "EndOfDay": "Approaching the Catawba River",
+        "Settlement": "Small settlements, farms"
+    },
+    {
+        "Day": 7,
+        "Terrain": "Forests, river crossing",
+        "EndOfDay": "Across the Catawba River",
+        "Settlement": "Small settlements along the river"
+    },
+    {
+        "Day": 8,
+        "Terrain": "Forested areas, flatter terrain",
+        "EndOfDay": "Near Chester, SC",
+        "Settlement": "Chester"
+    },
+    {
+        "Day": 9,
+        "Terrain": "Rolling terrain",
+        "EndOfDay": "Between Chester and Lancaster, SC",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 10,
+        "Terrain": "Forested, open fields",
+        "EndOfDay": "Lancaster, SC",
+        "Settlement": "Lancaster"
+    },
+    {
+        "Day": 11,
+        "Terrain": "Rolling hills, forests",
+        "EndOfDay": "Between Lancaster and Camden, SC",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 12,
+        "Terrain": "Rolling terrain, flatter areas approaching Camden",
+        "EndOfDay": "Camden, SC",
+        "Settlement": "Camden"
+    },
+    {
+        "Day": 14,
+        "Terrain": "Rolling terrain, flatter areas",
+        "EndOfDay": "Between Camden and Sumter, SC",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 15,
+        "Terrain": "Forested areas, swamps",
+        "EndOfDay": "Near Sumter, SC",
+        "Settlement": "Sumter"
+    },
+    {
+        "Day": 16,
+        "Terrain": "Rolling terrain, forested areas",
+        "EndOfDay": "Between Sumter and the Santee River",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 17,
+        "Terrain": "Swampy areas, river crossing",
+        "EndOfDay": "Across the Santee River",
+        "Settlement": "Small settlements along the river"
+    },
+    {
+        "Day": 18,
+        "Terrain": "Flat terrain, approaching the coastal plains",
+        "EndOfDay": "Between the Santee River and Moncks Corner, SC",
+        "Settlement": "Small farms, inns"
+    },
+    {
+        "Day": 19,
+        "Terrain": "Coastal plains, flatter terrain",
+        "EndOfDay": "Near Moncks Corner, SC",
+        "Settlement": "Moncks Corner"
+    },
+    {
+        "Day": 20,
+        "Terrain": "Coastal plains, approaching Charleston",
+        "EndOfDay": "Charleston, SC",
+        "Settlement": "Charleston"
+    }
+]

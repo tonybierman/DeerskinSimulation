@@ -1,4 +1,5 @@
 ﻿using DeerskinSimulation.Resources;
+using DeerskinSimulation.ViewModels;
 
 namespace DeerskinSimulation.Models
 {
@@ -11,34 +12,47 @@ namespace DeerskinSimulation.Models
             _transportingEventStrategy = new RandomEventStrategyTransporting();
         }
 
-        public EventResult TransportToExporter(RoleExporter exporter, int numberOfSkins)
+        public EventResult DeliverToExporter(SimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
-            return TransportSkins(exporter, numberOfSkins, Constants.RegionalTransportCost, Constants.DeerSkinPricePerLb, Constants.TraderMarkup);
-        }
+            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb);
 
-        public virtual EventResult TransportSkins(ParticipantRole recipient, int numberOfSkins, double transportCost, double pricePerSkin, double markup)
-        {
-            if (_skins < numberOfSkins)
-            {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport));
-            }
-
-            double principal = MathUtils.CalculateTransactionCost(numberOfSkins, pricePerSkin);
-            double totalCost = principal + transportCost;
-            double sellingPrice = MathUtils.CalculateSellingPrice(totalCost, markup);
-
-            if (recipient.Money < sellingPrice)
-            {
-                return new EventResult(new EventRecord(Strings.RecipientCannotAffordSkins));
-            }
-
-            recipient.RemoveMoney(sellingPrice);
-            recipient.AddSkins(numberOfSkins);
+            exporter.RemoveMoney(sellingPrice);
+            exporter.AddSkins(numberOfSkins);
             RemoveSkins(numberOfSkins);
             AddMoney(sellingPrice);
 
-            var eventResult = ApplyRandomTransportingEvent();
-            eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins."));
+            var eventResult = new EventResult();
+            eventResult.Records.Add(new EventRecord($"Delivered {numberOfSkins} skins to exporter."));
+
+            return eventResult;
+        }
+
+        public virtual EventResult TransportSkins(SimulationViewModel viewModel, ParticipantRole recipient, int numberOfSkins)
+        {
+            if (viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
+
+            double netCostPerDay = Constants.RegionalTransportCost * numberOfSkins;
+            TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
+
+            if (Money < netCostPerDay)
+            {
+                return new EventResult(
+                    new EventRecord(Strings.NotEnoughMoneyTravel,
+                        image: "images/avatar_wm_256.jpg"))
+                { Status = EventResultStatus.Fail };
+            }
+
+            // Gotta pay to play
+            RemoveMoney(netCostPerDay);
+
+            if (_skins < numberOfSkins)
+            {
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport)) { Status = EventResultStatus.Fail };
+            }
+
+            var eventResult = new EventResult();
+            eventResult.Records.Add(new EventRecord($"Transported {numberOfSkins} skins about 20 miles."));
 
             return eventResult;
         }

@@ -11,6 +11,7 @@
     public class SimulationViewModel
     {
         private StateContainer? _session;
+        public HttpClient? Http { get; private set;}
         public bool Debug { get; private set; } 
         public RoleHunter HunterInstance { get; private set; }
         public RoleTrader TraderInstance { get; private set; }
@@ -25,8 +26,9 @@
 
         public event Func<Task> StateChanged;
 
-        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService)
+        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService, HttpClient http)
         {
+            Http = http;
             _session = session;
             Debug = _session?.Debug == true;
 

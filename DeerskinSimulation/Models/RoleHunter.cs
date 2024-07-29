@@ -52,7 +52,7 @@
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-            NullReferenceException? exception = null;
+            
             if (Money < netCostPerDay)
             {
                 return new EventResult(

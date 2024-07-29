@@ -159,4 +159,7 @@
   <data name="ForwardedSkins" xml:space="preserve">
     <value>Forwarded skins:</value>
   </data>
+  <data name="NotEnoughMoneyTravel" xml:space="preserve">
+    <value>Not enough money to travel.</value>
+  </data>
 </root>

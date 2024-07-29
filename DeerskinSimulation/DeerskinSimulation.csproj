@@ -75,4 +75,10 @@
     <None Include="Components\MessageConsoleLineItem.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\data\bethabara_to_charleston_trip.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

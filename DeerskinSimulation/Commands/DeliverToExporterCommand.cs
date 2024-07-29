@@ -4,12 +4,12 @@
     using DeerskinSimulation.ViewModels;
     using DeerskinSimulation.Models;
 
-    public class TransportToExporterCommand : ICommand
+    public class DeliverToExporterCommand : ICommand
     {
         private readonly SimulationViewModel _viewModel;
         private readonly int _numberOfSkins;
 
-        public TransportToExporterCommand(SimulationViewModel viewModel, int numberOfSkins)
+        public DeliverToExporterCommand(SimulationViewModel viewModel, int numberOfSkins)
         {
             _viewModel = viewModel;
             _numberOfSkins = numberOfSkins;
@@ -29,7 +29,7 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.TraderInstance.TransportToExporter(_viewModel.ExporterInstance, _numberOfSkins);
+            var result = _viewModel.TraderInstance.DeliverToExporter(_viewModel, _viewModel.ExporterInstance, _numberOfSkins);
             if (result.HasRecords())
             {
                 _viewModel.Messages.Add(result);

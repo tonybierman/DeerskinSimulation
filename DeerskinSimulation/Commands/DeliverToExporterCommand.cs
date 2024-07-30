@@ -33,7 +33,7 @@
             var result = _viewModel.Trader.DeliverToExporter(_viewModel, _viewModel.Exporter, _numberOfSkins);
             if (result.HasRecords())
             {
-                _viewModel.SetFeatured(result.Records[0]);
+                _viewModel.SetFeatured(result.LastRecord());
             }
 
             return result.Status;

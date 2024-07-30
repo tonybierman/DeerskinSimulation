@@ -95,7 +95,7 @@
             AddMoney(totalCost);
 
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord(string.Format(Strings.ForwardedSkins, numberOfSkins), image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(string.Format(Strings.ForwardedSkins, numberOfSkins, trader.Name), image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }

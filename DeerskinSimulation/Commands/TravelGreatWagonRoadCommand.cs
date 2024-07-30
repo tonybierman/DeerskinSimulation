@@ -47,7 +47,7 @@
                     meta.Elapsed,
                     meta.Name);
 
-                _viewModel.Messages.Add(result);
+                _viewModel.AddMessage(result);
             }
 
             return result.Status;

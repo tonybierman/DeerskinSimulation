@@ -30,7 +30,8 @@
             var result = _viewModel.Trader.RollForRandomTransportingEvent();
             if (result.HasRecords())
             {
-                _viewModel.SetFeatured(result.Records[0]);
+                _viewModel.AddMessage(result);
+                _viewModel.SetFeatured(result.LastRecord());
             }
 
             return result.Status;

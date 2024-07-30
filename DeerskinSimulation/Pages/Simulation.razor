@@ -66,7 +66,7 @@
             </div>
         </div>
         <StoryConsole FeaturedStory="@ViewModel.Featured" />
-        <MessageConsole Events="@ViewModel.Messages" />
+        <MessageConsole Events="@ViewModel.Messages.ToList()" />
     </div>
  
 </div>
@@ -125,7 +125,7 @@
 
     private async Task ConfirmHunt(HuntOptionsViewModel huntOptions)
     {
-        ViewModel.Messages.Clear();
+        ViewModel.ClearMessages();
         showHuntOptions = false;
         ViewModel.SelectedPackhorses = huntOptions.SelectedPackhorses;
         await ViewModel.ConfirmHuntCmd.ExecuteAsync(huntOptions);
@@ -147,7 +147,7 @@
 
     private async Task ConfirmForward(ForwardOptionsViewModel forwardOptions)
     {
-        ViewModel.Messages.Clear();
+        ViewModel.ClearMessages();
         showForwardOptions = false;
         await ViewModel.ConfirmSellCmd.ExecuteAsync(forwardOptions);
     }
@@ -170,7 +170,7 @@
     {
         if (transportOptions.NumberOfSkins > 0)
         {
-            ViewModel.Messages.Clear(); 
+            ViewModel.ClearMessages(); 
             showTransportOptions = false;
             await ViewModel.ConfirmTransportCmd.ExecuteAsync(transportOptions);
         }
@@ -194,7 +194,7 @@
     {
         if (exportOptions.NumberOfSkins > 0)
         {
-            ViewModel.Messages.Clear(); 
+            ViewModel.ClearMessages(); 
             showExportOptions = false;
             await ViewModel.ConfirmExportCmd.ExecuteAsync(exportOptions);
         }

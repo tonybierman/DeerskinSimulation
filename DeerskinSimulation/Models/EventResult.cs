@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 
 namespace DeerskinSimulation.Models
@@ -79,6 +80,11 @@ namespace DeerskinSimulation.Models
         public bool HasRecords()
         {
             return Records.Any(record => !string.IsNullOrEmpty(record.Message));
+        }
+
+        public EventRecord? LastRecord()
+        {
+            return Records.LastOrDefault();
         }
     }
 }

@@ -32,7 +32,7 @@
             var result = _viewModel.Exporter.Export(_numberOfSkins);
             if (result.HasRecords())
             {
-                _viewModel.Messages.Add(result);
+                _viewModel.AddMessage(result);
             }
 
             return result.Status;

@@ -16,7 +16,10 @@
         public RoleHunter Hunter { get; private set; }
         public RoleTrader Trader { get; private set; }
         public RoleExporter Exporter { get; private set; }
-        public List<EventResult> Messages { get; private set; }
+
+        private readonly List<EventResult> _messages = new List<EventResult>();
+        public IReadOnlyList<EventResult> Messages => _messages.AsReadOnly();
+
         public Story Featured { get; private set; }
         public int SelectedPackhorses { get; set; }
         public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
@@ -39,12 +42,43 @@
             Hunter = new RoleHunter("Kanta-ke");
             Trader = new RoleTrader("Bethabara");
             Exporter = new RoleExporter("Charleston");
-            Messages = new List<EventResult>();
             SelectedPackhorses = 1;
             Hunter.OnNotification += HandleNotification;
             Trader.OnNotification += HandleNotification;
             Exporter.OnNotification += HandleNotification;
         }
+
+        #region Messages
+
+        // Event for external classes to subscribe to
+        public event Action<EventResult> MessageAdded;
+        public event Action MessagesCleared;
+
+        protected virtual void OnMessageAdded(EventResult message)
+        {
+            MessageAdded?.Invoke(message);
+        }
+
+        protected virtual void OnMessagesCleared()
+        {
+            MessagesCleared?.Invoke();
+        }
+
+        public void ClearMessages()
+        {
+            _messages.Clear();
+            OnMessagesCleared(); // Notify subscribers if needed
+        }
+
+        public void AddMessage(EventResult message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            // Add any validation or processing logic here
+            _messages.Add(message);
+            OnMessageAdded(message); // Notify subscribers if needed
+        }
+
+        #endregion
 
         public void SetFeatured(EventRecord? result)
         {
@@ -87,7 +121,7 @@
         {
             if (e.HasRecords())
             {
-                Messages.Add(e);
+                AddMessage(e);
                 await StateChanged?.Invoke();
             }
         }

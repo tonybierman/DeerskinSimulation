@@ -40,7 +40,8 @@
                         _viewModel.CurrentUserActivity.Meta.Elapsed,
                         _viewModel.CurrentUserActivity.Meta.Name);
                 }
-                _viewModel.SetFeatured(result.Records[0]);
+                _viewModel.AddMessage(result);
+                _viewModel.SetFeatured(result.LastRecord());
             }
 
             return result.Status;

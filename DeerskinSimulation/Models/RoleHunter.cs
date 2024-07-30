@@ -9,8 +9,9 @@
     {
         private IRandomEventStrategy _huntingEventStrategy;
         private IRandomEventStrategy _forwardingEventStrategy;
+        public int CurrentBag { get; set; }
 
-        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds) 
+        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds)
         {
             _huntingEventStrategy = new RandomEventStrategyHunting();
             _forwardingEventStrategy = new RandomEventStrategyForwarding();
@@ -56,18 +57,18 @@
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-            
+
             if (Money < netCostPerDay)
             {
                 return new EventResult(
-                    new EventRecord(Strings.NotEnoughMoneyToHunt, 
-                        image: "images/avatar_wm_256.jpg")) 
-                    { Status = EventResultStatus.Fail } ;
+                    new EventRecord(Strings.NotEnoughMoneyToHunt,
+                        image: "images/avatar_wm_256.jpg"))
+                { Status = EventResultStatus.Fail };
             }
 
             // Gotta pay to play
             RemoveMoney(netCostPerDay);
-            
+
             // Now try to get some skins
             var rand = new Random();
             var skinsHunted = rand.Next(Constants.DailySkinsMin + viewModel.SelectedPackhorses, Constants.DailySkinsMax + viewModel.SelectedPackhorses);
@@ -77,8 +78,26 @@
             var eventMessage = new EventResult();
             eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
+            CurrentBag += skinsHunted;
+
             return eventMessage;
         }
+
+        public EventResult EndHunt(SimulationViewModel viewModel)
+        {
+            if (viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
+
+            TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
+
+            var eventMessage = new EventResult();
+            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, string.Format(Strings.EndOfHunt, CurrentBag), image: "images/avatar_wm_256.jpg"));
+
+            CurrentBag = 0;
+
+            return eventMessage;
+        }
+
 
         public EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
         {

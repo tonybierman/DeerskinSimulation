@@ -6,7 +6,12 @@
             new EventRecord($"Found {extraSkins} extra skins during the hunt!", 
                 "green", 
                 "images/good_fortune_256.jpg"),
-                p => p.AddSkins(extraSkins))
+                (p) =>
+                {
+                    p.RemoveSkins(extraSkins);
+                    var h = p as RoleHunter;
+                    h.CurrentBag -= extraSkins;
+                })
         {
         }
     }

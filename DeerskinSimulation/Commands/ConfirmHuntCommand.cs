@@ -31,6 +31,11 @@
                         var randomHuntingEventCheckCommand = new RandomHuntingEventCheckCommand(_viewModel);
                         await randomHuntingEventCheckCommand.ExecuteAsync();
                     }
+                },
+                Finish = async () =>
+                {
+                    var huntCommand = new DeliverToCampCommand(_viewModel);
+                    _viewModel.CurrentUserActivity.Meta.Status = await huntCommand.ExecuteAsync();
                 }
             };
             _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

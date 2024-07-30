@@ -88,6 +88,15 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bagged {0} skins..
+        /// </summary>
+        public static string EndOfHunt {
+            get {
+                return ResourceManager.GetString("EndOfHunt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivered {0} skins to {1}..
         /// </summary>
         public static string ForwardedSkins {

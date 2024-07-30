@@ -168,4 +168,7 @@
   <data name="DefaultTitle" xml:space="preserve">
     <value>Deerskin Economy Simulator</value>
   </data>
+  <data name="EndOfHunt" xml:space="preserve">
+    <value>Bagged {0} skins.</value>
+  </data>
 </root>

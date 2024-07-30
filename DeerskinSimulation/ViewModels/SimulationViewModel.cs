@@ -17,6 +17,7 @@
         public RoleTrader TraderInstance { get; private set; }
         public RoleExporter ExporterInstance { get; private set; }
         public List<EventResult> Messages { get; private set; }
+        public List<EventResult> Features { get; private set; }
         public int SelectedPackhorses { get; set; }
         public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
         public ConfirmForwardCommand ConfirmSellCmd { get; }
@@ -41,6 +42,7 @@
             TraderInstance = new RoleTrader("Bethabara");
             ExporterInstance = new RoleExporter("Charleston");
 
+            Features = new List<EventResult>();
             Messages = new List<EventResult>();
             SelectedPackhorses = 1;
 

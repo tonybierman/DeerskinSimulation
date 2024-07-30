@@ -30,7 +30,7 @@
             var result = _viewModel.ExporterInstance.RollForRandomExportingEvent();
             if (result.HasRecords())
             {
-                _viewModel.Messages.Add(result);
+                _viewModel.Features.Add(result);
             }
 
             return result.Status;

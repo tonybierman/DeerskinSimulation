@@ -61,7 +61,7 @@
             if (isActivityRunning)
             {
                 tickCount++;
-                if (tickCount >= 10) // One day has passed
+                if (tickCount >= 40) // One day has passed
                 {
                     tickCount = 0;
                     dayCount++;

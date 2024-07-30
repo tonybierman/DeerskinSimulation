@@ -1,0 +1,36 @@
+﻿@using DeerskinSimulation.Models
+@using DeerskinSimulation.Resources
+@using DeerskinSimulation.ViewModels
+
+@code {
+    [Parameter] public List<EventResult> Features { get; set; }
+    [Parameter] public string? ImageUrl { get; set; }
+    [Parameter] public string? ImageCaption { get; set; }
+
+    private StoryConsoleViewModel viewModel = new StoryConsoleViewModel();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        viewModel.ImageUrl = ImageUrl ?? "images/ph_256.jpg";
+        viewModel.ImageCaption = ImageCaption ?? "The Deerskin Economy";
+    }
+}
+
+<div class="col-md-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>@UIStr.ImageTitle</h4>
+        </div>
+        <div class="card-body">
+            <figure class="text-center">
+                <img class="img-fluid" src="@viewModel.ImageUrl" alt="Event Image" width="256" />
+                <figcaption class="mt-2">@viewModel.ImageCaption</figcaption>
+            </figure>
+            <p>
+                During the 1700s, millions of white-tail deerskins played a vital role in the colonial economy. These skins were skinned, scraped, and packed by hand, primarily by Native Americans and frontier settlers. They were then carried over mountains by horseback and transported to port by wagon. Once at the port, they were shipped across the Atlantic to European tanneries. In Europe, the deerskins were highly valued for their quality and used to produce fine leather goods, fueling a lucrative transatlantic trade.
+            </p>
+        </div>
+    </div>
+</div>

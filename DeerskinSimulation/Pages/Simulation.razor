@@ -65,7 +65,8 @@
                 </div>
             </div>
         </div>
-        <MessageConsole Events="ViewModel.Messages" ImageUrl="@Session.AvatarUrl" />
+        <StoryConsole Features="@ViewModel.Features" ImageUrl="@Session.AvatarUrl" />
+        <MessageConsole Events="@ViewModel.Messages" />
     </div>
  
 </div>

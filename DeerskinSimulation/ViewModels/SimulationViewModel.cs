@@ -13,11 +13,11 @@
         private StateContainer? _session;
         public HttpClient? Http { get; private set;}
         public bool Debug { get; private set; } 
-        public RoleHunter HunterInstance { get; private set; }
-        public RoleTrader TraderInstance { get; private set; }
-        public RoleExporter ExporterInstance { get; private set; }
+        public RoleHunter Hunter { get; private set; }
+        public RoleTrader Trader { get; private set; }
+        public RoleExporter Exporter { get; private set; }
         public List<EventResult> Messages { get; private set; }
-        public List<EventResult> Features { get; private set; }
+        public Story Featured { get; private set; }
         public int SelectedPackhorses { get; set; }
         public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
         public ConfirmForwardCommand ConfirmSellCmd { get; }
@@ -32,23 +32,23 @@
             Http = http;
             _session = session;
             Debug = _session?.Debug == true;
-
             ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService);
             ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
             ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService);
             ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService);
-
-            HunterInstance = new RoleHunter("Kanta-ke");
-            TraderInstance = new RoleTrader("Bethabara");
-            ExporterInstance = new RoleExporter("Charleston");
-
-            Features = new List<EventResult>();
+            Hunter = new RoleHunter("Kanta-ke");
+            Trader = new RoleTrader("Bethabara");
+            Exporter = new RoleExporter("Charleston");
             Messages = new List<EventResult>();
             SelectedPackhorses = 1;
+            Hunter.OnNotification += HandleNotification;
+            Trader.OnNotification += HandleNotification;
+            Exporter.OnNotification += HandleNotification;
+        }
 
-            HunterInstance.OnNotification += HandleNotification;
-            TraderInstance.OnNotification += HandleNotification;
-            ExporterInstance.OnNotification += HandleNotification;
+        public void SetFeatured(EventRecord? result)
+        {
+            Featured = new Story(result);
         }
 
         public async Task UpdateUserActivityDay()

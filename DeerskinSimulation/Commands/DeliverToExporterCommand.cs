@@ -29,10 +29,10 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.TraderInstance.DeliverToExporter(_viewModel, _viewModel.ExporterInstance, _numberOfSkins);
+            var result = _viewModel.Trader.DeliverToExporter(_viewModel, _viewModel.Exporter, _numberOfSkins);
             if (result.HasRecords())
             {
-                _viewModel.Messages.Add(result);
+                _viewModel.SetFeatured(result.Records[0]);
             }
 
             return result.Status;

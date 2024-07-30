@@ -39,7 +39,7 @@
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
 
             var meta = _viewModel.CurrentUserActivity.Meta;
-            var result = _viewModel.TraderInstance.TransportSkins(_viewModel, _viewModel.ExporterInstance, _numberOfSkins);
+            var result = _viewModel.Trader.TransportSkins(_viewModel, _viewModel.Exporter, _numberOfSkins);
             if (result.HasRecords())
             {
                 result.Meta = new EventResultMeta(

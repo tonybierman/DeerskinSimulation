@@ -29,7 +29,7 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.ExporterInstance.Export(_numberOfSkins);
+            var result = _viewModel.Exporter.Export(_numberOfSkins);
             if (result.HasRecords())
             {
                 _viewModel.Messages.Add(result);

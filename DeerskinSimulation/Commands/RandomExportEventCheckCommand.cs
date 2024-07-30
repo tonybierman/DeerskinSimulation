@@ -27,10 +27,10 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.ExporterInstance.RollForRandomExportingEvent();
+            var result = _viewModel.Exporter.RollForRandomExportingEvent();
             if (result.HasRecords())
             {
-                _viewModel.Features.Add(result);
+                _viewModel.SetFeatured(result.Records[0]);
             }
 
             return result.Status;

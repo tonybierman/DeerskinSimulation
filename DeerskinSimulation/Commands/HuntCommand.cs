@@ -30,7 +30,7 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.HunterInstance.Hunt(_viewModel);
+            var result = _viewModel.Hunter.Hunt(_viewModel);
             if (result.HasRecords())
             {
                 if (_viewModel.CurrentUserActivity?.Meta != null)

@@ -36,7 +36,7 @@
 
             var meta = _viewModel.CurrentUserActivity.Meta;
 
-            var result = _viewModel.HunterInstance.Travel(_viewModel);
+            var result = _viewModel.Hunter.Travel(_viewModel);
             if (result.HasRecords())
             {
                 result.Meta = new EventResultMeta(

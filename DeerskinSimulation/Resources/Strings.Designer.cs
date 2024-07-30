@@ -70,6 +70,24 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to During the 1700s, millions of white-tail deerskins played a vital role in the colonial economy. These skins were skinned, scraped, and packed by hand, primarily by Native Americans and frontier settlers. They were then carried over mountains by horseback and transported to port by wagon. Once at the port, they were shipped across the Atlantic to European tanneries. In Europe, the deerskins were highly valued for their quality and used to produce fine leather goods, fueling a lucrative transatlantic trade..
+        /// </summary>
+        public static string DefaultStory {
+            get {
+                return ResourceManager.GetString("DefaultStory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deerskin Economy Simulator.
+        /// </summary>
+        public static string DefaultTitle {
+            get {
+                return ResourceManager.GetString("DefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivered {0} skins..
         /// </summary>
         public static string ForwardedSkins {

@@ -5,7 +5,7 @@ namespace DeerskinSimulation.Models
     public class EventRecord
     {
         private string _image;
-
+        public string? Title { get; set; }
         public string? Message { get; set; }
         public string Color { get; set; }
         public string Image { get; set; }

@@ -35,9 +35,9 @@
                 </div>
                 <div class="card-body">
                     <div>
-                        <h4>@ViewModel.HunterInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @ViewModel.HunterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.HunterInstance.Money)</p>
+                        <h4>@ViewModel.Hunter.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.Hunter.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Hunter.Money)</p>
 
                         <div>
                             <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
@@ -46,18 +46,18 @@
                     </div>
                     <hr/>
                     <div>
-                        <h4>Store at @ViewModel.TraderInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @ViewModel.TraderInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.TraderInstance.Money)</p>
+                        <h4>Store at @ViewModel.Trader.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.Trader.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Trader.Money)</p>
                         <div>
                             <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
                         </div>
                     </div>
                     <hr />
                     <div>
-                        <h4>Port of @ViewModel.ExporterInstance.Name</h4>
-                        <p>@UIStr.SkinsLabel @ViewModel.ExporterInstance.Skins</p>
-                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.ExporterInstance.Money)</p>
+                        <h4>Port of @ViewModel.Exporter.Name</h4>
+                        <p>@UIStr.SkinsLabel @ViewModel.Exporter.Skins</p>
+                        <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Exporter.Money)</p>
                         <div>
                             <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
                         </div>
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <StoryConsole Features="@ViewModel.Features" ImageUrl="@Session.AvatarUrl" />
+        <StoryConsole FeaturedStory="@ViewModel.Featured" />
         <MessageConsole Events="@ViewModel.Messages" />
     </div>
  
@@ -78,17 +78,17 @@
 
 @if (showForwardOptions)
 {
-    <ForwardOptions OnForwardConfirmed="ConfirmForward" OnForwardCancelled="CancelForward" DefaultNumberOfSkins="@ViewModel.HunterInstance.Skins" />
+    <ForwardOptions OnForwardConfirmed="ConfirmForward" OnForwardCancelled="CancelForward" DefaultNumberOfSkins="@ViewModel.Hunter.Skins" />
 }
 
 @if (showTransportOptions)
 {
-    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" DefaultNumberOfSkins="@ViewModel.TraderInstance.Skins" />
+    <TransportOptions OnTransportConfirmed="ConfirmTransport" OnTransportCancelled="CancelTransport" DefaultNumberOfSkins="@ViewModel.Trader.Skins" />
 }
 
 @if (showExportOptions)
 {
-    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" DefaultNumberOfSkins="@ViewModel.ExporterInstance.Skins" />
+    <ExportOptions OnExportConfirmed="ConfirmExport" OnExportCancelled="CancelExport" DefaultNumberOfSkins="@ViewModel.Exporter.Skins" />
 }
 
 @code {

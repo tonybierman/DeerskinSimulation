@@ -30,7 +30,7 @@
 
         public async Task<EventResultStatus> ExecuteAsync()
         {
-            var result = _viewModel.HunterInstance.RollForRandomForwardingEvent();
+            var result = _viewModel.Hunter.RollForRandomForwardingEvent();
             if (result.HasRecords())
             {
                 if (_viewModel.CurrentUserActivity?.Meta != null)
@@ -40,7 +40,7 @@
                         _viewModel.CurrentUserActivity.Meta.Elapsed,
                         _viewModel.CurrentUserActivity.Meta.Name);
                 }
-                _viewModel.Features.Add(result);
+                _viewModel.SetFeatured(result.Records[0]);
             }
 
             return result.Status;

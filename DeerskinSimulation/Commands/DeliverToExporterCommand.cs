@@ -22,9 +22,10 @@
             return true; // Can be extended with logic to enable/disable the command
         }
 
-        public void Execute(object? parameter)
+        public EventResultStatus Execute(object? parameter)
         {
-            ExecuteAsync().Wait(); // Blocking wait; in real applications prefer async all the way
+            throw new NotImplementedException();
+            // ExecuteAsync().Wait(); // Blocking wait; in real applications prefer async all the way
         }
 
         public async Task<EventResultStatus> ExecuteAsync()

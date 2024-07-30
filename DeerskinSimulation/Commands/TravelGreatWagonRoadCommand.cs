@@ -27,7 +27,7 @@
             return true;
         }
 
-        public void Execute(object? parameter)
+        public EventResultStatus Execute(object? parameter)
         {
             // Implement synchronous execution logic if needed.
             throw new NotImplementedException();

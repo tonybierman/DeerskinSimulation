@@ -24,12 +24,12 @@ namespace DeerskinSimulation.Models
         /// <summary>
         /// Gets the action to be applied to the originator participant.
         /// </summary>
-        public EventAction OriginatorAction { get; }
+        public EventAction? OriginatorAction { get; }
 
         /// <summary>
         /// Gets the action to be applied to the recipient participant.
         /// </summary>
-        public EventAction RecipientAction { get; }
+        public EventAction? RecipientAction { get; }
 
         public EventResultStatus Status { get; set; }
 
@@ -46,7 +46,7 @@ namespace DeerskinSimulation.Models
         /// <param name="record">The event record.</param>
         /// <param name="originatorAction">The action to be applied to the originator participant.</param>
         /// <param name="recipientAction">The action to be applied to the recipient participant.</param>
-        public EventResult(EventRecord record, EventAction originatorAction = null, EventAction recipientAction = null)
+        public EventResult(EventRecord record, EventAction? originatorAction = null, EventAction? recipientAction = null)
             : this(new List<EventRecord> { record }, originatorAction, recipientAction) { }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace DeerskinSimulation.Models
         /// <param name="records">The list of event records.</param>
         /// <param name="originatorAction">The action to be applied to the originator participant.</param>
         /// <param name="recipientAction">The action to be applied to the recipient participant.</param>
-        public EventResult(List<EventRecord> records, EventAction originatorAction = null, EventAction recipientAction = null)
+        public EventResult(List<EventRecord> records, EventAction? originatorAction = null, EventAction? recipientAction = null)
         {
             Records = records ?? throw new ArgumentNullException(nameof(records));
             OriginatorAction = originatorAction;

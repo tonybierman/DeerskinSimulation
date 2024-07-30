@@ -22,7 +22,7 @@
             return true;
         }
 
-        public void Execute(object? parameter)
+        public EventResultStatus Execute(object? parameter)
         {
             throw new NotImplementedException();
         }

@@ -8,7 +8,6 @@
     public class GreatWagonRoadCommand : ICommand
     {
         private readonly SimulationViewModel _viewModel;
-        private readonly int _packhorses;
         private readonly Trip _journey;
         private readonly int _numberOfSkins;
 
@@ -27,7 +26,7 @@
             return true;
         }
 
-        public void Execute(object? parameter)
+        public EventResultStatus Execute(object? parameter)
         {
             // Implement synchronous execution logic if needed.
             throw new NotImplementedException();

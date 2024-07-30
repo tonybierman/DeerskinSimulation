@@ -7,7 +7,7 @@ namespace DeerskinSimulation.Commands
         event EventHandler? CanExecuteChanged;
 
         bool CanExecute(object? parameter);
-        void Execute(object? parameter);
+        EventResultStatus Execute(object? parameter);
         Task<EventResultStatus> ExecuteAsync();
     }
 }

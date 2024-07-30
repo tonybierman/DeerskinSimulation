@@ -7,7 +7,6 @@
 
     public class ConfirmTransportCommand
     {
-        private readonly HttpClient _http;
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
         private Trip _journey;

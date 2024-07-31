@@ -19,6 +19,7 @@
         private CancellationTokenSource cancellationTokenSource;
         public event Action OnGameTick;
         public event Action OnDayPassed;
+        public int DaysPassed { get; private set; }
         public TimelapseActivityMeta? CurrentActivityMeta { get; set; }
 
         public double FPS => fps;
@@ -65,6 +66,7 @@
                 {
                     tickCount = 0;
                     dayCount++;
+                    DaysPassed++;
                     OnDayPassed?.Invoke();
 
                     if (dayCount >= CurrentActivityMeta?.Duration) // Activity finishes after 10 days

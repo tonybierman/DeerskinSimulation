@@ -88,7 +88,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bagged {0} skins..
+        ///   Looks up a localized string similar to Field dressed {0} skins after {1} days of hunting..
         /// </summary>
         public static string EndOfHunt {
             get {
@@ -106,7 +106,7 @@ namespace DeerskinSimulation.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Acquired {0} skins..
+        ///   Looks up a localized string similar to Field dressing {0} skins..
         /// </summary>
         public static string HuntedSkins {
             get {

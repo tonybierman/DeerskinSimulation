@@ -19,15 +19,9 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>
-                        @if (@ViewModel.CurrentUserActivity?.Meta != null)
-                        {
-                            <text>@ViewModel.CurrentUserActivity?.Meta?.Name: @(@ViewModel.CurrentUserActivity?.Meta?.Duration - @ViewModel.CurrentUserActivity?.Meta?.Elapsed) Days</text>
-                        }
-                        else
-                        {
-                            @UIStr.LogisticsTitle
-                        }
+                        @UIStr.LogisticsTitle
                     </h4>
+                    <h6>@string.Format("{0:d}", DateUtils.GameDate(ViewModel.GameDay))</h6>
                     @if (Session.Debug == true)
                     {
                         <h6>@string.Format("DEBUG {0:F2} FPS", fps)</h6>

@@ -142,7 +142,7 @@
     <value>Invalid number of packhorses. Choose between 1 and 5.</value>
   </data>
   <data name="HuntedSkins" xml:space="preserve">
-    <value>Acquired {0} skins.</value>
+    <value>Field dressing {0} skins.</value>
   </data>
   <data name="NotEnoughSkinsToSell" xml:space="preserve">
     <value>Not enough skins to sell.</value>
@@ -169,6 +169,6 @@
     <value>Deerskin Economy Simulator</value>
   </data>
   <data name="EndOfHunt" xml:space="preserve">
-    <value>Bagged {0} skins.</value>
+    <value>Field dressed {0} skins after {1} days of hunting.</value>
   </data>
 </root>

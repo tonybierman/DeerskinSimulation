@@ -12,6 +12,9 @@
     {
         private StateContainer? _session;
         public HttpClient? Http { get; private set;}
+
+        private readonly GameLoopService _gameLoop;
+
         public bool Debug { get; private set; } 
         public RoleHunter Hunter { get; private set; }
         public RoleTrader Trader { get; private set; }
@@ -23,6 +26,13 @@
         public Story Featured { get; private set; }
         public int SelectedPackhorses { get; set; }
         public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
+        public int GameDay
+        {
+            get
+            {
+                return _gameLoop.DaysPassed;
+            }
+        }
         public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
@@ -33,6 +43,7 @@
         public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService, HttpClient http)
         {
             Http = http;
+            _gameLoop = gameLoopService;
             _session = session;
             Debug = _session?.Debug == true;
             ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService);

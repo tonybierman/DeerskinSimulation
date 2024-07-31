@@ -38,7 +38,7 @@
 
             // Tell the UI
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }
@@ -76,7 +76,7 @@
 
             // Tell the UI
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
+            eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
             CurrentBag += skinsHunted;
 
@@ -91,7 +91,8 @@
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
             var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord(meta.Name, meta.Elapsed, string.Format(Strings.EndOfHunt, CurrentBag), image: "images/avatar_wm_256.jpg"));
+            string msg = string.Format(Strings.EndOfHunt, CurrentBag, meta.Duration);
+            eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, msg, image: "images/avatar_wm_256.jpg"));
 
             CurrentBag = 0;
 

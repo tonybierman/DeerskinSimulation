@@ -19,6 +19,7 @@
         public const double TraderMarkup = 0.3;
         public const double ExporterMarkup = 0.5;
         public const int MinimumSkinsToTransport = 100;
+        public const string SimStart = "10/19/1755";
 
         // Skins
         public const int DailySkinsMin = 1;

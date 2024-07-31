@@ -52,7 +52,7 @@ namespace DeerskinSimulation.Models
             }
 
             var eventResult = new EventResult();
-            eventResult.Records.Add(new EventRecord(meta.Name, meta.Elapsed, $"Transported {numberOfSkins} about 20 miles."));
+            eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} about 20 miles."));
 
             return eventResult;
         }

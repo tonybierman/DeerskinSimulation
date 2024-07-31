@@ -15,11 +15,11 @@ namespace DeerskinSimulation.Models
 
         public event EventHandler<EventResult> OnNotification;
 
-        protected ParticipantRole(string name, double initialMoney)
+        protected ParticipantRole(string name, double initialMoney = 0, int intialSkins = 0)
         {
             Name = name;
             _money = initialMoney;
-            _skins = 0;
+            _skins = intialSkins;
         }
 
         protected virtual void RaiseNotification(string message, string color)

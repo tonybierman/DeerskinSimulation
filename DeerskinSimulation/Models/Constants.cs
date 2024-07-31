@@ -5,7 +5,9 @@
         // Starting funds
         public const double HunterStartingFunds = 100.0;
         public const double TraderStartingFunds = 1000.0;
+        public const int TraderStartingSkins = 100;
         public const double ExporterStartingFunds = 10000.0;
+        public const int ExporterStartingSkins = 200;
         
         // Sundry
         public const double DeerSkinPricePerLb = 0.4;

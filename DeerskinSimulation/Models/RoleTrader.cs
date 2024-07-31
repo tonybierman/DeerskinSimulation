@@ -7,7 +7,7 @@ namespace DeerskinSimulation.Models
     {
         private IRandomEventStrategy _transportingEventStrategy;
 
-        public RoleTrader(string name) : base(name, Constants.TraderStartingFunds) 
+        public RoleTrader(string name) : base(name, Constants.TraderStartingFunds, Constants.TraderStartingSkins) 
         {
             _transportingEventStrategy = new RandomEventStrategyTransporting();
         }

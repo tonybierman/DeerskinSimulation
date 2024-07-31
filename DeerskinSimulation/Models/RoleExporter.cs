@@ -6,7 +6,7 @@ namespace DeerskinSimulation.Models
     {
         private IRandomEventStrategy _exportingEventStrategy;
 
-        public RoleExporter(string name) : base(name, Constants.ExporterStartingFunds) 
+        public RoleExporter(string name) : base(name, Constants.ExporterStartingFunds, Constants.ExporterStartingSkins) 
         {
             _exportingEventStrategy = new RandomEventStrategyExporting();
         }

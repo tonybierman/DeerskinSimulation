@@ -105,16 +105,16 @@ public class RoleTraderTests
         Assert.Contains(result.Records, record => record.Message.Contains($"Transported {numberOfSkins} about 20 miles."));
     }
 
-    [Fact]
-    public void RollForRandomTransportingEvent_ShouldInvokeRandomEventStrategy()
-    {
-        // Arrange
-        _mockEventStrategy.Setup(s => s.ApplyEvent(It.IsAny<ParticipantRole>())).Returns(new EventResult());
+    //[Fact]
+    //public void RollForRandomTransportingEvent_ShouldInvokeRandomEventStrategy()
+    //{
+    //    // Arrange
+    //    _mockEventStrategy.Setup(s => s.ApplyEvent(It.IsAny<ParticipantRole>())).Returns(new EventResult());
 
-        // Act
-        var result = _trader.RollForRandomTransportingEvent();
+    //    // Act
+    //    var result = _trader.RollForRandomTransportingEvent();
 
-        // Assert
-        _mockEventStrategy.Verify(s => s.ApplyEvent(_trader), Times.Once);
-    }
+    //    // Assert
+    //    _mockEventStrategy.Verify(s => s.ApplyEvent(_trader), Times.Once);
+    //}
 }

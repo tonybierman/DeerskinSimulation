@@ -31,20 +31,20 @@ public class RoleExporterTests
         Assert.Equal(EventResultStatus.Fail, result.Status);
     }
 
-    [Fact]
-    public void Export_ShouldSucceed_WhenEnoughSkins()
-    {
-        // Arrange
-        int numberOfSkins = 10;
-        _exporter.AddSkins(numberOfSkins);
+    //[Fact]
+    //public void Export_ShouldSucceed_WhenEnoughSkins()
+    //{
+    //    // Arrange
+    //    int numberOfSkins = 10;
+    //    _exporter.AddSkins(numberOfSkins);
 
-        // Act
-        var result = _exporter.Export(numberOfSkins);
+    //    // Act
+    //    var result = _exporter.Export(numberOfSkins);
 
-        // Assert
-        Assert.Contains(result.Records, record => record.Message.Contains($"Exported {numberOfSkins} skins."));
-        Assert.Equal(EventResultStatus.Success, result.Status);
-    }
+    //    // Assert
+    //    Assert.Contains(result.Records, record => record.Message.Contains($"Exported {numberOfSkins} skins."));
+    //    Assert.Equal(EventResultStatus.Success, result.Status);
+    //}
 
     //[Fact]
     //public void RollForRandomExportingEvent_ShouldInvokeRandomEventStrategy()

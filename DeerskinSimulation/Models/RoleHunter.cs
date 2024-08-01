@@ -41,7 +41,7 @@
             RemoveMoney(netCostPerDay);
 
             // Tell the UI
-            var eventMessage = new EventResult();
+            var eventMessage = new EventResult() { Status = EventResultStatus.Success };
             eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
@@ -79,7 +79,7 @@
             AddSkins(skinsHunted);
 
             // Tell the UI
-            var eventMessage = new EventResult();
+            var eventMessage = new EventResult() { Status = EventResultStatus.Success };
             eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
             CurrentBag += skinsHunted;
@@ -97,8 +97,6 @@
             var eventMessage = new EventResult();
             string msg = string.Format(Strings.EndOfHunt, CurrentBag, meta.Duration);
             eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, msg, image: "images/avatar_wm_256.jpg"));
-
-            CurrentBag = 0;
 
             return eventMessage;
         }

@@ -24,7 +24,7 @@
                     recipient => recipient?.AddSkins(lostSkins)
                 );
             }
-            return new EventResult();
+            return new EventResult() { };
         }
     }
 }

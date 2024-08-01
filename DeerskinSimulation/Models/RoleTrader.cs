@@ -55,7 +55,7 @@ namespace DeerskinSimulation.Models
                 return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport)) { Status = EventResultStatus.Fail };
             }
 
-            var eventResult = new EventResult();
+            var eventResult = new EventResult() { Status = EventResultStatus.Success };
             eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} about 20 miles."));
 
             return eventResult;

@@ -31,6 +31,7 @@
         public async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Hunter.EndHunt(_viewModel);
+            _viewModel.Hunter.CurrentBag = 0;
             if (result.HasRecords())
             {
                 if (_viewModel.CurrentUserActivity?.Meta != null)

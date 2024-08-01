@@ -13,6 +13,8 @@ namespace DeerskinSimulation.Models
         public int Skins => _skins;
         public double Money => _money;
 
+        public int CurrentBag { get; set; }
+
         public event EventHandler<EventResult> OnNotification;
 
         protected ParticipantRole(string name, double initialMoney = 0, int intialSkins = 0)

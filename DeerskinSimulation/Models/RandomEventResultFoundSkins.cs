@@ -9,7 +9,7 @@
                 (p) =>
                 {
                     p.RemoveSkins(extraSkins);
-                    var h = p as RoleHunter;
+                    var h = p as ParticipantRole;
                     h.CurrentBag -= extraSkins;
                 })
         {

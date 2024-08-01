@@ -9,7 +9,6 @@
     {
         private IRandomEventStrategy _huntingEventStrategy;
         private IRandomEventStrategy _forwardingEventStrategy;
-        public int CurrentBag { get; set; }
 
         public RoleHunter(string name) : base(name, Constants.HunterStartingFunds)
         {

@@ -1,105 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Xunit;
-using Moq;
 using DeerskinSimulation.Commands;
 using DeerskinSimulation.Models;
 using DeerskinSimulation.Services;
 using DeerskinSimulation.ViewModels;
+using Moq;
+using Xunit;
 
-namespace DeerskinSimulation.Tests
+namespace DeerskinSimulation.Tests;
+public class SimulationViewModelTests
 {
-    public class SimulationViewModelTests
+    private readonly Mock<StateContainer> _mockSession;
+    private readonly Mock<GameLoopService> _mockGameLoopService;
+    private readonly HttpClient _httpClient;
+    private readonly SimulationViewModel _viewModel;
+
+    public SimulationViewModelTests()
     {
-        private readonly SimulationViewModel _viewModel;
-        private readonly Mock<GameLoopService> _mockGameLoopService;
-        private readonly Mock<StateContainer> _mockSession;
+        _mockSession = new Mock<StateContainer>();
+        _mockGameLoopService = new Mock<GameLoopService>();
+        _httpClient = new HttpClient();
+        _viewModel = new SimulationViewModel(_mockSession.Object, _mockGameLoopService.Object, _httpClient);
+    }
 
-        public SimulationViewModelTests()
+    [Fact]
+    public void Constructor_ShouldInitializeProperties()
+    {
+        Assert.NotNull(_viewModel.Hunter);
+        Assert.NotNull(_viewModel.Trader);
+        Assert.NotNull(_viewModel.Exporter);
+        Assert.NotNull(_viewModel.ConfirmSellCmd);
+        Assert.NotNull(_viewModel.ConfirmHuntCmd);
+        Assert.NotNull(_viewModel.ConfirmTransportCmd);
+        Assert.NotNull(_viewModel.ConfirmExportCmd);
+        Assert.Equal(1, _viewModel.SelectedPackhorses);
+    }
+
+    [Fact]
+    public void AddMessage_ShouldAddMessageToList()
+    {
+        var message = new EventResult();
+        _viewModel.AddMessage(message);
+
+        Assert.Single(_viewModel.Messages);
+        Assert.Contains(message, _viewModel.Messages);
+    }
+
+    [Fact]
+    public void AddMessage_ShouldInvokeMessageAddedEvent()
+    {
+        var message = new EventResult();
+        bool eventInvoked = false;
+
+        _viewModel.MessageAdded += (msg) => eventInvoked = true;
+        _viewModel.AddMessage(message);
+
+        Assert.True(eventInvoked);
+    }
+
+    [Fact]
+    public void ClearMessages_ShouldClearMessagesList()
+    {
+        _viewModel.AddMessage(new EventResult());
+        Assert.NotEmpty(_viewModel.Messages);
+
+        _viewModel.ClearMessages();
+        Assert.Empty(_viewModel.Messages);
+    }
+
+    [Fact]
+    public void ClearMessages_ShouldInvokeMessagesClearedEvent()
+    {
+        bool eventInvoked = false;
+        _viewModel.MessagesCleared += () => eventInvoked = true;
+
+        _viewModel.ClearMessages();
+        Assert.True(eventInvoked);
+    }
+
+    [Fact]
+    public async Task UpdateUserActivityDay_ShouldInvokeStartAndFinishCorrectly()
+    {
+        bool startInvoked = false;
+        bool finishInvoked = false;
+
+        var activity = new UserInitiatedActivitySequence
         {
-            _mockSession = new Mock<StateContainer>();
-            _mockGameLoopService = new Mock<GameLoopService>();
+            Meta = new TimelapseActivityMeta { Duration = 2 },
+            Start = async () => startInvoked = true,
+            Finish = async () => finishInvoked = true
+        };
 
-            _viewModel = new SimulationViewModel(_mockSession.Object, _mockGameLoopService.Object);
-        }
+        _viewModel.CurrentUserActivity = activity;
 
-        [Fact]
-        public void Constructor_InitializesCommands()
-        {
-            Assert.NotNull(_viewModel.ConfirmSellCmd);
-            Assert.NotNull(_viewModel.ConfirmHuntCmd);
-            Assert.NotNull(_viewModel.ConfirmTransportCmd);
-            Assert.NotNull(_viewModel.ConfirmExportCmd);
-        }
+        await _viewModel.UpdateUserActivityDay(); // First day
+        Assert.True(startInvoked);
+        Assert.False(finishInvoked);
 
-        [Fact]
-        public void Constructor_InitializesInstances()
-        {
-            Assert.NotNull(_viewModel.HunterInstance);
-            Assert.NotNull(_viewModel.TraderInstance);
-            Assert.NotNull(_viewModel.ExporterInstance);
-        }
-
-        [Fact]
-        public async Task UpdateUserActivityDay_InvokesStartOnFirstDay()
-        {
-            // Arrange
-            var mockActivity = new UserInitiatedActivitySequence
-            {
-                Meta = new TimelapseActivityMeta { Duration = 10 },
-                Start = new Func<Task>(() => Task.CompletedTask),
-                InProcess = new Func<Task>(() => Task.CompletedTask),
-                Finish = new Func<Task>(() => Task.CompletedTask)
-            };
-            _viewModel.CurrentUserActivity = mockActivity;
-
-            // Act
-            await _viewModel.UpdateUserActivityDay();
-
-            // Assert
-            Assert.Equal(1, mockActivity.Meta.Elapsed);
-        }
-
-        [Fact]
-        public async Task UpdateUserActivityDay_InvokesFinishOnLastDay()
-        {
-            // Arrange
-            var mockActivity = new UserInitiatedActivitySequence
-            {
-                Meta = new TimelapseActivityMeta { Duration = 1, Elapsed = 0 },
-                Start = new Func<Task>(() => Task.CompletedTask),
-                InProcess = new Func<Task>(() => Task.CompletedTask),
-                Finish = new Func<Task>(() => Task.CompletedTask)
-            };
-            _viewModel.CurrentUserActivity = mockActivity;
-
-            // Act
-            await _viewModel.UpdateUserActivityDay();
-
-            // Assert
-            Assert.Null(_viewModel.CurrentUserActivity);
-        }
-
-        //[Fact]
-        //public async Task HandleNotification_AddsMessageAndInvokesStateChanged()
-        //{
-        //    // Arrange
-        //    var mockEvent = new EventResult(new EventRecord("Test Message", "black"));
-        //    var stateChangedInvoked = false;
-
-        //    _viewModel.StateChanged += () =>
-        //    {
-        //        stateChangedInvoked = true;
-        //        return Task.CompletedTask;
-        //    };
-
-        //    // Act
-        //    _viewModel.HunterInstance.RaiseNotification("Test Message", "black");
-
-        //    // Assert
-        //    Assert.Contains(mockEvent, _viewModel.Messages);
-        //    Assert.True(stateChangedInvoked);
-        //}
+        await _viewModel.UpdateUserActivityDay(); // Last day
+        Assert.True(finishInvoked);
     }
 }

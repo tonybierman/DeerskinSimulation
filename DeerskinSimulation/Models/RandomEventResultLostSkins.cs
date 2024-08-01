@@ -9,7 +9,7 @@ namespace DeerskinSimulation.Models
                 (p) =>
                 {
                     p.RemoveSkins(lostSkins);
-                    var h = p as RoleHunter;
+                    var h = p as ParticipantRole;
                     h.CurrentBag -= lostSkins;
                 }
             )

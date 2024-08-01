@@ -10,7 +10,12 @@
         private IRandomEventStrategy _huntingEventStrategy;
         private IRandomEventStrategy _forwardingEventStrategy;
 
-        public RoleHunter(string name) : base(name, Constants.HunterStartingFunds)
+        public RoleHunter(string name) : this(name, 0, 0)
+        {
+
+        }
+
+        public RoleHunter(string name, double funds, int skins) : base(name, funds, skins)
         {
             _huntingEventStrategy = new RandomEventStrategyHunting();
             _forwardingEventStrategy = new RandomEventStrategyForwarding();

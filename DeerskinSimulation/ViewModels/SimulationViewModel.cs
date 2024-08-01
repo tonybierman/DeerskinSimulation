@@ -50,9 +50,9 @@
             ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
             ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService);
             ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService);
-            Hunter = new RoleHunter("Kanta-ke");
-            Trader = new RoleTrader("Bethabara");
-            Exporter = new RoleExporter("Charleston");
+            Hunter = new RoleHunter("Kanta-ke", Constants.HunterStartingFunds, 0);
+            Trader = new RoleTrader("Bethabara", Constants.TraderStartingFunds, Constants.TraderStartingSkins);
+            Exporter = new RoleExporter("Charleston", Constants.ExporterStartingFunds, Constants.ExporterStartingSkins);
             SelectedPackhorses = 1;
             Hunter.OnNotification += HandleNotification;
             Trader.OnNotification += HandleNotification;

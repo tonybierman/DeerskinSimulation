@@ -6,16 +6,20 @@ namespace DeerskinSimulation.Models
     {
         private IRandomEventStrategy _exportingEventStrategy;
 
-        public RoleExporter(string name) : base(name, Constants.ExporterStartingFunds, Constants.ExporterStartingSkins) 
+        public RoleExporter(string name) : this(name, 0, 0) 
         {
-            _exportingEventStrategy = new RandomEventStrategyExporting();
+        }
+
+        public RoleExporter(string name, double funds, int skins) : base(name, funds, skins)
+        {
+            _exportingEventStrategy = new RandomEventStrategyTransporting();
         }
 
         public EventResult Export(int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport, "images/merchant_ship_256.jpg"));
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport, "images/merchant_ship_256.jpg")) { Status = EventResultStatus.Fail };
             }
 
             return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
@@ -34,7 +38,7 @@ namespace DeerskinSimulation.Models
         {
             if (_skins < numberOfSkins)
             {
-                return new EventResult(new EventRecord(Strings.NoSkinsToExport));
+                return new EventResult(new EventRecord(Strings.NoSkinsToExport)) { Status = EventResultStatus.Fail };
             }
 
             double principal = MathUtils.CalculateTransactionCost(numberOfSkins, pricePerSkin);
@@ -43,7 +47,7 @@ namespace DeerskinSimulation.Models
 
             if (_money < totalCost)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToExport));
+                return new EventResult(new EventRecord(Strings.NotEnoughMoneyToExport)) { Status = EventResultStatus.Fail };
             }
 
             RemoveMoney(totalCost);
@@ -51,6 +55,10 @@ namespace DeerskinSimulation.Models
             RemoveSkins(numberOfSkins);
 
             var eventResult = ApplyRandomExportingEvent();
+            if (eventResult.Status == EventResultStatus.None)
+            {
+                eventResult.Status = EventResultStatus.Success;
+            }
             eventResult.Records.Add(new EventRecord($"Exported {numberOfSkins} skins."));
 
             return eventResult;

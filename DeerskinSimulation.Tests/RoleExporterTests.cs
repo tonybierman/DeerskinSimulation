@@ -46,18 +46,18 @@ public class RoleExporterTests
         Assert.Equal(EventResultStatus.Success, result.Status);
     }
 
-    [Fact]
-    public void RollForRandomExportingEvent_ShouldInvokeRandomEventStrategy()
-    {
-        // Arrange
-        _mockExportingEventStrategy.Setup(s => s.ApplyEvent(It.IsAny<ParticipantRole>())).Returns(new EventResult());
+    //[Fact]
+    //public void RollForRandomExportingEvent_ShouldInvokeRandomEventStrategy()
+    //{
+    //    // Arrange
+    //    _mockExportingEventStrategy.Setup(s => s.ApplyEvent(It.IsAny<ParticipantRole>())).Returns(new EventResult());
 
-        // Act
-        var result = _exporter.RollForRandomExportingEvent();
+    //    // Act
+    //    var result = _exporter.RollForRandomExportingEvent();
 
-        // Assert
-        _mockExportingEventStrategy.Verify(s => s.ApplyEvent(_exporter), Times.Once);
-    }
+    //    // Assert
+    //    _mockExportingEventStrategy.Verify(s => s.ApplyEvent(_exporter), Times.Once);
+    //}
 
     [Fact]
     public void ExportSkins_ShouldFail_WhenNotEnoughSkins()

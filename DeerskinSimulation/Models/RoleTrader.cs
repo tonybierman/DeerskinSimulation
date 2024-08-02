@@ -17,7 +17,7 @@ namespace DeerskinSimulation.Models
             _transportingEventStrategy = transportingStrategy ?? new RandomEventStrategyTransporting();
         }
 
-        public EventResult DeliverToExporter(SimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
+        public EventResult DeliverToExporter(ISimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
             var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins,
                 Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
@@ -33,7 +33,7 @@ namespace DeerskinSimulation.Models
             return eventResult;
         }
 
-        public virtual EventResult TransportSkins(SimulationViewModel viewModel, ParticipantRole recipient, int numberOfSkins)
+        public virtual EventResult TransportSkins(ISimulationViewModel viewModel, ParticipantRole recipient, int numberOfSkins)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));

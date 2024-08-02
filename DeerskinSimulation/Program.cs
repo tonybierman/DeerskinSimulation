@@ -12,9 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 // User Services
-builder.Services.AddSingleton<StateContainer>();
-builder.Services.AddSingleton<GameLoopService>();
+builder.Services.AddSingleton<IStateContainer, StateContainer>();
+builder.Services.AddSingleton<IGameLoopService, GameLoopService>();
 builder.Services.AddScoped<ICommandFactory, CommandFactory>();
-builder.Services.AddScoped<SimulationViewModel>();
+builder.Services.AddScoped<ISimulationViewModel, SimulationViewModel>();
 
 await builder.Build().RunAsync();

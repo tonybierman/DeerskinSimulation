@@ -7,9 +7,9 @@
 
     public class DeliverToCampCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
 
-        public DeliverToCampCommand(SimulationViewModel viewModel)
+        public DeliverToCampCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

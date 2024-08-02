@@ -2,29 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using DeerskinSimulation.Commands;
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
-    using Microsoft.AspNetCore.Components;
 
-    public class SimulationViewModel
+    public class SimulationViewModel : ISimulationViewModel
     {
-        private StateContainer? _session;
         private readonly ICommandFactory _commandFactory;
+        private readonly IGameLoopService _gameLoop;
 
-        public HttpClient? Http { get; private set; }
-
-        private readonly GameLoopService _gameLoop;
+        private readonly List<EventResult> _messages = new List<EventResult>();
 
         public bool Debug { get; private set; }
         public RoleHunter Hunter { get; private set; }
         public RoleTrader Trader { get; private set; }
         public RoleExporter Exporter { get; private set; }
 
-        private readonly List<EventResult> _messages = new List<EventResult>();
         public IReadOnlyList<EventResult> Messages => _messages.AsReadOnly();
-
         public Story Featured { get; private set; }
         public int SelectedPackhorses { get; set; }
         public virtual UserInitiatedActivitySequence CurrentUserActivity { get; set; }
@@ -37,57 +33,57 @@
 
         public event Func<Task> StateChanged;
 
-        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService, HttpClient http, ICommandFactory commandFactory)
+        public event Action<EventResult> MessageAdded;
+        public event Action MessagesCleared;
+
+        public SimulationViewModel(
+            IGameLoopService gameLoopService,
+            ICommandFactory commandFactory,
+            IStateContainer session)
         {
-            Http = http;
-            _gameLoop = gameLoopService;
-            _session = session;
-            _commandFactory = commandFactory;
-            Debug = _session?.Debug == true;
+            _gameLoop = gameLoopService ?? throw new ArgumentNullException(nameof(gameLoopService));
+            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+
+            Debug = session?.Debug == true;
+
             ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService, commandFactory);
             ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService, commandFactory);
             ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService, commandFactory);
             ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService, commandFactory);
+
             Hunter = new RoleHunter("Kanta-ke", Constants.HunterStartingFunds, 0);
             Trader = new RoleTrader("Bethabara", Constants.TraderStartingFunds, Constants.TraderStartingSkins);
             Exporter = new RoleExporter("Charleston", Constants.ExporterStartingFunds, Constants.ExporterStartingSkins);
             SelectedPackhorses = 1;
+        }
+
+        public void SubscribeToNotifications()
+        {
             Hunter.OnNotification += HandleNotification;
             Trader.OnNotification += HandleNotification;
             Exporter.OnNotification += HandleNotification;
         }
 
-        #region Messages
-
-        // Event for external classes to subscribe to
-        public event Action<EventResult> MessageAdded;
-        public event Action MessagesCleared;
-
-        protected virtual void OnMessageAdded(EventResult message)
+        public void UnsubscribeFromNotifications()
         {
-            MessageAdded?.Invoke(message);
-        }
-
-        protected virtual void OnMessagesCleared()
-        {
-            MessagesCleared?.Invoke();
-        }
-
-        public void ClearMessages()
-        {
-            _messages.Clear();
-            OnMessagesCleared(); // Notify subscribers if needed
+            Hunter.OnNotification -= HandleNotification;
+            Trader.OnNotification -= HandleNotification;
+            Exporter.OnNotification -= HandleNotification;
         }
 
         public void AddMessage(EventResult message)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            // Add any validation or processing logic here
+
             _messages.Add(message);
-            OnMessageAdded(message); // Notify subscribers if needed
+            OnMessageAdded(message);
         }
 
-        #endregion
+        public void ClearMessages()
+        {
+            _messages.Clear();
+            OnMessagesCleared();
+        }
 
         public void SetFeatured(EventRecord? result)
         {
@@ -98,7 +94,6 @@
         {
             if (CurrentUserActivity.Meta == null) return;
 
-            // First day of activity
             if (CurrentUserActivity.Meta.Elapsed == 0 && CurrentUserActivity.Start != null)
             {
                 await CurrentUserActivity.Start.Invoke();
@@ -106,7 +101,6 @@
 
             CurrentUserActivity.Meta.Elapsed++;
 
-            // Last day of activity
             if (CurrentUserActivity.Meta.Elapsed >= CurrentUserActivity.Meta?.Duration)
             {
                 if (CurrentUserActivity.Finish != null)
@@ -115,11 +109,9 @@
                 }
 
                 CurrentUserActivity = null;
-
                 return;
             }
 
-            // Every day in between first and last day
             if (CurrentUserActivity.InProcess != null)
             {
                 await CurrentUserActivity.InProcess.Invoke();
@@ -133,6 +125,16 @@
                 AddMessage(e);
                 await StateChanged?.Invoke();
             }
+        }
+
+        protected virtual void OnMessageAdded(EventResult message)
+        {
+            MessageAdded?.Invoke(message);
+        }
+
+        protected virtual void OnMessagesCleared()
+        {
+            MessagesCleared?.Invoke();
         }
     }
 }

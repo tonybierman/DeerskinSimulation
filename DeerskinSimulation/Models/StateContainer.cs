@@ -1,6 +1,6 @@
 ﻿namespace DeerskinSimulation.Models
 {
-    public class StateContainer
+    public class StateContainer : IStateContainer
     {
         private bool? m_debug;
         private string? m_avatarUrl;

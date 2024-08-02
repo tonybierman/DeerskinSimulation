@@ -7,9 +7,9 @@
 
     public class HuntCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
 
-        public HuntCommand(SimulationViewModel viewModel)
+        public HuntCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

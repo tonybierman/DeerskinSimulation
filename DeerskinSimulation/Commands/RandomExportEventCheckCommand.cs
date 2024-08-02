@@ -6,9 +6,9 @@
 
     public class RandomExportEventCheckCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
 
-        public RandomExportEventCheckCommand(SimulationViewModel viewModel)
+        public RandomExportEventCheckCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

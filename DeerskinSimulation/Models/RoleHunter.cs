@@ -22,7 +22,7 @@
             _forwardingEventStrategy = forwardingStrategy ?? new RandomEventStrategyForwarding();
         }
 
-        public EventResult Travel(SimulationViewModel viewModel)
+        public EventResult Travel(ISimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
@@ -47,7 +47,7 @@
             return eventMessage;
         }
 
-        public virtual EventResult Hunt(SimulationViewModel viewModel)
+        public virtual EventResult Hunt(ISimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
@@ -79,7 +79,7 @@
             return eventMessage;
         }
 
-        public EventResult EndHunt(SimulationViewModel viewModel)
+        public EventResult EndHunt(ISimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));

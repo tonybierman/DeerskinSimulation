@@ -8,11 +8,11 @@
     public class ConfirmTransportCommand
     {
         private readonly SimulationViewModel _viewModel;
-        private readonly GameLoopService _gameLoopService;
+        private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
         private Trip _journey;
 
-        public ConfirmTransportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
+        public ConfirmTransportCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
@@ -25,8 +25,8 @@
             {
                 if (_journey == null)
                 {
-                    _journey = new Trip(_viewModel.Http, "data/bethabara_to_charleston_trip.json");
-                    await _journey.InitAsync();
+                    //_journey = new Trip(_viewModel.Http, "data/bethabara_to_charleston_trip.json");
+                    //await _journey.InitAsync();
                 }
 
                 var travelCommand = _commandFactory.CreateGreatWagonRoadCommand(_viewModel, _journey, transportOptions.NumberOfSkins);

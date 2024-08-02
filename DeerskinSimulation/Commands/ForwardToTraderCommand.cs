@@ -7,10 +7,10 @@
 
     public class ForwardToTraderCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
         private readonly int _numberOfSkins;
 
-        public ForwardToTraderCommand(SimulationViewModel viewModel, int numberOfSkins)
+        public ForwardToTraderCommand(ISimulationViewModel viewModel, int numberOfSkins)
         {
             _viewModel = viewModel;
             _numberOfSkins = numberOfSkins;

@@ -8,10 +8,10 @@
     public class ConfirmForwardCommand
     {
         private readonly SimulationViewModel _viewModel;
-        private readonly GameLoopService _gameLoopService;
+        private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
 
-        public ConfirmForwardCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
+        public ConfirmForwardCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

@@ -7,10 +7,10 @@
 
     public class WildernessRoadCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
         private readonly int _packhorses;
 
-        public WildernessRoadCommand(SimulationViewModel viewModel)
+        public WildernessRoadCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

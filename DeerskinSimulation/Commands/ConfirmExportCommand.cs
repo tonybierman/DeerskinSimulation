@@ -8,10 +8,10 @@
     public class ConfirmExportCommand
     {
         private readonly SimulationViewModel _viewModel;
-        private readonly GameLoopService _gameLoopService;
+        private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
 
-        public ConfirmExportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
+        public ConfirmExportCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

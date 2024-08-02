@@ -6,9 +6,9 @@
 @using DeerskinSimulation.Services
 @using DeerskinSimulation.ViewModels
 @implements IDisposable
-@inject StateContainer Session
-@inject GameLoopService GameLoopService
-@inject SimulationViewModel ViewModel
+@inject IStateContainer Session
+@inject IGameLoopService GameLoopService
+@inject ISimulationViewModel ViewModel
 
 <h3 class="text-center text-black">@UIStr.SimulationComponentTitle</h3>
 

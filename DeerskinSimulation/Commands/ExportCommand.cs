@@ -6,10 +6,10 @@
 
     public class ExportCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
         private readonly int _numberOfSkins;
 
-        public ExportCommand(SimulationViewModel viewModel, int numberOfSkins)
+        public ExportCommand(ISimulationViewModel viewModel, int numberOfSkins)
         {
             _viewModel = viewModel;
             _numberOfSkins = numberOfSkins;

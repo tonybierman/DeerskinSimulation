@@ -7,9 +7,9 @@
 
     public class RandomHuntingEventCheckCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
 
-        public RandomHuntingEventCheckCommand(SimulationViewModel viewModel)
+        public RandomHuntingEventCheckCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

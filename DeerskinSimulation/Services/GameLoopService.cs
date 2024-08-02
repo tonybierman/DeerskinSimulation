@@ -6,7 +6,7 @@
     using DeerskinSimulation.Models;
     using Microsoft.AspNetCore.Components;
 
-    public class GameLoopService : IDisposable
+    public class GameLoopService : IDisposable, IGameLoopService
     {
         private Timer timer;
         private DateTime lastUpdateTime;

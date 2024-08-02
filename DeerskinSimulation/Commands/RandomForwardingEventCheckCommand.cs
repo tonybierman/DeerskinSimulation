@@ -7,9 +7,9 @@
 
     public class RandomForwardingEventCheckCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
 
-        public RandomForwardingEventCheckCommand(SimulationViewModel viewModel)
+        public RandomForwardingEventCheckCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

@@ -6,10 +6,10 @@
 
     public class DeliverToExporterCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
         private readonly int _numberOfSkins;
 
-        public DeliverToExporterCommand(SimulationViewModel viewModel, int numberOfSkins)
+        public DeliverToExporterCommand(ISimulationViewModel viewModel, int numberOfSkins)
         {
             _viewModel = viewModel;
             _numberOfSkins = numberOfSkins;

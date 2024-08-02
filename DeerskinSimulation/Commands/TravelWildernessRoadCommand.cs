@@ -7,10 +7,9 @@
 
     public class TravelWildernessRoadCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
-        private readonly int _packhorses;
+        private readonly ISimulationViewModel _viewModel;
 
-        public TravelWildernessRoadCommand(SimulationViewModel viewModel)
+        public TravelWildernessRoadCommand(ISimulationViewModel viewModel)
         {
             _viewModel = viewModel;
         }

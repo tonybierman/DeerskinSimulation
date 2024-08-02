@@ -7,7 +7,7 @@
 
     public class ConfirmTransportCommand
     {
-        private readonly SimulationViewModel _viewModel;
+        private readonly ISimulationViewModel _viewModel;
         private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
         private Trip _journey;

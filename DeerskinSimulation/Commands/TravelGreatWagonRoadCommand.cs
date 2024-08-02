@@ -7,12 +7,11 @@
 
     public class TravelGreatWagonRoadCommand : ICommand
     {
-        private readonly SimulationViewModel _viewModel;
-        private readonly int _packhorses;
+        private readonly ISimulationViewModel _viewModel;
         private readonly Trip _journey;
         private readonly int _numberOfSkins;
 
-        public TravelGreatWagonRoadCommand(SimulationViewModel viewModel, Trip journey, int numberOfSkins)
+        public TravelGreatWagonRoadCommand(ISimulationViewModel viewModel, Trip journey, int numberOfSkins)
         {
             _numberOfSkins = numberOfSkins;
             _viewModel = viewModel;

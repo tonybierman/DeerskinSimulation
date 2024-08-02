@@ -19,9 +19,9 @@ namespace DeerskinSimulation.ViewModels
         Story Featured { get; }
         void SetFeatured(EventRecord? result);
         event Func<Task> StateChanged;
-        ConfirmForwardCommand ConfirmSellCmd { get; }
-        ConfirmHuntCommand ConfirmHuntCmd { get; }
-        ConfirmTransportCommand ConfirmTransportCmd { get; }
-        ConfirmExportCommand ConfirmExportCmd { get; }
+        ForwardingSequenceCoordinator EnsureSellCmd { get; }
+        HuntingSequentCoordinator EnsureHuntCmd { get; }
+        TransportingSequenceCoordinator EnsureTransportCmd { get; }
+        ExportSequenceCoordinator EnsureExportCmd { get; }
     }
 }

@@ -5,13 +5,13 @@
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
 
-    public class ConfirmForwardCommand
+    public class ForwardingSequenceCoordinator
     {
         private readonly ISimulationViewModel _viewModel;
         private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
 
-        public ConfirmForwardCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
+        public ForwardingSequenceCoordinator(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

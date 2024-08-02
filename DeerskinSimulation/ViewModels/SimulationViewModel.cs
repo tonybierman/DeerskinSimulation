@@ -26,10 +26,10 @@
         public virtual UserInitiatedActivitySequence CurrentUserActivity { get; set; }
         public int GameDay => _gameLoop.DaysPassed;
 
-        public ConfirmForwardCommand ConfirmSellCmd { get; }
-        public ConfirmHuntCommand ConfirmHuntCmd { get; }
-        public ConfirmTransportCommand ConfirmTransportCmd { get; }
-        public ConfirmExportCommand ConfirmExportCmd { get; }
+        public ForwardingSequenceCoordinator EnsureSellCmd { get; }
+        public HuntingSequentCoordinator EnsureHuntCmd { get; }
+        public TransportingSequenceCoordinator EnsureTransportCmd { get; }
+        public ExportSequenceCoordinator EnsureExportCmd { get; }
 
         public event Func<Task> StateChanged;
 
@@ -46,10 +46,10 @@
 
             Debug = session?.Debug == true;
 
-            ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService, commandFactory);
-            ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService, commandFactory);
-            ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService, commandFactory);
-            ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService, commandFactory);
+            EnsureSellCmd = new ForwardingSequenceCoordinator(this, gameLoopService, commandFactory);
+            EnsureHuntCmd = new HuntingSequentCoordinator(this, gameLoopService, commandFactory);
+            EnsureTransportCmd = new TransportingSequenceCoordinator(this, gameLoopService, commandFactory);
+            EnsureExportCmd = new ExportSequenceCoordinator(this, gameLoopService, commandFactory);
 
             Hunter = new RoleHunter("Kanta-ke", Constants.HunterStartingFunds, 0);
             Trader = new RoleTrader("Bethabara", Constants.TraderStartingFunds, Constants.TraderStartingSkins);

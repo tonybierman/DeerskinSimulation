@@ -5,14 +5,14 @@
     using DeerskinSimulation.Models;
     using DeerskinSimulation.Services;
 
-    public class ConfirmTransportCommand
+    public class TransportingSequenceCoordinator
     {
         private readonly ISimulationViewModel _viewModel;
         private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
         private Trip _journey;
 
-        public ConfirmTransportCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
+        public TransportingSequenceCoordinator(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

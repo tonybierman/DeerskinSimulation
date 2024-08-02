@@ -36,10 +36,10 @@ namespace DeerskinSimulation.Tests
             Assert.NotNull(_viewModel.Hunter);
             Assert.NotNull(_viewModel.Trader);
             Assert.NotNull(_viewModel.Exporter);
-            Assert.NotNull(_viewModel.ConfirmSellCmd);
-            Assert.NotNull(_viewModel.ConfirmHuntCmd);
-            Assert.NotNull(_viewModel.ConfirmTransportCmd);
-            Assert.NotNull(_viewModel.ConfirmExportCmd);
+            Assert.NotNull(_viewModel.EnsureSellCmd);
+            Assert.NotNull(_viewModel.EnsureHuntCmd);
+            Assert.NotNull(_viewModel.EnsureTransportCmd);
+            Assert.NotNull(_viewModel.EnsureExportCmd);
         }
 
         [Fact]

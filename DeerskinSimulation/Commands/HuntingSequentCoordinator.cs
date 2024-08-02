@@ -6,13 +6,13 @@
     using DeerskinSimulation.Services;
     using DeerskinSimulation.Resources;
 
-    public class ConfirmHuntCommand
+    public class HuntingSequentCoordinator
     {
         private readonly ISimulationViewModel _viewModel;
         private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
 
-        public ConfirmHuntCommand(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
+        public HuntingSequentCoordinator(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

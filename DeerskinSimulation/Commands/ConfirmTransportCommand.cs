@@ -9,28 +9,29 @@
     {
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
+        private readonly ICommandFactory _commandFactory;
         private Trip _journey;
 
-        public ConfirmTransportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
+        public ConfirmTransportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
+            _commandFactory = commandFactory;
         }
 
         public async Task ExecuteAsync(TransportOptionsViewModel transportOptions)
         {
             if (transportOptions.NumberOfSkins > 0)
             {
-
                 if (_journey == null)
                 {
                     _journey = new Trip(_viewModel.Http, "data/bethabara_to_charleston_trip.json");
                     await _journey.InitAsync();
                 }
 
-                var travelCommand = new GreatWagonRoadCommand(_viewModel, _journey, transportOptions.NumberOfSkins);
-                var deliverToExporterCommand = new DeliverToExporterCommand(_viewModel, transportOptions.NumberOfSkins);
-                var randomTransportEventCheckCommand = new RandomTransportEventCheckCommand(_viewModel);
+                var travelCommand = _commandFactory.CreateGreatWagonRoadCommand(_viewModel, _journey, transportOptions.NumberOfSkins);
+                var deliverToExporterCommand = _commandFactory.CreateDeliverToExporterCommand(_viewModel, transportOptions.NumberOfSkins);
+                var randomTransportEventCheckCommand = _commandFactory.CreateRandomTransportEventCheckCommand(_viewModel);
 
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {

@@ -221,32 +221,70 @@ var assemblies = [
   {
     "name": "DeerskinSimulation",
     "classes": [
+      { "name": "DeerskinSimulation.Commands.ConfirmExportCommand", "rp": "DeerskinSimulation_ConfirmExportCommand.html", "cl": 5, "ucl": 27, "cal": 32, "tl": 53, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.ConfirmForwardCommand", "rp": "DeerskinSimulation_ConfirmForwardCommand.html", "cl": 5, "ucl": 27, "cal": 32, "tl": 49, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.ConfirmHuntCommand", "rp": "DeerskinSimulation_ConfirmHuntCommand.html", "cl": 5, "ucl": 22, "cal": 27, "tl": 44, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.ConfirmTransportCommand", "rp": "DeerskinSimulation_ConfirmTransportCommand.html", "cl": 5, "ucl": 28, "cal": 33, "tl": 53, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.DeliverToCampCommand", "rp": "DeerskinSimulation_DeliverToCampCommand.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 51, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.DeliverToExporterCommand", "rp": "DeerskinSimulation_DeliverToExporterCommand.html", "cl": 0, "ucl": 18, "cal": 18, "tl": 42, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.DeliverToTraderCommand", "rp": "DeerskinSimulation_DeliverToTraderCommand.html", "cl": 0, "ucl": 25, "cal": 25, "tl": 51, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.ExportCommand", "rp": "DeerskinSimulation_ExportCommand.html", "cl": 0, "ucl": 18, "cal": 18, "tl": 41, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.ForwardToTraderCommand", "rp": "DeerskinSimulation_ForwardToTraderCommand.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 52, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.GreatWagonRoadCommand", "rp": "DeerskinSimulation_GreatWagonRoadCommand.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 58, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.HuntCommand", "rp": "DeerskinSimulation_HuntCommand.html", "cl": 0, "ucl": 24, "cal": 24, "tl": 49, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.RandomExportEventCheckCommand", "rp": "DeerskinSimulation_RandomExportEventCheckCommand.html", "cl": 0, "ucl": 18, "cal": 18, "tl": 40, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.RandomForwardingEventCheckCommand", "rp": "DeerskinSimulation_RandomForwardingEventCheckCommand.html", "cl": 0, "ucl": 25, "cal": 25, "tl": 50, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.RandomHuntingEventCheckCommand", "rp": "DeerskinSimulation_RandomHuntingEventCheckCommand.html", "cl": 0, "ucl": 25, "cal": 25, "tl": 50, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.RandomTransportEventCheckCommand", "rp": "DeerskinSimulation_RandomTransportEventCheckCommand.html", "cl": 0, "ucl": 18, "cal": 18, "tl": 41, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.TravelGreatWagonRoadCommand", "rp": "DeerskinSimulation_TravelGreatWagonRoadCommand.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 59, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.TravelWildernessRoadCommand", "rp": "DeerskinSimulation_TravelWildernessRoadCommand.html", "cl": 0, "ucl": 24, "cal": 24, "tl": 56, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Commands.WildernessRoadCommand", "rp": "DeerskinSimulation_WildernessRoadCommand.html", "cl": 0, "ucl": 24, "cal": 24, "tl": 56, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Components.MessageConsoleLineItem", "rp": "DeerskinSimulation_MessageConsoleLineItem.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "DeerskinSimulation.Layout.NavMenu", "rp": "DeerskinSimulation_NavMenu.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 32, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Exporter", "rp": "DeerskinSimulation_Exporter.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.ExportingEventStrategy", "rp": "DeerskinSimulation_ExportingEventStrategy.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 23, "cb": 2, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.ExportingFortune", "rp": "DeerskinSimulation_ExportingFortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 87, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.ExportingMisfortune", "rp": "DeerskinSimulation_ExportingMisfortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 93, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Fortune", "rp": "DeerskinSimulation_Fortune.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 27, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Hunter", "rp": "DeerskinSimulation_Hunter.html", "cl": 11, "ucl": 2, "cal": 13, "tl": 26, "cb": 1, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.HuntingEventStrategy", "rp": "DeerskinSimulation_HuntingEventStrategy.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 23, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.HuntingFortune", "rp": "DeerskinSimulation_HuntingFortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 51, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.HuntingMisfortune", "rp": "DeerskinSimulation_HuntingMisfortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 57, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Misfortune", "rp": "DeerskinSimulation_Misfortune.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 45, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.NotificationEventArgs", "rp": "DeerskinSimulation_NotificationEventArgs.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Participant", "rp": "DeerskinSimulation_Participant.html", "cl": 110, "ucl": 26, "cal": 136, "tl": 213, "cb": 14, "tb": 26, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.Trader", "rp": "DeerskinSimulation_Trader.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TradingEventStrategy", "rp": "DeerskinSimulation_TradingEventStrategy.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 23, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TradingFortune", "rp": "DeerskinSimulation_TradingFortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 63, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TradingMisfortune", "rp": "DeerskinSimulation_TradingMisfortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 69, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TransportingEventStrategy", "rp": "DeerskinSimulation_TransportingEventStrategy.html", "cl": 15, "ucl": 0, "cal": 15, "tl": 23, "cb": 4, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TransportingFortune", "rp": "DeerskinSimulation_TransportingFortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 75, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Models.TransportingMisfortune", "rp": "DeerskinSimulation_TransportingMisfortune.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 81, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Pages.Home", "rp": "DeerskinSimulation_Home.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Pages.Simulation", "rp": "DeerskinSimulation_Simulation.html", "cl": 0, "ucl": 46, "cal": 46, "tl": 98, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Resources.Events", "rp": "DeerskinSimulation_Events.html", "cl": 0, "ucl": 33, "cal": 33, "tl": 115, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Resources.Strings", "rp": "DeerskinSimulation_Strings.html", "cl": 0, "ucl": 36, "cal": 36, "tl": 124, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "DeerskinSimulation.Resources.UIStr", "rp": "DeerskinSimulation_UIStr.html", "cl": 0, "ucl": 51, "cal": 51, "tl": 169, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Program", "rp": "DeerskinSimulation_Program.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.DateUtils", "rp": "DeerskinSimulation_DateUtils.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.EventRecord", "rp": "DeerskinSimulation_EventRecord.html", "cl": 10, "ucl": 4, "cal": 14, "tl": 29, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.EventResult", "rp": "DeerskinSimulation_EventResult.html", "cl": 16, "ucl": 7, "cal": 23, "tl": 90, "cb": 4, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.EventResultMeta", "rp": "DeerskinSimulation_EventResultMeta.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 5, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.MathUtils", "rp": "DeerskinSimulation_MathUtils.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.ParticipantRole", "rp": "DeerskinSimulation_ParticipantRole.html", "cl": 31, "ucl": 4, "cal": 35, "tl": 70, "cb": 4, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventResultDamagedSkins", "rp": "DeerskinSimulation_RandomEventResultDamagedSkins.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventResultFoundSkins", "rp": "DeerskinSimulation_RandomEventResultFoundSkins.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventResultHighDemand", "rp": "DeerskinSimulation_RandomEventResultHighDemand.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 12, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventResultLostSkins", "rp": "DeerskinSimulation_RandomEventResultLostSkins.html", "cl": 11, "ucl": 0, "cal": 11, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventStrategyExporting", "rp": "DeerskinSimulation_RandomEventStrategyExporting.html", "cl": 0, "ucl": 21, "cal": 21, "tl": 32, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventStrategyForwarding", "rp": "DeerskinSimulation_RandomEventStrategyForwarding.html", "cl": 7, "ucl": 6, "cal": 13, "tl": 24, "cb": 2, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventStrategyHunting", "rp": "DeerskinSimulation_RandomEventStrategyHunting.html", "cl": 7, "ucl": 9, "cal": 16, "tl": 26, "cb": 2, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RandomEventStrategyTransporting", "rp": "DeerskinSimulation_RandomEventStrategyTransporting.html", "cl": 7, "ucl": 14, "cal": 21, "tl": 30, "cb": 2, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RoleExporter", "rp": "DeerskinSimulation_RoleExporter.html", "cl": 36, "ucl": 4, "cal": 40, "tl": 68, "cb": 7, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RoleHunter", "rp": "DeerskinSimulation_RoleHunter.html", "cl": 63, "ucl": 15, "cal": 78, "tl": 144, "cb": 12, "tb": 18, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.RoleTrader", "rp": "DeerskinSimulation_RoleTrader.html", "cl": 35, "ucl": 7, "cal": 42, "tl": 74, "cb": 6, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.StateContainer", "rp": "DeerskinSimulation_StateContainer.html", "cl": 9, "ucl": 8, "cal": 17, "tl": 38, "cb": 4, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.Story", "rp": "DeerskinSimulation_Story.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.TimelapseActivityMeta", "rp": "DeerskinSimulation_TimelapseActivityMeta.html", "cl": 3, "ucl": 1, "cal": 4, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.Trip", "rp": "DeerskinSimulation_Trip.html", "cl": 0, "ucl": 18, "cal": 18, "tl": 47, "cb": 0, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.TripDay", "rp": "DeerskinSimulation_TripDay.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Models.UserInitiatedActivitySequence", "rp": "DeerskinSimulation_UserInitiatedActivitySequence.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.AvatarSelection", "rp": "DeerskinSimulation_AvatarSelection.html", "cl": 0, "ucl": 20, "cal": 20, "tl": 66, "cb": 0, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.ExportOptions", "rp": "DeerskinSimulation_ExportOptions.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 48, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.ForwardOptions", "rp": "DeerskinSimulation_ForwardOptions.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 46, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.Home", "rp": "DeerskinSimulation_Home.html", "cl": 0, "ucl": 11, "cal": 11, "tl": 38, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.HuntOptions", "rp": "DeerskinSimulation_HuntOptions.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 45, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.MessageConsole", "rp": "DeerskinSimulation_MessageConsole.html", "cl": 0, "ucl": 14, "cal": 14, "tl": 38, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.Simulation", "rp": "DeerskinSimulation_Simulation.html", "cl": 0, "ucl": 92, "cal": 92, "tl": 217, "cb": 0, "tb": 14, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.StoryConsole", "rp": "DeerskinSimulation_StoryConsole.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 26, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Pages.TransportOptions", "rp": "DeerskinSimulation_TransportOptions.html", "cl": 0, "ucl": 13, "cal": 13, "tl": 45, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Resources.Events", "rp": "DeerskinSimulation_Events.html", "cl": 0, "ucl": 33, "cal": 33, "tl": 117, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Resources.Strings", "rp": "DeerskinSimulation_Strings.html", "cl": 37, "ucl": 32, "cal": 69, "tl": 225, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Resources.UIStr", "rp": "DeerskinSimulation_UIStr.html", "cl": 0, "ucl": 57, "cal": 57, "tl": 189, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.Services.GameLoopService", "rp": "DeerskinSimulation_GameLoopService.html", "cl": 54, "ucl": 0, "cal": 54, "tl": 92, "cb": 14, "tb": 16, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.ExportOptionsViewModel", "rp": "DeerskinSimulation_ExportOptionsViewModel.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 7, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.ForwardOptionsViewModel", "rp": "DeerskinSimulation_ForwardOptionsViewModel.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.HuntOptionsViewModel", "rp": "DeerskinSimulation_HuntOptionsViewModel.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.MessageConsoleViewModel", "rp": "DeerskinSimulation_MessageConsoleViewModel.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.SimulationViewModel", "rp": "DeerskinSimulation_SimulationViewModel.html", "cl": 66, "ucl": 14, "cal": 80, "tl": 140, "cb": 18, "tb": 26, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.StoryConsoleViewModel", "rp": "DeerskinSimulation_StoryConsoleViewModel.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "DeerskinSimulation.ViewModels.TransportOptionsViewModel", "rp": "DeerskinSimulation_TransportOptionsViewModel.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Program", "rp": "DeerskinSimulation_Program.html", "cl": 0, "ucl": 8, "cal": 8, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -255,9 +293,95 @@ var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
+      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
+      { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
 ];
 
 var riskHotspots = [
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Pages.Simulation", "reportPath": "DeerskinSimulation_Simulation.html", "methodName": "BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)", "methodShortName": "BuildRenderTree(...)", "fileIndex": 0, "line": 25,
+    "metrics": [
+      { "value": 110, "exceeded": true },
+      { "value": 10, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.ConfirmHuntCommand", "reportPath": "DeerskinSimulation_ConfirmHuntCommand.html", "methodName": "<ExecuteAsync()", "methodShortName": "<ExecuteAsync()", "fileIndex": 0, "line": 26,
+    "metrics": [
+      { "value": 72, "exceeded": true },
+      { "value": 8, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Models.RandomEventStrategyExporting", "reportPath": "DeerskinSimulation_RandomEventStrategyExporting.html", "methodName": "ApplyEvent(DeerskinSimulation.Models.ParticipantRole)", "methodShortName": "ApplyEvent(...)", "fileIndex": 0, "line": 6,
+    "metrics": [
+      { "value": 72, "exceeded": true },
+      { "value": 8, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Pages.MessageConsole", "reportPath": "DeerskinSimulation_MessageConsole.html", "methodName": "BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)", "methodShortName": "BuildRenderTree(...)", "fileIndex": 0, "line": 20,
+    "metrics": [
+      { "value": 72, "exceeded": true },
+      { "value": 8, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.DeliverToCampCommand", "reportPath": "DeerskinSimulation_DeliverToCampCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 32,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.DeliverToTraderCommand", "reportPath": "DeerskinSimulation_DeliverToTraderCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 34,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.ForwardToTraderCommand", "reportPath": "DeerskinSimulation_ForwardToTraderCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 34,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.GreatWagonRoadCommand", "reportPath": "DeerskinSimulation_GreatWagonRoadCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 36,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.HuntCommand", "reportPath": "DeerskinSimulation_HuntCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 32,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.RandomForwardingEventCheckCommand", "reportPath": "DeerskinSimulation_RandomForwardingEventCheckCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 32,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.RandomHuntingEventCheckCommand", "reportPath": "DeerskinSimulation_RandomHuntingEventCheckCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 32,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.TravelGreatWagonRoadCommand", "reportPath": "DeerskinSimulation_TravelGreatWagonRoadCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 37,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.TravelWildernessRoadCommand", "reportPath": "DeerskinSimulation_TravelWildernessRoadCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 33,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "DeerskinSimulation", "class": "DeerskinSimulation.Commands.WildernessRoadCommand", "reportPath": "DeerskinSimulation_WildernessRoadCommand.html", "methodName": "ExecuteAsync()", "methodShortName": "ExecuteAsync()", "fileIndex": 0, "line": 33,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
 ];
 
 var branchCoverageAvailable = true;

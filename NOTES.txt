@@ -19,3 +19,8 @@ git branch -d messaging-context
 
 # Delete the remote messaging-context branch
 git push origin --delete messaging-context
+
+
+### Testing and code coverage analysis
+- dotnet test --collect:"XPlat Code Coverage"
+- reportgenerator -reports:TestResults/**/*.xml -targetdir:CoverageReport -reporttypes:Html

@@ -10,15 +10,16 @@
         private IRandomEventStrategy _huntingEventStrategy;
         private IRandomEventStrategy _forwardingEventStrategy;
 
-        public RoleHunter(string name) : this(name, 0, 0)
-        {
+        // Default constructor for production
+        public RoleHunter(string name) : this(name, 0, 0, new RandomEventStrategyHunting(), new RandomEventStrategyForwarding()) { }
 
-        }
-
-        public RoleHunter(string name, double funds, int skins) : base(name, funds, skins)
+        // Constructor with dependency injection for testing
+        public RoleHunter(string name, double funds, int skins,
+                          IRandomEventStrategy huntingStrategy = null,
+                          IRandomEventStrategy forwardingStrategy = null) : base(name, funds, skins)
         {
-            _huntingEventStrategy = new RandomEventStrategyHunting();
-            _forwardingEventStrategy = new RandomEventStrategyForwarding();
+            _huntingEventStrategy = huntingStrategy ?? new RandomEventStrategyHunting();
+            _forwardingEventStrategy = forwardingStrategy ?? new RandomEventStrategyForwarding();
         }
 
         public EventResult Travel(SimulationViewModel viewModel)
@@ -32,28 +33,21 @@
             if (Money < netCostPerDay)
             {
                 return new EventResult(
-                    new EventRecord(Strings.NotEnoughMoneyToHunt,
-                        image: "images/avatar_wm_256.jpg"))
+                    new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"))
                 { Status = EventResultStatus.Fail };
             }
 
-            // Gotta pay to play
+            // Deduct cost
             RemoveMoney(netCostPerDay);
 
-            // Tell the UI
-            var eventMessage = new EventResult() { Status = EventResultStatus.Success };
+            // Create success event
+            var eventMessage = new EventResult { Status = EventResultStatus.Success };
             eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
 
             return eventMessage;
         }
 
-        /// <summary>
-        /// Hunting math
-        /// It costs money to hunt everyday
-        /// </summary>
-        /// <param name="packhorses"></param>
-        /// <returns></returns>
-        public EventResult Hunt(SimulationViewModel viewModel)
+        public virtual EventResult Hunt(SimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
@@ -61,25 +55,23 @@
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-
             if (Money < netCostPerDay)
             {
                 return new EventResult(
-                    new EventRecord(Strings.NotEnoughMoneyToHunt,
-                        image: "images/avatar_wm_256.jpg"))
+                    new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"))
                 { Status = EventResultStatus.Fail };
             }
 
-            // Gotta pay to play
+            // Deduct cost
             RemoveMoney(netCostPerDay);
 
-            // Now try to get some skins
+            // Determine skins hunted
             var rand = new Random();
             var skinsHunted = rand.Next(Constants.DailySkinsMin + viewModel.SelectedPackhorses, Constants.DailySkinsMax + viewModel.SelectedPackhorses);
             AddSkins(skinsHunted);
 
-            // Tell the UI
-            var eventMessage = new EventResult() { Status = EventResultStatus.Success };
+            // Create success event
+            var eventMessage = new EventResult { Status = EventResultStatus.Success };
             eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
             CurrentBag += skinsHunted;
@@ -100,7 +92,6 @@
 
             return eventMessage;
         }
-
 
         public EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
         {
@@ -126,6 +117,7 @@
         {
             return ApplyRandomEvent(_huntingEventStrategy);
         }
+
         protected EventResult ApplyRandomForwardingEvent()
         {
             return ApplyRandomEvent(_forwardingEventStrategy);

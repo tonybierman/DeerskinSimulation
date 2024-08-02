@@ -6,24 +6,30 @@ namespace DeerskinSimulation.Models
     {
         private IRandomEventStrategy _exportingEventStrategy;
 
-        public RoleExporter(string name) : this(name, 0, 0) 
+        public RoleExporter(string name) : this(name, 0, 0, new RandomEventStrategyExporting())
         {
         }
 
-        public RoleExporter(string name, double funds, int skins) : base(name, funds, skins)
+        public RoleExporter(string name, double funds, int skins) : this(name, funds, skins, new RandomEventStrategyExporting())
         {
-            _exportingEventStrategy = new RandomEventStrategyTransporting();
+        }
+
+        public RoleExporter(string name, double funds, int skins, IRandomEventStrategy exportingEventStrategy) : base(name, funds, skins)
+        {
+            _exportingEventStrategy = exportingEventStrategy;
         }
 
         public EventResult Export(int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport, "images/merchant_ship_256.jpg")) { Status = EventResultStatus.Fail };
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToExport, "images/merchant_ship_256.jpg"))
+                { Status = EventResultStatus.Fail };
             }
 
             return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
         }
+
         protected EventResult ApplyRandomExportingEvent()
         {
             return ApplyRandomEvent(_exportingEventStrategy);
@@ -63,6 +69,5 @@ namespace DeerskinSimulation.Models
 
             return eventResult;
         }
-
     }
 }

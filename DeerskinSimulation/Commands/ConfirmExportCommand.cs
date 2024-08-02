@@ -9,19 +9,21 @@
     {
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
+        private readonly ICommandFactory _commandFactory;
 
-        public ConfirmExportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
+        public ConfirmExportCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
+            _commandFactory = commandFactory;
         }
 
         public async Task ExecuteAsync(ExportOptionsViewModel exportOptions)
         {
             if (exportOptions.NumberOfSkins > 0)
             {
-                var exportCommand = CreateExportCommand(_viewModel, exportOptions.NumberOfSkins);
-                var randomExportEventCheckCommand = CreateRandomExportEventCheckCommand(_viewModel);
+                var exportCommand = _commandFactory.CreateExportCommand(_viewModel, exportOptions.NumberOfSkins);
+                var randomExportEventCheckCommand = _commandFactory.CreateRandomExportEventCheckCommand(_viewModel);
 
                 _viewModel.CurrentUserActivity = new UserInitiatedActivitySequence
                 {
@@ -38,16 +40,6 @@
                 };
                 _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);
             }
-        }
-
-        protected virtual ExportCommand CreateExportCommand(SimulationViewModel viewModel, int numberOfSkins)
-        {
-            return new ExportCommand(viewModel, numberOfSkins);
-        }
-
-        protected virtual RandomExportEventCheckCommand CreateRandomExportEventCheckCommand(SimulationViewModel viewModel)
-        {
-            return new RandomExportEventCheckCommand(viewModel);
         }
     }
 }

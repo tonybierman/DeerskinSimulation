@@ -10,11 +10,13 @@
     {
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
+        private readonly ICommandFactory _commandFactory;
 
-        public ConfirmHuntCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
+        public ConfirmHuntCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
+            _commandFactory = commandFactory;
         }
 
         public async Task ExecuteAsync(HuntOptionsViewModel huntOptions)
@@ -26,16 +28,16 @@
                 {
                     if (_viewModel?.CurrentUserActivity?.Meta?.Status != EventResultStatus.Fail)
                     {
-                        var huntCommand = new HuntCommand(_viewModel);
+                        var huntCommand = _commandFactory.CreateHuntCommand(_viewModel);
                         _viewModel.CurrentUserActivity.Meta.Status = await huntCommand.ExecuteAsync();
-                        var randomHuntingEventCheckCommand = new RandomHuntingEventCheckCommand(_viewModel);
+                        var randomHuntingEventCheckCommand = _commandFactory.CreateRandomHuntingEventCheckCommand(_viewModel);
                         await randomHuntingEventCheckCommand.ExecuteAsync();
                     }
                 },
                 Finish = async () =>
                 {
-                    var huntCommand = new DeliverToCampCommand(_viewModel);
-                    _viewModel.CurrentUserActivity.Meta.Status = await huntCommand.ExecuteAsync();
+                    var deliverToCampCommand = _commandFactory.CreateDeliverToCampCommand(_viewModel);
+                    _viewModel.CurrentUserActivity.Meta.Status = await deliverToCampCommand.ExecuteAsync();
                 }
             };
             _gameLoopService.StartActivity(_viewModel.CurrentUserActivity.Meta);

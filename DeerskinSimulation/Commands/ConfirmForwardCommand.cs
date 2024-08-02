@@ -9,11 +9,13 @@
     {
         private readonly SimulationViewModel _viewModel;
         private readonly GameLoopService _gameLoopService;
+        private readonly ICommandFactory _commandFactory;
 
-        public ConfirmForwardCommand(SimulationViewModel viewModel, GameLoopService gameLoopService)
+        public ConfirmForwardCommand(SimulationViewModel viewModel, GameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;
+            _commandFactory = commandFactory;
         }
 
         public async Task ExecuteAsync(ForwardOptionsViewModel sellOptions)
@@ -25,18 +27,18 @@
                     Meta = new TimelapseActivityMeta { Name = "Packtrain", Duration = 14 },
                     InProcess = async () =>
                     {
-                        // travel command
-                        var travelCommand = new WildernessRoadCommand(_viewModel);
+                        // Use the command factory to create the travel command
+                        var travelCommand = _commandFactory.CreateWildernessRoadCommand(_viewModel);
                         await travelCommand.ExecuteAsync();
                     },
                     Finish = async () =>
                     {
-                        // Execute the random forwarding event check command
-                        var randomForwardingEventCheckCommand = new RandomForwardingEventCheckCommand(_viewModel);
+                        // Use the command factory to create the random forwarding event check command
+                        var randomForwardingEventCheckCommand = _commandFactory.CreateRandomForwardingEventCheckCommand(_viewModel);
                         await randomForwardingEventCheckCommand.ExecuteAsync();
 
-                        // Execute the forward to trader command
-                        var forwardToTraderCommand = new ForwardToTraderCommand(_viewModel, sellOptions.NumberOfSkins);
+                        // Use the command factory to create the forward to trader command
+                        var forwardToTraderCommand = _commandFactory.CreateForwardToTraderCommand(_viewModel, sellOptions.NumberOfSkins);
                         await forwardToTraderCommand.ExecuteAsync();
                         _viewModel.CurrentUserActivity = null;
                     }

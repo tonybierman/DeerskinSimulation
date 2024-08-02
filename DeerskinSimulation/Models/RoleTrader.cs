@@ -5,20 +5,22 @@ namespace DeerskinSimulation.Models
 {
     public class RoleTrader : ParticipantRole
     {
-        private IRandomEventStrategy _transportingEventStrategy;
+        private readonly IRandomEventStrategy _transportingEventStrategy;
 
-        public RoleTrader(string name) : this (name, 0, 0)
-        {
-        }
+        // Default constructor for production
+        public RoleTrader(string name) : this(name, 0, 0, new RandomEventStrategyTransporting()) { }
 
-        public RoleTrader(string name, double funds, int skins) : base(name, funds, skins)
+        // Constructor with dependency injection for testing
+        public RoleTrader(string name, double funds, int skins, IRandomEventStrategy transportingStrategy = null)
+            : base(name, funds, skins)
         {
-            _transportingEventStrategy = new RandomEventStrategyTransporting();
+            _transportingEventStrategy = transportingStrategy ?? new RandomEventStrategyTransporting();
         }
 
         public EventResult DeliverToExporter(SimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
-            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
+            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins,
+                Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
 
             exporter.RemoveMoney(sellingPrice);
             exporter.AddSkins(numberOfSkins);
@@ -42,12 +44,11 @@ namespace DeerskinSimulation.Models
             if (Money < netCostPerDay)
             {
                 return new EventResult(
-                    new EventRecord(Strings.NotEnoughMoneyTravel,
-                        image: "images/avatar_wm_256.jpg"))
+                    new EventRecord(Strings.NotEnoughMoneyTravel, image: "images/avatar_wm_256.jpg"))
                 { Status = EventResultStatus.Fail };
             }
 
-            // Gotta pay to play
+            // Deduct cost
             RemoveMoney(netCostPerDay);
 
             if (_skins < numberOfSkins)
@@ -55,7 +56,7 @@ namespace DeerskinSimulation.Models
                 return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport)) { Status = EventResultStatus.Fail };
             }
 
-            var eventResult = new EventResult() { Status = EventResultStatus.Success };
+            var eventResult = new EventResult { Status = EventResultStatus.Success };
             eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} about 20 miles."));
 
             return eventResult;

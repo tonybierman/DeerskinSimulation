@@ -11,11 +11,13 @@
     public class SimulationViewModel
     {
         private StateContainer? _session;
-        public HttpClient? Http { get; private set;}
+        private readonly ICommandFactory _commandFactory;
+
+        public HttpClient? Http { get; private set; }
 
         private readonly GameLoopService _gameLoop;
 
-        public bool Debug { get; private set; } 
+        public bool Debug { get; private set; }
         public RoleHunter Hunter { get; private set; }
         public RoleTrader Trader { get; private set; }
         public RoleExporter Exporter { get; private set; }
@@ -25,14 +27,9 @@
 
         public Story Featured { get; private set; }
         public int SelectedPackhorses { get; set; }
-        public UserInitiatedActivitySequence CurrentUserActivity { get; set; }
-        public int GameDay
-        {
-            get
-            {
-                return _gameLoop.DaysPassed;
-            }
-        }
+        public virtual UserInitiatedActivitySequence CurrentUserActivity { get; set; }
+        public int GameDay => _gameLoop.DaysPassed;
+
         public ConfirmForwardCommand ConfirmSellCmd { get; }
         public ConfirmHuntCommand ConfirmHuntCmd { get; }
         public ConfirmTransportCommand ConfirmTransportCmd { get; }
@@ -40,16 +37,17 @@
 
         public event Func<Task> StateChanged;
 
-        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService, HttpClient http)
+        public SimulationViewModel(StateContainer? session, GameLoopService gameLoopService, HttpClient http, ICommandFactory commandFactory)
         {
             Http = http;
             _gameLoop = gameLoopService;
             _session = session;
+            _commandFactory = commandFactory;
             Debug = _session?.Debug == true;
-            ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService);
-            ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService);
-            ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService);
-            ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService);
+            ConfirmSellCmd = new ConfirmForwardCommand(this, gameLoopService, commandFactory);
+            ConfirmHuntCmd = new ConfirmHuntCommand(this, gameLoopService, commandFactory);
+            ConfirmTransportCmd = new ConfirmTransportCommand(this, gameLoopService, commandFactory);
+            ConfirmExportCmd = new ConfirmExportCommand(this, gameLoopService, commandFactory);
             Hunter = new RoleHunter("Kanta-ke", Constants.HunterStartingFunds, 0);
             Trader = new RoleTrader("Bethabara", Constants.TraderStartingFunds, Constants.TraderStartingSkins);
             Exporter = new RoleExporter("Charleston", Constants.ExporterStartingFunds, Constants.ExporterStartingSkins);

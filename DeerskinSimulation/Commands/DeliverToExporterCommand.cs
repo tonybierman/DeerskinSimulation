@@ -34,6 +34,7 @@
             if (result.HasRecords())
             {
                 _viewModel.SetFeatured(result.LastRecord());
+                _viewModel.AddMessage(result);
             }
 
             return result.Status;

@@ -6,9 +6,9 @@ namespace DeerskinSimulation.Models
     {
         private string _image;
         public string? Title { get; set; }
-        public string? Message { get; set; }
-        public string Color { get; set; }
-        public string Image { get; set; }
+        public string? Message { get; init; }
+        public string Color { get; init; }
+        public string Image { get; init; }
 
         public EventRecord(string name, int gameDay, string message, string color = "black", string image = "images/ph_256.jpg") 
             : this($"{DateUtils.GameDate(gameDay).ToString("d")}: {message}", color, image) { }

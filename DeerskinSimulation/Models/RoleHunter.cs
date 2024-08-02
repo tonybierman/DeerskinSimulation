@@ -30,7 +30,7 @@
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-            if (Money < netCostPerDay)
+            if (!HasMoney(netCostPerDay))
             {
                 return new EventResult(
                     new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"))
@@ -38,13 +38,18 @@
             }
 
             // Deduct cost
-            RemoveMoney(netCostPerDay);
+            if (RemoveMoney(netCostPerDay))
+            {
+                // Create success event
+                var eventMessage = new EventResult { Status = EventResultStatus.Success };
+                eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
+                return eventMessage;
+            }
 
-            // Create success event
-            var eventMessage = new EventResult { Status = EventResultStatus.Success };
-            eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Traveled about 20 miles.", image: "images/avatar_wm_256.jpg"));
-
-            return eventMessage;
+            return new EventResult(new EventRecord("Transaction failed during execution. Money could not be deducted.", "red"))
+            {
+                Status = EventResultStatus.Fail
+            };
         }
 
         public virtual EventResult Hunt(ISimulationViewModel viewModel)
@@ -55,7 +60,7 @@
             double netCostPerDay = Constants.HuntingCostPerDay * viewModel.SelectedPackhorses;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-            if (Money < netCostPerDay)
+            if (!HasMoney(netCostPerDay))
             {
                 return new EventResult(
                     new EventRecord(Strings.NotEnoughMoneyToHunt, image: "images/avatar_wm_256.jpg"))
@@ -63,20 +68,26 @@
             }
 
             // Deduct cost
-            RemoveMoney(netCostPerDay);
+            if (RemoveMoney(netCostPerDay))
+            {
+                // Determine skins hunted
+                var rand = new Random();
+                var skinsHunted = rand.Next(Constants.DailySkinsMin + viewModel.SelectedPackhorses, Constants.DailySkinsMax + viewModel.SelectedPackhorses);
+                AddSkins(skinsHunted);
 
-            // Determine skins hunted
-            var rand = new Random();
-            var skinsHunted = rand.Next(Constants.DailySkinsMin + viewModel.SelectedPackhorses, Constants.DailySkinsMax + viewModel.SelectedPackhorses);
-            AddSkins(skinsHunted);
+                // Create success event
+                var eventMessage = new EventResult { Status = EventResultStatus.Success };
+                eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
 
-            // Create success event
-            var eventMessage = new EventResult { Status = EventResultStatus.Success };
-            eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, string.Format(Strings.HuntedSkins, skinsHunted), image: "images/avatar_wm_256.jpg"));
+                CurrentBag += skinsHunted;
 
-            CurrentBag += skinsHunted;
+                return eventMessage;
+            }
 
-            return eventMessage;
+            return new EventResult(new EventRecord("Transaction failed during execution. Money could not be deducted.", "red"))
+            {
+                Status = EventResultStatus.Fail
+            };
         }
 
         public EventResult EndHunt(ISimulationViewModel viewModel)
@@ -95,22 +106,50 @@
 
         public EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
         {
-            if (Skins < numberOfSkins)
+            if (!HasSkins(numberOfSkins))
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell, image: "images/avatar_wm_256.jpg"));
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToSell, image: "images/avatar_wm_256.jpg"))
+                { Status = EventResultStatus.Fail };
             }
 
             double totalCost = numberOfSkins * Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb;
-            trader.RemoveMoney(totalCost);
+
+            // Check if the trader has enough money
+            if (!trader.HasMoney(totalCost))
+            {
+                return new EventResult(new EventRecord("Trader does not have enough money to complete the transaction.", "red"))
+                { Status = EventResultStatus.Fail };
+            }
+
+            // Perform the transaction
+            bool traderMoneyRemoved = trader.RemoveMoney(totalCost);
+            bool skinsRemoved = RemoveSkins(numberOfSkins);
+            AddMoney(totalCost);
             trader.AddSkins(numberOfSkins);
 
-            RemoveSkins(numberOfSkins);
-            AddMoney(totalCost);
+            if (traderMoneyRemoved && skinsRemoved)
+            {
+                var eventMessage = new EventResult { Status = EventResultStatus.Success };
+                eventMessage.Records.Add(new EventRecord(string.Format(Strings.ForwardedSkins, numberOfSkins, trader.Name), image: "images/avatar_wm_256.jpg"));
+                return eventMessage;
+            }
+            else
+            {
+                // Rollback transaction in case of failure
+                if (traderMoneyRemoved)
+                {
+                    trader.AddMoney(totalCost);
+                }
+                if (skinsRemoved)
+                {
+                    AddSkins(numberOfSkins);
+                }
 
-            var eventMessage = new EventResult();
-            eventMessage.Records.Add(new EventRecord(string.Format(Strings.ForwardedSkins, numberOfSkins, trader.Name), image: "images/avatar_wm_256.jpg"));
+                RemoveMoney(totalCost);
 
-            return eventMessage;
+                return new EventResult(new EventRecord("Transaction failed during execution. Rolling back changes.", "red"))
+                { Status = EventResultStatus.Fail };
+            }
         }
 
         protected EventResult ApplyRandomHuntingEvent()

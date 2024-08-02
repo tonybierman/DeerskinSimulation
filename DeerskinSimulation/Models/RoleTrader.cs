@@ -19,19 +19,66 @@ namespace DeerskinSimulation.Models
 
         public EventResult DeliverToExporter(ISimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
-            var sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins,
-                Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
+            var sellingPrice = MathUtils.CalculateTransactionCost(
+                numberOfSkins,
+                Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup
+            );
 
-            exporter.RemoveMoney(sellingPrice);
-            exporter.AddSkins(numberOfSkins);
-            RemoveSkins(numberOfSkins);
+            // Check if the exporter has enough money to remove
+            if (!exporter.HasMoney(sellingPrice))
+            {
+                return new EventResult(new EventRecord("Exporter does not have enough money to complete the transaction.", "red"))
+                {
+                    Status = EventResultStatus.Fail
+                };
+            }
+
+            // Check if the trader has enough skins to deliver
+            if (!HasSkins(numberOfSkins))
+            {
+                return new EventResult(new EventRecord("Not enough skins to deliver.", "red"))
+                {
+                    Status = EventResultStatus.Fail
+                };
+            }
+
+            // Perform the transaction
+            bool exporterMoneyRemoved = exporter.RemoveMoney(sellingPrice);
+            bool skinsRemoved = RemoveSkins(numberOfSkins);
             AddMoney(sellingPrice);
+            exporter.AddSkins(numberOfSkins);
 
-            var eventResult = new EventResult();
-            eventResult.Records.Add(new EventRecord($"Delivered {numberOfSkins} skins to exporter."));
+            if (exporterMoneyRemoved && skinsRemoved)
+            {
+                var eventResult = new EventResult
+                {
+                    Status = EventResultStatus.Success
+                };
+                eventResult.Records.Add(new EventRecord($"Delivered {numberOfSkins} skins to exporter.", "green"));
+                return eventResult;
+            }
+            else
+            {
+                // Rollback transaction in case of failure
+                if (exporterMoneyRemoved)
+                {
+                    exporter.AddMoney(sellingPrice);
+                }
+                if (skinsRemoved)
+                {
+                    AddSkins(numberOfSkins);
+                }
 
-            return eventResult;
+                RemoveMoney(sellingPrice);
+
+                return new EventResult(new EventRecord("Transaction failed during execution. Rolling back changes.", "red"))
+                {
+                    Status = EventResultStatus.Fail
+                };
+            }
         }
+
+
 
         public virtual EventResult TransportSkins(ISimulationViewModel viewModel, ParticipantRole recipient, int numberOfSkins)
         {
@@ -41,26 +88,54 @@ namespace DeerskinSimulation.Models
             double netCostPerDay = Constants.RegionalTransportCost * numberOfSkins;
             TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
 
-            if (Money < netCostPerDay)
+            // Check if there is enough money to cover the transport cost
+            if (!HasMoney(netCostPerDay))
             {
                 return new EventResult(
                     new EventRecord(Strings.NotEnoughMoneyTravel, image: "images/avatar_wm_256.jpg"))
-                { Status = EventResultStatus.Fail };
+                {
+                    Status = EventResultStatus.Fail
+                };
             }
 
-            // Deduct cost
-            RemoveMoney(netCostPerDay);
-
-            if (_skins < numberOfSkins)
+            // Check if there are enough skins to transport
+            if (!HasSkins(numberOfSkins))
             {
-                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport)) { Status = EventResultStatus.Fail };
+                return new EventResult(new EventRecord(Strings.NotEnoughSkinsToTransport))
+                {
+                    Status = EventResultStatus.Fail
+                };
             }
 
-            var eventResult = new EventResult { Status = EventResultStatus.Success };
-            eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} about 20 miles."));
+            // Attempt to deduct cost and skins
+            bool moneyRemoved = RemoveMoney(netCostPerDay);
+            bool skinsRemoved = RemoveSkins(numberOfSkins);
 
-            return eventResult;
+            if (moneyRemoved && skinsRemoved)
+            {
+                var eventResult = new EventResult { Status = EventResultStatus.Success };
+                eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} skins about 20 miles."));
+                return eventResult;
+            }
+            else
+            {
+                // Rollback any changes if the transaction fails
+                if (moneyRemoved)
+                {
+                    AddMoney(netCostPerDay);
+                }
+                if (skinsRemoved)
+                {
+                    AddSkins(numberOfSkins);
+                }
+
+                return new EventResult(new EventRecord("Transaction failed during execution. Rolling back changes.", "red"))
+                {
+                    Status = EventResultStatus.Fail
+                };
+            }
         }
+
 
         protected EventResult ApplyRandomTransportingEvent()
         {

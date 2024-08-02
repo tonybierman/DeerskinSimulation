@@ -9,7 +9,7 @@ namespace DeerskinSimulation.Models
         protected int _skins;
         protected double _money;
 
-        public string Name { get; }
+        public string Name { get; init; }
         public int Skins => _skins;
         public double Money => _money;
 
@@ -17,16 +17,16 @@ namespace DeerskinSimulation.Models
 
         public event EventHandler<EventResult> OnNotification;
 
-        protected ParticipantRole(string name, double initialMoney = 0, int intialSkins = 0)
+        protected ParticipantRole(string name, double initialMoney = 0, int initialSkins = 0)
         {
             Name = name;
             _money = initialMoney;
-            _skins = intialSkins;
+            _skins = initialSkins;
         }
 
         protected virtual void RaiseNotification(string message, string color)
         {
-            OnNotification?.Invoke(this, 
+            OnNotification?.Invoke(this,
                 new EventResult(new EventRecord($"{Name}: {message}", color)));
         }
 
@@ -36,13 +36,14 @@ namespace DeerskinSimulation.Models
             //RaiseNotification($"Added {amount} skins.", "green");
         }
 
-        public virtual void RemoveSkins(int amount)
+        public virtual bool RemoveSkins(int amount)
         {
-            if (_skins <= 0)
-                return;
+            if (!HasSkins(amount))
+                return false;
 
-            _skins = Math.Max(0, _skins - amount);
+            _skins -= amount;
             //RaiseNotification($"Removed {amount} skins.", "red");
+            return true;
         }
 
         public virtual void AddMoney(double amount)
@@ -51,13 +52,24 @@ namespace DeerskinSimulation.Models
             //RaiseNotification($"Added ${amount:F2}.", "green");
         }
 
-        public virtual void RemoveMoney(double amount)
+        public virtual bool RemoveMoney(double amount)
         {
-            if (_money <= 0)
-                return;
+            if (!HasMoney(amount))
+                return false;
 
-            _money = Math.Max(0, _money - amount);
+            _money -= amount;
             //RaiseNotification($"Removed ${amount:F2}.", "red");
+            return true;
+        }
+
+        public bool HasSkins(int amount)
+        {
+            return _skins >= amount;
+        }
+
+        public bool HasMoney(double amount)
+        {
+            return _money >= amount;
         }
 
         protected EventResult ApplyRandomEvent(IRandomEventStrategy eventStrategy)

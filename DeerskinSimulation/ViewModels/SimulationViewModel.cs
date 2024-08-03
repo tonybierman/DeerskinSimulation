@@ -71,22 +71,34 @@
             Exporter.OnNotification -= HandleNotification;
         }
 
-        public void AddMessage(EventResult message)
+        public virtual void AddMessage(EventResult message)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+            // Check if the message is null or if it contains no records
+            if (message == null || message.Records == null || !message.Records.Any())
+            {
+                return;
+            }
 
+            // Add the message to the collection
             _messages.Add(message);
+
+            // Trigger the event for message added
             OnMessageAdded(message);
         }
 
-        public void ClearMessages()
+        public virtual void ClearMessages()
         {
             _messages.Clear();
             OnMessagesCleared();
         }
 
-        public void SetFeatured(EventRecord? result)
+        public virtual void SetFeatured(EventRecord? result)
         {
+            if (result == null || result.Message == null)
+            {
+                return;
+            }
+
             Featured = new Story(result);
         }
 

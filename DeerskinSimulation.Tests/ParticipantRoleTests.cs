@@ -1,7 +1,6 @@
 ﻿using System;
 using Xunit;
 using DeerskinSimulation.Models;
-using Moq;
 
 public class ParticipantRoleTests
 {
@@ -11,64 +10,49 @@ public class ParticipantRoleTests
             : base(name, initialMoney, initialSkins)
         {
         }
-
-        public new void RaiseNotification(string message, string color)
-        {
-            base.RaiseNotification(message, color);
-        }
-
-        public void TestApplyRandomEvent(IRandomEventStrategy strategy)
-        {
-            ApplyRandomEvent(strategy);
-        }
     }
 
     [Fact]
-    public void AddSkins_ShouldIncreaseSkins()
+    public void AddSkins_ShouldIncreaseSkinCount()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 0, 0);
+        var participant = new TestParticipantRole("Tester", 0, 0);
 
         // Act
-        participant.AddSkins(5);
+        participant.AddSkins(10);
+
+        // Assert
+        Assert.Equal(10, participant.Skins);
+    }
+
+    [Fact]
+    public void RemoveSkins_ShouldDecreaseSkinCount_WhenEnoughSkinsExist()
+    {
+        // Arrange
+        var participant = new TestParticipantRole("Tester", 0, 10);
+
+        // Act
+        participant.RemoveSkins(5);
 
         // Assert
         Assert.Equal(5, participant.Skins);
     }
 
     [Fact]
-    public void RemoveSkins_ShouldDecreaseSkins_WhenEnoughSkins()
+    public void RemoveSkins_ShouldThrowException_WhenNotEnoughSkinsExist()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 0, 10);
+        var participant = new TestParticipantRole("Tester", 0, 5);
 
-        // Act
-        bool result = participant.RemoveSkins(5);
-
-        // Assert
-        Assert.True(result);
-        Assert.Equal(5, participant.Skins);
+        // Act & Assert
+        Assert.Throws<ApplicationException>(() => participant.RemoveSkins(10));
     }
 
     [Fact]
-    public void RemoveSkins_ShouldReturnFalse_WhenNotEnoughSkins()
+    public void AddMoney_ShouldIncreaseMoneyAmount()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 0, 5);
-
-        // Act
-        bool result = participant.RemoveSkins(10);
-
-        // Assert
-        Assert.False(result);
-        Assert.Equal(5, participant.Skins);
-    }
-
-    [Fact]
-    public void AddMoney_ShouldIncreaseMoney()
-    {
-        // Arrange
-        var participant = new TestParticipantRole("Test", 0, 0);
+        var participant = new TestParticipantRole("Tester", 0, 0);
 
         // Act
         participant.AddMoney(100.0);
@@ -78,98 +62,77 @@ public class ParticipantRoleTests
     }
 
     [Fact]
-    public void RemoveMoney_ShouldDecreaseMoney_WhenEnoughMoney()
+    public void RemoveMoney_ShouldDecreaseMoneyAmount_WhenEnoughMoneyExists()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 100.0, 0);
+        var participant = new TestParticipantRole("Tester", 100.0, 0);
 
         // Act
-        bool result = participant.RemoveMoney(50.0);
+        participant.RemoveMoney(50.0);
 
         // Assert
-        Assert.True(result);
         Assert.Equal(50.0, participant.Money);
     }
 
     [Fact]
-    public void RemoveMoney_ShouldReturnFalse_WhenNotEnoughMoney()
+    public void RemoveMoney_ShouldThrowException_WhenNotEnoughMoneyExists()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 50.0, 0);
+        var participant = new TestParticipantRole("Tester", 50.0, 0);
 
-        // Act
-        bool result = participant.RemoveMoney(100.0);
-
-        // Assert
-        Assert.False(result);
-        Assert.Equal(50.0, participant.Money);
+        // Act & Assert
+        Assert.Throws<ApplicationException>(() => participant.RemoveMoney(100.0));
     }
 
     [Fact]
-    public void HasSkins_ShouldReturnTrue_WhenEnoughSkins()
+    public void HasSkins_ShouldReturnTrue_WhenEnoughSkinsExist()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 0, 10);
+        var participant = new TestParticipantRole("Tester", 0, 10);
 
         // Act
-        bool result = participant.HasSkins(5);
+        var result = participant.HasSkins(5);
 
         // Assert
         Assert.True(result);
     }
 
     [Fact]
-    public void HasSkins_ShouldReturnFalse_WhenNotEnoughSkins()
+    public void HasSkins_ShouldReturnFalse_WhenNotEnoughSkinsExist()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 0, 5);
+        var participant = new TestParticipantRole("Tester", 0, 5);
 
         // Act
-        bool result = participant.HasSkins(10);
+        var result = participant.HasSkins(10);
 
         // Assert
         Assert.False(result);
     }
 
     [Fact]
-    public void HasMoney_ShouldReturnTrue_WhenEnoughMoney()
+    public void HasMoney_ShouldReturnTrue_WhenEnoughMoneyExists()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 100.0, 0);
+        var participant = new TestParticipantRole("Tester", 100.0, 0);
 
         // Act
-        bool result = participant.HasMoney(50.0);
+        var result = participant.HasMoney(50.0);
 
         // Assert
         Assert.True(result);
     }
 
     [Fact]
-    public void HasMoney_ShouldReturnFalse_WhenNotEnoughMoney()
+    public void HasMoney_ShouldReturnFalse_WhenNotEnoughMoneyExists()
     {
         // Arrange
-        var participant = new TestParticipantRole("Test", 50.0, 0);
+        var participant = new TestParticipantRole("Tester", 50.0, 0);
 
         // Act
-        bool result = participant.HasMoney(100.0);
+        var result = participant.HasMoney(100.0);
 
         // Assert
         Assert.False(result);
-    }
-
-    [Fact]
-    public void ApplyRandomEvent_ShouldInvokeStrategy()
-    {
-        // Arrange
-        var participant = new TestParticipantRole("Test", 100.0, 10);
-        var mockStrategy = new Mock<IRandomEventStrategy>();
-        mockStrategy.Setup(s => s.ApplyEvent(It.IsAny<ParticipantRole>()))
-            .Returns(new EventResult(new EventRecord("Test event")));
-
-        // Act
-        participant.TestApplyRandomEvent(mockStrategy.Object);
-
-        // Assert
-        mockStrategy.Verify(s => s.ApplyEvent(participant), Times.Once);
     }
 }

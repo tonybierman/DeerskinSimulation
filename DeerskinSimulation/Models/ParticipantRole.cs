@@ -39,7 +39,7 @@ namespace DeerskinSimulation.Models
         public virtual bool RemoveSkins(int amount)
         {
             if (!HasSkins(amount))
-                return false;
+                throw new ApplicationException("Insufficient supply.  Check for has skins first.");
 
             _skins -= amount;
             //RaiseNotification($"Removed {amount} skins.", "red");
@@ -55,19 +55,19 @@ namespace DeerskinSimulation.Models
         public virtual bool RemoveMoney(double amount)
         {
             if (!HasMoney(amount))
-                return false;
+                throw new ApplicationException("Insufficient funds.  Check for has money first.");
 
             _money -= amount;
             //RaiseNotification($"Removed ${amount:F2}.", "red");
             return true;
         }
 
-        public bool HasSkins(int amount)
+        public virtual bool HasSkins(int amount)
         {
             return _skins >= amount;
         }
 
-        public bool HasMoney(double amount)
+        public virtual bool HasMoney(double amount)
         {
             return _money >= amount;
         }

@@ -10,6 +10,7 @@ namespace DeerskinSimulation.Models
         // Default constructor for production
         public RoleTrader(string name) : this(name, 0, 0, new RandomEventStrategyTransporting()) { }
 
+
         // Constructor with dependency injection for testing
         public RoleTrader(string name, double funds, int skins, IRandomEventStrategy transportingStrategy = null)
             : base(name, funds, skins)
@@ -17,15 +18,15 @@ namespace DeerskinSimulation.Models
             _transportingEventStrategy = transportingStrategy ?? new RandomEventStrategyTransporting();
         }
 
-        public EventResult DeliverToExporter(ISimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
+        public virtual EventResult DeliverToExporter(ISimulationViewModel viewModel, RoleExporter exporter, int numberOfSkins)
         {
-            var sellingPrice = MathUtils.CalculateTransactionCost(
+            var sellingPricePerUnit = MathUtils.CalculateTransactionCost(
                 numberOfSkins,
                 Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup
             );
 
             // Check if the exporter has enough money to remove
-            if (!exporter.HasMoney(sellingPrice))
+            if (!exporter.HasMoney(sellingPricePerUnit * numberOfSkins))
             {
                 return new EventResult(new EventRecord("Exporter does not have enough money to complete the transaction.", "red"))
                 {
@@ -43,9 +44,9 @@ namespace DeerskinSimulation.Models
             }
 
             // Perform the transaction
-            bool exporterMoneyRemoved = exporter.RemoveMoney(sellingPrice);
+            bool exporterMoneyRemoved = exporter.RemoveMoney(sellingPricePerUnit);
             bool skinsRemoved = RemoveSkins(numberOfSkins);
-            AddMoney(sellingPrice);
+            AddMoney(sellingPricePerUnit);
             exporter.AddSkins(numberOfSkins);
 
             if (exporterMoneyRemoved && skinsRemoved)
@@ -62,14 +63,14 @@ namespace DeerskinSimulation.Models
                 // Rollback transaction in case of failure
                 if (exporterMoneyRemoved)
                 {
-                    exporter.AddMoney(sellingPrice);
+                    exporter.AddMoney(sellingPricePerUnit);
                 }
                 if (skinsRemoved)
                 {
                     AddSkins(numberOfSkins);
                 }
 
-                RemoveMoney(sellingPrice);
+                RemoveMoney(sellingPricePerUnit);
 
                 return new EventResult(new EventRecord("Transaction failed during execution. Rolling back changes.", "red"))
                 {
@@ -102,7 +103,7 @@ namespace DeerskinSimulation.Models
             }
 
             var eventResult = new EventResult { Status = EventResultStatus.Success };
-            eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} about 20 miles."));
+            eventResult.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Transported {numberOfSkins} skins about 20 miles."));
 
             return eventResult;
         }
@@ -112,7 +113,7 @@ namespace DeerskinSimulation.Models
             return ApplyRandomEvent(_transportingEventStrategy);
         }
 
-        public EventResult RollForRandomTransportingEvent()
+        public virtual EventResult RollForRandomTransportingEvent()
         {
             return ApplyRandomTransportingEvent();
         }

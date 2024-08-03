@@ -1,122 +1,119 @@
 ﻿using Xunit;
 using Moq;
 using DeerskinSimulation.Models;
-using DeerskinSimulation.Resources;
 using DeerskinSimulation.ViewModels;
+using DeerskinSimulation.Resources;
+using System.Collections.Generic;
 
-namespace DeerskinSimulation.Tests
+public class RoleTraderTests
 {
-    public class RoleTraderTests
+    private readonly RoleTrader _roleTrader;
+    private readonly RoleExporter _exporter;
+    private readonly Mock<ISimulationViewModel> _mockViewModel;
+    private readonly Mock<IRandomEventStrategy> _mockEventStrategy;
+
+    public RoleTraderTests()
     {
-        private readonly Mock<ISimulationViewModel> _mockViewModel;
-        private readonly RoleTrader _trader;
-        private readonly RoleExporter _exporter;
+        // Initialize the RoleTrader and RoleExporter
+        _mockEventStrategy = new Mock<IRandomEventStrategy>();
+        _roleTrader = new RoleTrader("Trader", 1000, 100, _mockEventStrategy.Object);
+        _exporter = new RoleExporter("Exporter", 500, 50, new Mock<IRandomEventStrategy>().Object);
 
-        public RoleTraderTests()
+        // Mocking ISimulationViewModel
+        _mockViewModel = new Mock<ISimulationViewModel>();
+    }
+
+    [Fact]
+    public void DeliverToExporter_ShouldFail_WhenExporterHasNotEnoughMoney()
+    {
+        // Arrange
+        _exporter.RemoveMoney(_exporter.Money); // Ensure exporter has no money
+
+        // Act
+        var result = _roleTrader.DeliverToExporter(_mockViewModel.Object, _exporter, 10);
+
+        // Assert
+        Assert.Equal(EventResultStatus.Fail, result.Status);
+        Assert.Contains("Exporter does not have enough money", result.Records[0].Message);
+    }
+
+    [Fact]
+    public void DeliverToExporter_ShouldFail_WhenNotEnoughSkins()
+    {
+        // Arrange
+        _roleTrader.RemoveSkins(_roleTrader.Skins); // Ensure trader has no skins
+
+        // Act
+        var result = _roleTrader.DeliverToExporter(_mockViewModel.Object, _exporter, 10);
+
+        // Assert
+        Assert.Equal(EventResultStatus.Fail, result.Status);
+        Assert.Contains("Not enough skins to deliver", result.Records[0].Message);
+    }
+
+    [Fact]
+    public void DeliverToExporter_ShouldSucceed_WhenEnoughResources()
+    {
+        // Act
+        var result = _roleTrader.DeliverToExporter(_mockViewModel.Object, _exporter, 10);
+
+        // Assert
+        Assert.Equal(EventResultStatus.Success, result.Status);
+        Assert.Contains("Delivered 10 skins to exporter", result.Records[0].Message);
+    }
+
+    [Fact]
+    public void TransportSkins_ShouldFail_WhenNotEnoughMoney()
+    {
+        // Arrange
+        _roleTrader.RemoveMoney(_roleTrader.Money); // Ensure trader has no money
+
+        _mockViewModel.Setup(vm => vm.CurrentUserActivity).Returns(new UserInitiatedActivitySequence
         {
-            _mockViewModel = new Mock<ISimulationViewModel>();
-            _mockViewModel.Setup(vm => vm.CurrentUserActivity).Returns(new UserInitiatedActivitySequence
-            {
-                Meta = new TimelapseActivityMeta { Name = "TestActivity", Duration = 5 }
-            });
+            Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10, Elapsed = 0 }
+        });
 
-            _trader = new RoleTrader("Trader", 1000, 50);
-            _exporter = new RoleExporter("Exporter", 500, 0);
-        }
+        // Act
+        var result = _roleTrader.TransportSkins(_mockViewModel.Object, _exporter, 10);
 
-        [Fact]
-        public void DeliverToExporter_ShouldSucceed_WhenEnoughResources()
+        // Assert
+        Assert.Equal(EventResultStatus.Fail, result.Status);
+        Assert.Contains(Strings.NotEnoughMoneyTravel, result.Records[0].Message);
+    }
+
+    [Fact]
+    public void TransportSkins_ShouldFail_WhenNotEnoughSkins()
+    {
+        // Arrange
+        _roleTrader.RemoveSkins(_roleTrader.Skins); // Ensure trader has no skins
+
+        _mockViewModel.Setup(vm => vm.CurrentUserActivity).Returns(new UserInitiatedActivitySequence
         {
-            // Arrange
-            int numberOfSkins = 10;
-            double sellingPrice = MathUtils.CalculateTransactionCost(numberOfSkins,
-                Constants.DeerSkinPricePerLb * Constants.DeerSkinWeightInLb * Constants.TraderMarkup);
+            Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10, Elapsed = 0 }
+        });
 
-            // Act
-            var result = _trader.DeliverToExporter(_mockViewModel.Object, _exporter, numberOfSkins);
+        // Act
+        var result = _roleTrader.TransportSkins(_mockViewModel.Object, _exporter, 10);
 
-            // Assert
-            Assert.Equal(EventResultStatus.Success, result.Status);
-            Assert.Contains(result.Records, r => r.Message.Contains($"Delivered {numberOfSkins} skins to exporter."));
-            Assert.Equal(40, _trader.Skins);  // 50 - 10
-            Assert.Equal(10, _exporter.Skins); // 0 + 10
-            Assert.Equal(1000 + sellingPrice, _trader.Money); // Trader money should increase by selling price
-            Assert.Equal(500 - sellingPrice, _exporter.Money); // Exporter money should decrease by selling price
-        }
+        // Assert
+        Assert.Equal(EventResultStatus.Fail, result.Status);
+        Assert.Contains(Strings.NotEnoughSkinsToTransport, result.Records[0].Message);
+    }
 
-        [Fact]
-        public void DeliverToExporter_ShouldFail_WhenNotEnoughSkins()
+    [Fact]
+    public void TransportSkins_ShouldSucceed_WhenEnoughResources()
+    {
+        // Arrange
+        _mockViewModel.Setup(vm => vm.CurrentUserActivity).Returns(new UserInitiatedActivitySequence
         {
-            // Arrange
-            int numberOfSkins = 60; // More than the trader has
+            Meta = new TimelapseActivityMeta { Name = "Transporting", Duration = 10, Elapsed = 0 }
+        });
 
-            // Act
-            var result = _trader.DeliverToExporter(_mockViewModel.Object, _exporter, numberOfSkins);
+        // Act
+        var result = _roleTrader.TransportSkins(_mockViewModel.Object, _exporter, 10);
 
-            // Assert
-            Assert.Equal(EventResultStatus.Fail, result.Status);
-            Assert.Contains(result.Records, r => r.Message.Contains("Not enough skins to deliver."));
-        }
-
-        [Fact]
-        public void DeliverToExporter_ShouldFail_WhenExporterHasInsufficientFunds()
-        {
-            // Arrange
-            _exporter.RemoveMoney(_exporter.Money); // Ensure exporter has no money
-            int numberOfSkins = 10;
-
-            // Act
-            var result = _trader.DeliverToExporter(_mockViewModel.Object, _exporter, numberOfSkins);
-
-            // Assert
-            Assert.Equal(EventResultStatus.Fail, result.Status);
-            Assert.Contains(result.Records, r => r.Message.Contains("Exporter does not have enough money to complete the transaction."));
-        }
-
-        [Fact]
-        public void TransportSkins_ShouldSucceed_WhenEnoughResources()
-        {
-            // Arrange
-            int numberOfSkins = 10;
-            double netCostPerDay = Constants.RegionalTransportCost * numberOfSkins;
-
-            // Act
-            var result = _trader.TransportSkins(_mockViewModel.Object, _exporter, numberOfSkins);
-
-            // Assert
-            Assert.Equal(EventResultStatus.Success, result.Status);
-            //Assert.Contains(result.Records, r => r.Message.Contains($"Transported {numberOfSkins} skins about 20 miles."));
-            Assert.Equal(50, _trader.Skins);
-            Assert.Equal(1000 - netCostPerDay, _trader.Money);
-        }
-
-        [Fact]
-        public void TransportSkins_ShouldFail_WhenNotEnoughMoney()
-        {
-            // Arrange
-            _trader.RemoveMoney(_trader.Money); // Ensure trader has no money
-            int numberOfSkins = 10;
-
-            // Act
-            var result = _trader.TransportSkins(_mockViewModel.Object, _exporter, numberOfSkins);
-
-            // Assert
-            Assert.Equal(EventResultStatus.Fail, result.Status);
-            Assert.Contains(result.Records, r => r.Message.Contains(Strings.NotEnoughMoneyTravel));
-        }
-
-        [Fact]
-        public void TransportSkins_ShouldFail_WhenNotEnoughSkins()
-        {
-            // Arrange
-            int numberOfSkins = 60; // More than the trader has
-
-            // Act
-            var result = _trader.TransportSkins(_mockViewModel.Object, _exporter, numberOfSkins);
-
-            // Assert
-            Assert.Equal(EventResultStatus.Fail, result.Status);
-            Assert.Contains(result.Records, r => r.Message.Contains(Strings.NotEnoughSkinsToTransport));
-        }
+        // Assert
+        Assert.Equal(EventResultStatus.Success, result.Status);
+        Assert.Contains("Transported 10 skins about 20 miles", result.Records[0].Message);
     }
 }

@@ -12,7 +12,7 @@
         private readonly ICommandFactory _commandFactory;
         private Trip _journey;
 
-        public TransportingSequenceCoordinator(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
+        public TransportingSequenceCoordinator(ISimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

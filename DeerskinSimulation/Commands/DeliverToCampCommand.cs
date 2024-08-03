@@ -28,7 +28,7 @@
             throw new NotImplementedException();
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Hunter.EndHunt(_viewModel);
             _viewModel.Hunter.CurrentBag = 0;

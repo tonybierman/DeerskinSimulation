@@ -28,7 +28,7 @@
             // ExecuteAsync().Wait(); // Blocking wait; in real applications prefer async all the way
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Trader.DeliverToExporter(_viewModel, _viewModel.Exporter, _numberOfSkins);
             if (result.HasRecords())

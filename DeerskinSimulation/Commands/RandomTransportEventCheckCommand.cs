@@ -26,7 +26,7 @@
             // ExecuteAsync().Wait(); // Blocking wait; in real applications prefer async all the way
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Trader.RollForRandomTransportingEvent();
             if (result.HasRecords())

@@ -48,7 +48,7 @@ public class DeliverToTraderCommandTests
         // Assert
         Assert.Equal(EventResultStatus.Success, result);
         Assert.Equal(55, _trader.Skins); // 50 + 5 skins delivered
-        Assert.Equal(15, _hunter.Skins); // 10 - 5 skins delivered
+        Assert.Equal(15, _hunter.Skins); // 20 - 5 skins delivered
     }
 
     [Fact]

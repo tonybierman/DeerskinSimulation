@@ -19,7 +19,7 @@ namespace DeerskinSimulation.Models
             _exportingEventStrategy = exportingEventStrategy;
         }
 
-        public EventResult Export(int numberOfSkins)
+        public virtual EventResult Export(int numberOfSkins)
         {
             if (Skins < numberOfSkins)
             {

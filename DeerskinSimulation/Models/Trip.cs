@@ -11,6 +11,8 @@
         private readonly string _jsonFilePath;
         private readonly HttpClient _httpClient;
 
+        public Trip() { }
+
         public List<TripDay> Days { get; private set; } = new List<TripDay>();
 
         /// <summary>

@@ -27,7 +27,7 @@
             throw new NotImplementedException();
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Exporter.Export(_numberOfSkins);
             if (result.HasRecords())

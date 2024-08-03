@@ -10,7 +10,7 @@
         private readonly ISimulationViewModel _viewModel;
         private readonly int _numberOfSkins;
 
-        public DeliverToTraderCommand(SimulationViewModel viewModel, int numberOfSkins)
+        public DeliverToTraderCommand(ISimulationViewModel viewModel, int numberOfSkins)
         {
             _viewModel = viewModel;
             _numberOfSkins = numberOfSkins;

@@ -11,7 +11,7 @@
         private readonly IGameLoopService _gameLoopService;
         private readonly ICommandFactory _commandFactory;
 
-        public ExportSequenceCoordinator(SimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
+        public ExportSequenceCoordinator(ISimulationViewModel viewModel, IGameLoopService gameLoopService, ICommandFactory commandFactory)
         {
             _viewModel = viewModel;
             _gameLoopService = gameLoopService;

@@ -28,7 +28,7 @@
             throw new NotImplementedException();
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             if (_viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));

@@ -30,7 +30,7 @@
             throw new NotImplementedException();
         }
 
-        public async Task<EventResultStatus> ExecuteAsync()
+        public virtual async Task<EventResultStatus> ExecuteAsync()
         {
             var result = _viewModel.Hunter.DeliverToTrader(_viewModel.Trader, _numberOfSkins);
             if (result.HasRecords())

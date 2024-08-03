@@ -7,6 +7,8 @@ namespace DeerskinSimulation.Models
     {
         private readonly IRandomEventStrategy _transportingEventStrategy;
 
+        public RoleTrader() : this("Trader") { }
+
         // Default constructor for production
         public RoleTrader(string name) : this(name, 0, 0, new RandomEventStrategyTransporting()) { }
 

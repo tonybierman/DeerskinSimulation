@@ -35,7 +35,7 @@ namespace DeerskinSimulation.Models
             return ApplyRandomEvent(_exportingEventStrategy);
         }
 
-        public EventResult RollForRandomExportingEvent()
+        public virtual EventResult RollForRandomExportingEvent()
         {
             return ApplyRandomExportingEvent();
         }

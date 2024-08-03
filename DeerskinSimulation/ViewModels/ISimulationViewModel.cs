@@ -11,6 +11,7 @@ namespace DeerskinSimulation.ViewModels
         RoleExporter Exporter { get; }
         int SelectedPackhorses { get; set; }
         int GameDay { get; }
+        bool Debug { get; }
         IReadOnlyList<EventResult> Messages { get; }
         UserInitiatedActivitySequence CurrentUserActivity { get; set; }
         Task UpdateUserActivityDay();

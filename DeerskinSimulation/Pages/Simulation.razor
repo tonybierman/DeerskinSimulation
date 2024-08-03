@@ -13,19 +13,13 @@
 <h3 class="text-center text-black">@UIStr.SimulationComponentTitle</h3>
 
 <div class="container">
-<hr/>
+    <hr />
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>
-                        @UIStr.LogisticsTitle
-                    </h4>
+                    <h4>@UIStr.LogisticsTitle</h4>
                     <h6>@string.Format("{0:d}", DateUtils.GameDate(ViewModel.GameDay))</h6>
-                    @if (Session.Debug == true)
-                    {
-                        <h6>@string.Format("DEBUG {0:F2} FPS", fps)</h6>
-                    }
                 </div>
                 <div class="card-body">
                     <div>
@@ -34,17 +28,17 @@
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Hunter.Money)</p>
 
                         <div>
-                            <button class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
-                            <button class="btn btn-secondary mt-2" @onclick="ShowForwardOptions">@UIStr.SellToTraderButton</button>
+                            <button id="hunt-button" class="btn btn-success mt-2" @onclick="ShowHuntOptions">@UIStr.HuntButton</button>
+                            <button id="forward-button" class="btn btn-secondary mt-2" @onclick="ShowForwardOptions">@UIStr.SellToTraderButton</button>
                         </div>
                     </div>
-                    <hr/>
+                    <hr />
                     <div>
                         <h4>Store at @ViewModel.Trader.Name</h4>
                         <p>@UIStr.SkinsLabel @ViewModel.Trader.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Trader.Money)</p>
                         <div>
-                            <button class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
+                            <button id="transport-button" class="btn btn-secondary" @onclick="ShowTransportOptions">@UIStr.TransportToExporterButton</button>
                         </div>
                     </div>
                     <hr />
@@ -53,7 +47,7 @@
                         <p>@UIStr.SkinsLabel @ViewModel.Exporter.Skins</p>
                         <p>@UIStr.MoneyLabel @string.Format("{0:C}", ViewModel.Exporter.Money)</p>
                         <div>
-                            <button class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
+                            <button id="export-button" class="btn btn-success" @onclick="ShowExportOptions">@UIStr.ExportButton</button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +56,6 @@
         <StoryConsole FeaturedStory="@ViewModel.Featured" />
         <MessageConsole Events="@ViewModel.Messages.ToList()" />
     </div>
- 
 </div>
 
 @if (showHuntOptions)
@@ -164,7 +157,7 @@
     {
         if (transportOptions.NumberOfSkins > 0)
         {
-            ViewModel.ClearMessages(); 
+            ViewModel.ClearMessages();
             showTransportOptions = false;
             await ViewModel.EnsureTransportCmd.ExecuteAsync(transportOptions);
         }
@@ -188,7 +181,7 @@
     {
         if (exportOptions.NumberOfSkins > 0)
         {
-            ViewModel.ClearMessages(); 
+            ViewModel.ClearMessages();
             showExportOptions = false;
             await ViewModel.EnsureExportCmd.ExecuteAsync(exportOptions);
         }

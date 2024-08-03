@@ -19,7 +19,7 @@ namespace DeerskinSimulation.Models
         /// <summary>
         /// Gets the list of event records.
         /// </summary>
-        public List<EventRecord> Records { get; }
+        public List<EventRecord> Records { get; set; }
 
         /// <summary>
         /// Gets the action to be applied to the originator participant.

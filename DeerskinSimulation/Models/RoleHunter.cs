@@ -10,6 +10,8 @@
         private IRandomEventStrategy _huntingEventStrategy;
         private IRandomEventStrategy _forwardingEventStrategy;
 
+        public RoleHunter() : this("Long Hunter") { } 
+
         // Default constructor for production
         public RoleHunter(string name) : this(name, 0, 0, new RandomEventStrategyHunting(), new RandomEventStrategyForwarding()) { }
 
@@ -22,7 +24,7 @@
             _forwardingEventStrategy = forwardingStrategy ?? new RandomEventStrategyForwarding();
         }
 
-        public EventResult Travel(ISimulationViewModel viewModel)
+        public virtual EventResult Travel(ISimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
@@ -90,7 +92,7 @@
             };
         }
 
-        public EventResult EndHunt(ISimulationViewModel viewModel)
+        public virtual EventResult EndHunt(ISimulationViewModel viewModel)
         {
             if (viewModel.CurrentUserActivity?.Meta == null)
                 throw new NullReferenceException(nameof(TimelapseActivityMeta));
@@ -104,7 +106,7 @@
             return eventMessage;
         }
 
-        public EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
+        public virtual EventResult DeliverToTrader(RoleTrader trader, int numberOfSkins)
         {
             if (!HasSkins(numberOfSkins))
             {

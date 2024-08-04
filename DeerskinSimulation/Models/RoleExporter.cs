@@ -1,4 +1,5 @@
 ﻿using DeerskinSimulation.Resources;
+using DeerskinSimulation.ViewModels;
 
 namespace DeerskinSimulation.Models
 {
@@ -27,7 +28,37 @@ namespace DeerskinSimulation.Models
                 { Status = EventResultStatus.Fail };
             }
 
-            return ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
+            return ExportSkins(numberOfSkins, Constants.TransAtlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
+        }
+
+        public virtual EventResult SeaTravel(ISimulationViewModel viewModel)
+        {
+            if (viewModel.CurrentUserActivity?.Meta == null)
+                throw new NullReferenceException(nameof(TimelapseActivityMeta));
+
+            double netCostPerDay = Constants.SeaTravelCostPerDay;
+            TimelapseActivityMeta meta = viewModel.CurrentUserActivity.Meta;
+
+            if (!HasMoney(netCostPerDay))
+            {
+                return new EventResult(
+                    new EventRecord(Strings.NotEnoughMoneyTravel, image: "images/avatar_wm_256.jpg"))
+                { Status = EventResultStatus.Fail };
+            }
+
+            // Deduct cost
+            if (RemoveMoney(netCostPerDay))
+            {
+                // Create success event
+                var eventMessage = new EventResult { Status = EventResultStatus.Success };
+                eventMessage.Records.Add(new EventRecord(meta.Name, viewModel.GameDay, $"Sailed about 20 miles.", image: "images/avatar_wm_256.jpg"));
+                return eventMessage;
+            }
+
+            return new EventResult(new EventRecord("Transaction failed during execution. Money could not be deducted.", "red"))
+            {
+                Status = EventResultStatus.Fail
+            };
         }
 
         protected EventResult ApplyRandomExportingEvent()

@@ -7,6 +7,11 @@ namespace DeerskinSimulation.Commands
 
     public class CommandFactory : ICommandFactory
     {
+        public HighSeasCommand CreateHighSeasCommand(ISimulationViewModel viewModel, Trip journey, int numberOfSkins)
+        {
+            return new HighSeasCommand(viewModel, journey, numberOfSkins);
+        }
+
         public GreatWagonRoadCommand CreateGreatWagonRoadCommand(ISimulationViewModel viewModel, Trip journey, int numberOfSkins)
         {
             return new GreatWagonRoadCommand(viewModel, journey, numberOfSkins);

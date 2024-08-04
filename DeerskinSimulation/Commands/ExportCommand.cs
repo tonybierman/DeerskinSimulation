@@ -32,6 +32,7 @@
             var result = _viewModel.Exporter.Export(_numberOfSkins);
             if (result.HasRecords())
             {
+                _viewModel.SetFeatured(result.LastRecord());
                 _viewModel.AddMessage(result);
             }
 

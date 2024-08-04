@@ -56,7 +56,7 @@ namespace DeerskinSimulation.Tests
             int numberOfSkins = 60; // More than available skins
 
             // Act
-            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
+            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransAtlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
 
             // Assert
             Assert.Contains(result.Records, record => record.Message.Contains(Strings.NoSkinsToExport));
@@ -71,7 +71,7 @@ namespace DeerskinSimulation.Tests
             _exporter.RemoveMoney(_exporter.Money); // Set money to zero
 
             // Act
-            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
+            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransAtlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
 
             // Assert
             Assert.Contains(result.Records, record => record.Message.Contains(Strings.NotEnoughMoneyToExport));
@@ -85,7 +85,7 @@ namespace DeerskinSimulation.Tests
             int numberOfSkins = 10;
             double initialMoney = _exporter.Money;
             double principal = MathUtils.CalculateTransactionCost(numberOfSkins, Constants.DeerSkinPricePerLb);
-            double totalCost = MathUtils.CalculateTotalCost(principal, Constants.TransatlanticTransportCost, Constants.ExportDuty);
+            double totalCost = MathUtils.CalculateTotalCost(principal, Constants.TransAtlanticTransportCost, Constants.ExportDuty);
             double sellingPrice = MathUtils.CalculateSellingPrice(principal + totalCost, Constants.ExporterMarkup);
 
             // Setup mock to return a successful event result
@@ -94,7 +94,7 @@ namespace DeerskinSimulation.Tests
                 .Returns(new EventResult { Status = EventResultStatus.Success });
 
             // Act
-            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransatlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
+            var result = _exporter.ExportSkins(numberOfSkins, Constants.TransAtlanticTransportCost, Constants.ExportDuty, Constants.DeerSkinPricePerLb, Constants.ExporterMarkup);
 
             // Assert
             Assert.Contains(result.Records, record => record.Message.Contains($"Exported {numberOfSkins} skins."));

@@ -13,13 +13,14 @@
         public const double DeerSkinPricePerLb = 0.4;
         public const double DeerSkinWeightInLb = 2.5;
         public const double RegionalTransportCost = 0.1;
-        public const double TransatlanticTransportCost = 0.5;
+        public const double TransAtlanticTransportCost = 0.5;
         public const double ExportDuty = 0.2;
         public const double HuntingCostPerDay = 1.0;
         public const double TraderMarkup = 0.3;
         public const double ExporterMarkup = 0.5;
         public const int MinimumSkinsToTransport = 100;
         public const string SimStart = "10/19/1755";
+        public const double SeaTravelCostPerDay = 1.0;
 
         // Skins
         public const int DailySkinsMin = 1;

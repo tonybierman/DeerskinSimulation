@@ -5,6 +5,7 @@ namespace DeerskinSimulation.Commands
 {
     public interface ICommandFactory
     {
+        HighSeasCommand CreateHighSeasCommand(ISimulationViewModel viewModel, Trip journey, int numberOfSkins);
         GreatWagonRoadCommand CreateGreatWagonRoadCommand(ISimulationViewModel viewModel, Trip journey, int numberOfSkins);
         DeliverToExporterCommand CreateDeliverToExporterCommand(ISimulationViewModel viewModel, int numberOfSkins);
         RandomTransportEventCheckCommand CreateRandomTransportEventCheckCommand(ISimulationViewModel viewModel);
